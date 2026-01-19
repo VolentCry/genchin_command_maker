@@ -101,12 +101,14 @@ damaggers_list = progressive_sort(damaggers_list, "D")
 subdamaggers_list = progressive_sort(subdamaggers_list, "SD")
 supports_list = progressive_sort(supports_list, "S")
 
-def make_command(mode: int, pattern: str):
-    """
-    """
+
+def make_command(mode: int, pattern: str) -> list:
     command = []
 
-    if mode == 0:
+    if len(your_character_list) < 4: 
+        raise ValueError("Невозможно составить команду, у вас меньше 4-ёх персонажей")
+
+    if mode == 0: # Режим смеха ради
         for position in pattern.split("."):
             if position == "D":
                 command.append(random.choice(damaggers_list))
@@ -114,22 +116,68 @@ def make_command(mode: int, pattern: str):
                 command.append(random.choice(subdamaggers_list))
             else:
                 command.append(random.choice(supports_list))
-    elif mode == 1:
+    elif mode == 1: # Класисческий режим генерации
+        Max_D = pattern.count("D"); Max_SD = pattern.count("SD"); Max_S = pattern.count("S")
         D = 0; SD = 0; S = 0
         for position in pattern.split("."):
-            if position == "D":
-                command.append(damaggers_list[D:][0]); D += 1
-            elif position == "SD":
+            # Поиск дамаггера
+            if position == "D" and D < Max_D:
+                damagger = damaggers_list[D:][0]
+                command.append(damagger); D += 1
+
+                # Дамаггер пиро
+                if character_elements[damagger] == "P": 
+                    gydro_or_kryo_subdd = None
+                    for char in subdamaggers_list: # Ищем СабДД Крио или Гидро
+                        if character_elements[char] == "G" or character_elements[char] == "K":
+                            gydro_or_kryo_subdd = char
+                            break
+                    if gydro_or_kryo_subdd != None: command.append(gydro_or_kryo_subdd); SD += 1
+
+                # Дамаггер крио/гидро
+                elif character_elements[damagger] == "G" or character_elements[damagger] == "K":
+                    pyro_subdd = None
+                    for char in subdamaggers_list: # Ищем СабДД Пиро
+                        if character_elements[char] == "P":
+                            pyro_subdd = char
+                            break
+                    if pyro_subdd != None: command.append(pyro_subdd); SD += 1
+
+                elif character_elements[damagger] == "Ge":
+                    # Сборка Гео даммагера непосредственно в его урон
+                    # Сначала проверка на Цзы Бай
+                    if character_fraction[damagger] == "Нод-Край":
+                        # Это Цзы Бай
+                        required_nord_karai_person = False
+                        suitable_characters = [] # Подходящие под Цзы Бай персонажи
+                        for char in your_character_list:
+                            if char != damagger and character_fraction[char] == "Нод-Край" and (character_elements[char] == "Ge" or character_elements[char] == "G"):
+                                suitable_characters.append(char)
+                        if len(suitable_characters) != 0:
+                            for char in suitable_characters:
+                                required_nord_karai_person = True
+                                # Один гидро нодкраевец и они гео
+
+
+                elif character_elements[damagger] == "A":
+                    pass
+
+            # Поиск сабдамаггера
+            elif position == "SD" and SD < Max_SD:
                 command.append(subdamaggers_list[SD:][0]); SD += 1
-            else:
+
+            # Поиск саппорта
+            elif position == "S" and S < Max_S:
                 command.append(supports_list[S:][0]); S += 1
     else:
-        raise ValueError("Неверное значение режима")
+        raise ValueError("Неверное значение режима.")
 
+    if len(command) != 4: 
+        raise ValueError("Команде не хватает персонажей или их слишком много. Алгоритм сработал неверно.")
     
     return command
 
-print("Выберите мод генерации команды (0 - случайный, 1 - лучший из лучших):  ")
+print("Выберите способ генерации команды (0 - случайный, 1 - лучший из лучших):  ")
 make_mode = int(input())
 
 
