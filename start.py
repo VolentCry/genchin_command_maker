@@ -14,6 +14,7 @@ your_character_list = ["Качина", "Сетос", "Ка Мин", "Шеврё�
 
 
 pattern_1 = "D.SD.S.S"
+pattern_1 = "D.SD.SD.S"
 
 damaggers_list = []
 subdamaggers_list = []
@@ -146,20 +147,68 @@ def make_command(mode: int, pattern: str) -> list:
                 # Дамаггер гео
                 elif character_elements[damagger] == "Ge":
                     # Сборка Гео даммагера непосредственно в его урон
+
                     # Сначала проверка на Цзы Бай
                     if character_fraction[damagger] == "Нод-Край":
                         # Это Цзы Бай
-                        required_nord_karai_person = False
+                        required_geo_nord_karai_person = False
+                        required_gidro_nord_karai_person = False
                         suitable_characters = [] # Подходящие под Цзы Бай персонажи
                         for char in your_character_list:
                             if char != damagger and character_fraction[char] == "Нод-Край" and (character_elements[char] == "Ge" or character_elements[char] == "G"):
                                 suitable_characters.append(char)
                         if len(suitable_characters) != 0:
                             for char in suitable_characters:
-                                required_nord_karai_person = True
-                                # Один гидро нодкраевец и они гео
+                                if "Коломбина" in suitable_characters: # Проверка, есть ли Коломбина
+                                    command.append("Коломбина")
+                                    suitable_characters.remove("Коломбина")
+                                    required_gidro_nord_karai_person = True; SD += 1
+                                    if "Иллуги" in suitable_characters: # Проверка, есть ли Иллуги, при учёте наличия Коломбины
+                                        command.append("Иллуги")
+                                        suitable_characters.remove("Иллуги")
+                                        required_geo_nord_karai_person = True; S += 1
+                                        break
+                                else:
+                                    if "Иллуги" in suitable_characters: # Проверка, есть ли Иллуги, при учёте отсутствия Коломбины
+                                        command.append("Иллуги")
+                                        suitable_characters.remove("Иллуги")
+                                        required_geo_nord_karai_person = True; S += 1
+                                    if "Айно" in suitable_characters:
+                                        command.append("Айно")
+                                        suitable_characters.remove("Айно")
+                                        required_gidro_nord_karai_person = True; SD += 1
+                                    break
+                                
+                        if required_geo_nord_karai_person and required_gidro_nord_karai_person:
+                            if SD < Max_SD:
+                                if "Коломбина" in command: subdamaggers_list.remove("Коломбина")
+                                elif "Айно" in command: subdamaggers_list.remove("Айно")
+                                command.append(subdamaggers_list[0]); SD += 1
+                            elif S < Max_S:
+                                supports_list.remove("Иллуги")
+                                command.append(supports_list[0]); S += 1
+                               
+                        else: # Случай, если у человека нет ни одного Гео/Гидро Нод-Край персонажа
+                            suitable_characters = [] # Подходящие под Цзы Бай персонажи, а именно Нин Гуан, Тиори, Альбедо
+                            if "Нин Гуан" in your_character_list:
+                                supports_list.append("Нин Гуан")
+                            if "Тиори" in your_character_list:
+                                supports_list.append("Тиори")
+                            if "Альбедо" in your_character_list:
+                                supports_list.append("Альбедо") 
+                            if len(suitable_characters) == 0:
+                                while (SD < Max_SD and S < Max_S):
+                                    if SD < Max_SD:
+                                        command.append(subdamaggers_list[SD:][0]); SD += 1
+                                    if S < Max_S:
+                                        command.append(supports_list[S:][0]); S += 1
+                                        
+                    elif damagger == "Итто": # Теперь обрабатываем Итто
+                        pass
+                    elif damagger == "Навия": # Теперь обрабатываем Навию
+                        pass
 
-                # Главный дамаггер анемо стихии
+    
                 elif character_elements[damagger] == "A":
                     command_elements.append("A")
                     if character_fraction[damagger] == "-":
