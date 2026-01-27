@@ -362,7 +362,7 @@ def make_command(mode: int, pattern: str) -> list:
                 # Поиск дамаггера
                 if position == "D" and D < Max_D:
                     for character in damaggers_list:
-                        if character_elements[character] == desired_element:
+                        if character_elements[character] == desired_element and character not in command:
                             command.append(character)
                             D += 1
                             damaggers_list.remove(character)
@@ -371,7 +371,7 @@ def make_command(mode: int, pattern: str) -> list:
                 # Поиск сабдамаггера
                 elif position == "SD" and SD < Max_SD:
                     for character in subdamaggers_list:
-                        if character_elements[character] == desired_element:
+                        if character_elements[character] == desired_element and character not in command:
                             command.append(character)
                             SD += 1
                             subdamaggers_list.remove(character)
@@ -380,7 +380,7 @@ def make_command(mode: int, pattern: str) -> list:
                 # Поиск саппорта
                 elif position == "S" and S < Max_S:
                     for character in supports_list:
-                        if character_elements[character] == desired_element:
+                        if character_elements[character] == desired_element and character not in command:
                             command.append(character)
                             S += 1
                             supports_list.remove(character)
