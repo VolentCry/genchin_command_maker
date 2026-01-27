@@ -103,7 +103,7 @@ supports_list = progressive_sort(supports_list, "S")
 
 
 def make_command(mode: int, pattern: str) -> list:
-    command = []
+    command, command_elements = [], []
 
     if len(your_character_list) < 4: 
         raise ValueError("Невозможно составить команду, у вас меньше 4-ёх персонажей")
@@ -143,6 +143,7 @@ def make_command(mode: int, pattern: str) -> list:
                             break
                     if pyro_subdd != None: command.append(pyro_subdd); SD += 1
 
+                # Дамаггер гео
                 elif character_elements[damagger] == "Ge":
                     # Сборка Гео даммагера непосредственно в его урон
                     # Сначала проверка на Цзы Бай
@@ -158,8 +159,43 @@ def make_command(mode: int, pattern: str) -> list:
                                 required_nord_karai_person = True
                                 # Один гидро нодкраевец и они гео
 
-
+                # Главный дамаггер анемо стихии
                 elif character_elements[damagger] == "A":
+                    command_elements.append("A")
+                    if character_fraction[damagger] == "-":
+                        pass
+                    else:
+                        # Поиск сабдамаггера из такой же фракции электро, гидро, крио или пиро стихии
+                        for i in Max_SD:
+                            fraction_subdamagger, fraction_subdamagger_element = None, None
+                            for (name, element), (_, fraction) in zip(character_elements.items(), character_fraction.items()):
+                                if element in ["E", "G", "P", "K"] and fraction == character_fraction[damagger] and (name in subdamaggers_list):
+                                    fraction_subdamagger = name
+                                    SD += 1
+                                    fraction_subdamagger_element = element
+                            if fraction_subdamagger == None: break
+                            else: 
+                                command.append(fraction_subdamagger)
+                                command_elements.append(fraction_subdamagger_element)
+
+                        for j in Max_S:
+                            fraction_support, fraction_support_element = None, None
+                            for (name, element), (_, fraction) in zip(character_elements.items(), character_fraction.items()):
+                                if element in ["E", "G", "P", "K"] and fraction == character_fraction[damagger] and (name in supports_list):
+                                    fraction_support = name
+                                    S += 1
+                                    fraction_support_element = element
+                            if fraction_support == None: break
+                            else: 
+                                command.append(fraction_support)
+                                command_elements.append(fraction_support_element)
+
+                # Главный дамаггер электро стихии
+                elif character_elements[damagger] == "E": 
+                    pass
+
+                # Главный дамаггер дендро стихии
+                elif character_elements[damagger] == "D": 
                     pass
 
             # Поиск сабдамаггера
