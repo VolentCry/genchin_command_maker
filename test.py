@@ -1,9 +1,2 @@
-from const_lists import *
-
-
-a = "435354"
-
-if a:
-    print(1)
-else:
-    print(0)
+tiori, albedo = False, False
+print("Тиори" if tiori else "Альбедо")

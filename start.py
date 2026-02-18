@@ -266,7 +266,17 @@ def make_command(mode: int, pattern: str) -> list:
                                             command.append(supports_list[S:][0]); S += 1
                                             
                         elif damagger == "Итто": # Теперь обрабатываем Итто
-                            pass
+                            tiori, albedo = False, False # флаги для описка АЛьбедо и Тиори
+                            for char_sub_dd_for_itto in subdamaggers_list:
+                                if char_sub_dd_for_itto == "Тиори": tiori = True
+                                elif char_sub_dd_for_itto == "Альбедо": albedo = True
+                            if tiori and albedo:
+                                command.append(random.choice(["Тиори", "Альбедо"]))
+                                command_elements.append("Ge")
+                            elif tiori or albedo:
+                                command.append("Тиори" if tiori else "Альбедо")
+                                command_elements.append("Ge")
+                                
                         elif damagger == "Навия": # Теперь обрабатываем Навию
                             pass
 
