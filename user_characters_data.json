@@ -1,0 +1,587 @@
+[
+    {
+        "name": "Качина",
+        "roles_and_ranks": {
+            "S": "C"
+        },
+        "element": "Гео",
+        "element_code": "Ge",
+        "weapon_type": "weopone none",
+        "special_codes": "-",
+        "persons_pluses": "+"
+    },
+    {
+        "name": "Сетос",
+        "roles_and_ranks": {
+            "D": "B"
+        },
+        "element": "Электро",
+        "element_code": "E",
+        "weapon_type": "weopone none",
+        "special_codes": "-",
+        "persons_pluses": "+"
+    },
+    {
+        "name": "Ка Мин",
+        "roles_and_ranks": {
+            "D": "A"
+        },
+        "element": "Пиро",
+        "element_code": "P",
+        "weapon_type": "weopone none",
+        "special_codes": "-",
+        "persons_pluses": "+"
+    },
+    {
+        "name": "Шеврёз",
+        "roles_and_ranks": {
+            "S": "S"
+        },
+        "element": "Пиро",
+        "element_code": "P",
+        "weapon_type": "weopone none",
+        "special_codes": "-",
+        "persons_pluses": "+"
+    },
+    {
+        "name": "Шарлотта",
+        "roles_and_ranks": {
+            "S": "A"
+        },
+        "element": "Крио",
+        "element_code": "K",
+        "weapon_type": "weopone none",
+        "special_codes": "-",
+        "persons_pluses": "+"
+    },
+    {
+        "name": "Нёвиллет",
+        "roles_and_ranks": {
+            "D": "S"
+        },
+        "element": "Гидро",
+        "element_code": "G",
+        "weapon_type": "weopone none",
+        "special_codes": "-",
+        "persons_pluses": "+"
+    },
+    {
+        "name": "Фремине",
+        "roles_and_ranks": {
+            "D": "D"
+        },
+        "element": "Крио",
+        "element_code": "K",
+        "weapon_type": "weopone none",
+        "special_codes": "-",
+        "persons_pluses": "+"
+    },
+    {
+        "name": "Линетт",
+        "roles_and_ranks": {
+            "S": "B"
+        },
+        "element": "Анемо",
+        "element_code": "A",
+        "weapon_type": "weopone none",
+        "special_codes": "-",
+        "persons_pluses": "+"
+    },
+    {
+        "name": "Кирара",
+        "roles_and_ranks": {
+            "S": "A"
+        },
+        "element": "Дендро",
+        "element_code": "D",
+        "weapon_type": "weopone none",
+        "special_codes": "-",
+        "persons_pluses": "+"
+    },
+    {
+        "name": "Кавех",
+        "roles_and_ranks": {
+            "D": "C"
+        },
+        "element": "Дендро",
+        "element_code": "D",
+        "weapon_type": "weopone none",
+        "special_codes": "-",
+        "persons_pluses": "+"
+    },
+    {
+        "name": "Мика",
+        "roles_and_ranks": {
+            "S": "C"
+        },
+        "element": "Крио",
+        "element_code": "K",
+        "weapon_type": "weopone none",
+        "special_codes": "-",
+        "persons_pluses": "+"
+    },
+    {
+        "name": "Яо Яо",
+        "roles_and_ranks": {
+            "S": "A"
+        },
+        "element": "Дендро",
+        "element_code": "D",
+        "weapon_type": "weopone none",
+        "special_codes": "-",
+        "persons_pluses": "+"
+    },
+    {
+        "name": "Фарузан",
+        "roles_and_ranks": {
+            "S": "A"
+        },
+        "element": "Анемо",
+        "element_code": "A",
+        "weapon_type": "weopone none",
+        "special_codes": "-",
+        "persons_pluses": "+"
+    },
+    {
+        "name": "Лайла",
+        "roles_and_ranks": {
+            "S": "A"
+        },
+        "element": "Крио",
+        "element_code": "K",
+        "weapon_type": "weopone none",
+        "special_codes": "-",
+        "persons_pluses": "+"
+    },
+    {
+        "name": "Кандакия",
+        "roles_and_ranks": {
+            "S": "C"
+        },
+        "element": "Гидро",
+        "element_code": "G",
+        "weapon_type": "weopone none",
+        "special_codes": "-",
+        "persons_pluses": "+"
+    },
+    {
+        "name": "Тигнари",
+        "roles_and_ranks": {
+            "D": "B"
+        },
+        "element": "Дендро",
+        "element_code": "D",
+        "weapon_type": "weopone none",
+        "special_codes": "-",
+        "persons_pluses": "+"
+    },
+    {
+        "name": "Коллеи",
+        "roles_and_ranks": {
+            "S": "B"
+        },
+        "element": "Дендро",
+        "element_code": "D",
+        "weapon_type": "weopone none",
+        "special_codes": "-",
+        "persons_pluses": "+"
+    },
+    {
+        "name": "Хэйдзо",
+        "roles_and_ranks": {
+            "D": "C"
+        },
+        "element": "Анемо",
+        "element_code": "A",
+        "weapon_type": "weopone none",
+        "special_codes": "-",
+        "persons_pluses": "+"
+    },
+    {
+        "name": "Синобу",
+        "roles_and_ranks": {
+            "SD": "S",
+            "S": "A"
+        },
+        "element": "Электро",
+        "element_code": "E",
+        "weapon_type": "weopone none",
+        "special_codes": "-",
+        "persons_pluses": "+"
+    },
+    {
+        "name": "Юнь Цзинь",
+        "roles_and_ranks": {
+            "S": "B"
+        },
+        "element": "Гео",
+        "element_code": "Ge",
+        "weapon_type": "weopone none",
+        "special_codes": "-",
+        "persons_pluses": "+"
+    },
+    {
+        "name": "Горо",
+        "roles_and_ranks": {
+            "S": "B"
+        },
+        "element": "Гео",
+        "element_code": "Ge",
+        "weapon_type": "weopone none",
+        "special_codes": "-",
+        "persons_pluses": "+"
+    },
+    {
+        "name": "Тома",
+        "roles_and_ranks": {
+            "SD": "B",
+            "S": "B"
+        },
+        "element": "Пиро",
+        "element_code": "P",
+        "weapon_type": "weopone none",
+        "special_codes": "-",
+        "persons_pluses": "+"
+    },
+    {
+        "name": "Сара",
+        "roles_and_ranks": {
+            "S": "B"
+        },
+        "element": "Электро",
+        "element_code": "E",
+        "weapon_type": "weopone none",
+        "special_codes": "-",
+        "persons_pluses": "+"
+    },
+    {
+        "name": "Саю",
+        "roles_and_ranks": {
+            "SD": "C",
+            "S": "C"
+        },
+        "element": "Анемо",
+        "element_code": "A",
+        "weapon_type": "weopone none",
+        "special_codes": "-",
+        "persons_pluses": "+"
+    },
+    {
+        "name": "Аяка",
+        "roles_and_ranks": {
+            "D": "A"
+        },
+        "element": "Крио",
+        "element_code": "K",
+        "weapon_type": "weopone none",
+        "special_codes": "-",
+        "persons_pluses": "+"
+    },
+    {
+        "name": "Кадзуха",
+        "roles_and_ranks": {
+            "S": "S"
+        },
+        "element": "Анемо",
+        "element_code": "A",
+        "weapon_type": "weopone none",
+        "special_codes": "-",
+        "persons_pluses": "+"
+    },
+    {
+        "name": "Янь Фэй",
+        "roles_and_ranks": {
+            "D": "C"
+        },
+        "element": "Пиро",
+        "element_code": "P",
+        "weapon_type": "weopone none",
+        "special_codes": "-",
+        "persons_pluses": "+"
+    },
+    {
+        "name": "Розария",
+        "roles_and_ranks": {
+            "SD": "A",
+            "S": "C"
+        },
+        "element": "Крио",
+        "element_code": "K",
+        "weapon_type": "weopone none",
+        "special_codes": "-",
+        "persons_pluses": "+"
+    },
+    {
+        "name": "Сяо",
+        "roles_and_ranks": {
+            "D": "A"
+        },
+        "element": "Анемо",
+        "element_code": "A",
+        "weapon_type": "weopone none",
+        "special_codes": "-",
+        "persons_pluses": "+"
+    },
+    {
+        "name": "Гань Юй",
+        "roles_and_ranks": {
+            "D": "B",
+            "SD": "B"
+        },
+        "element": "Крио",
+        "element_code": "K",
+        "weapon_type": "weopone none",
+        "special_codes": "-",
+        "persons_pluses": "+"
+    },
+    {
+        "name": "Синь Янь",
+        "roles_and_ranks": {
+            "D": "D",
+            "SD": "D",
+            "S": "D"
+        },
+        "element": "Пиро",
+        "element_code": "P",
+        "weapon_type": "weopone none",
+        "special_codes": "-",
+        "persons_pluses": "+"
+    },
+    {
+        "name": "Тарталья",
+        "roles_and_ranks": {
+            "D": "B"
+        },
+        "element": "Гидро",
+        "element_code": "G",
+        "weapon_type": "weopone none",
+        "special_codes": "-",
+        "persons_pluses": "+"
+    },
+    {
+        "name": "Диона",
+        "roles_and_ranks": {
+            "S": "A"
+        },
+        "element": "Крио",
+        "element_code": "K",
+        "weapon_type": "weopone none",
+        "special_codes": "-",
+        "persons_pluses": "+"
+    },
+    {
+        "name": "Кли",
+        "roles_and_ranks": {
+            "D": "A"
+        },
+        "element": "Пиро",
+        "element_code": "P",
+        "weapon_type": "weopone none",
+        "special_codes": "-",
+        "persons_pluses": "+"
+    },
+    {
+        "name": "Мона",
+        "roles_and_ranks": {
+            "SD": "A",
+            "S": "S"
+        },
+        "element": "Гидро",
+        "element_code": "G",
+        "weapon_type": "weopone none",
+        "special_codes": "-",
+        "persons_pluses": "+"
+    },
+    {
+        "name": "Ци Ци",
+        "roles_and_ranks": {
+            "S": "C"
+        },
+        "element": "Крио",
+        "element_code": "K",
+        "weapon_type": "weopone none",
+        "special_codes": "-",
+        "persons_pluses": "+"
+    },
+    {
+        "name": "Дилюк",
+        "roles_and_ranks": {
+            "D": "B"
+        },
+        "element": "Пиро",
+        "element_code": "P",
+        "weapon_type": "weopone none",
+        "special_codes": "-",
+        "persons_pluses": "+"
+    },
+    {
+        "name": "Джинн",
+        "roles_and_ranks": {
+            "S": "A"
+        },
+        "element": "Анемо",
+        "element_code": "A",
+        "weapon_type": "weopone none",
+        "special_codes": "-",
+        "persons_pluses": "+"
+    },
+    {
+        "name": "Сахароза",
+        "roles_and_ranks": {
+            "SD": "A",
+            "S": "S+"
+        },
+        "element": "Анемо",
+        "element_code": "A",
+        "weapon_type": "weopone none",
+        "special_codes": "-",
+        "persons_pluses": "+"
+    },
+    {
+        "name": "Чун Юнь",
+        "roles_and_ranks": {
+            "SD": "C",
+            "S": "D"
+        },
+        "element": "Крио",
+        "element_code": "K",
+        "weapon_type": "weopone none",
+        "special_codes": "-",
+        "persons_pluses": "+"
+    },
+    {
+        "name": "Ноэлль",
+        "roles_and_ranks": {
+            "D": "C",
+            "S": "D"
+        },
+        "element": "Гео",
+        "element_code": "Ge",
+        "weapon_type": "weopone none",
+        "special_codes": "-",
+        "persons_pluses": "+"
+    },
+    {
+        "name": "Беннет",
+        "roles_and_ranks": {
+            "S": "S"
+        },
+        "element": "Пиро",
+        "element_code": "P",
+        "weapon_type": "weopone none",
+        "special_codes": "-",
+        "persons_pluses": "+"
+    },
+    {
+        "name": "Фишль",
+        "roles_and_ranks": {
+            "S": "S",
+            "D": "+"
+        },
+        "element": "Электро",
+        "element_code": "E",
+        "weapon_type": "weopone none",
+        "special_codes": "-",
+        "persons_pluses": "+"
+    },
+    {
+        "name": "Нин Гуан",
+        "roles_and_ranks": {
+            "D": "D"
+        },
+        "element": "Гео",
+        "element_code": "Ge",
+        "weapon_type": "weopone none",
+        "special_codes": "-",
+        "persons_pluses": "+"
+    },
+    {
+        "name": "Син Цю",
+        "roles_and_ranks": {
+            "S": "S"
+        },
+        "element": "Гидро",
+        "element_code": "G",
+        "weapon_type": "weopone none",
+        "special_codes": "-",
+        "persons_pluses": "+"
+    },
+    {
+        "name": "Бэй Доу",
+        "roles_and_ranks": {
+            "S": "B"
+        },
+        "element": "Электро",
+        "element_code": "E",
+        "weapon_type": "weopone none",
+        "special_codes": "-",
+        "persons_pluses": "+"
+    },
+    {
+        "name": "Сян Лин",
+        "roles_and_ranks": {
+            "S": "S"
+        },
+        "element": "Пиро",
+        "element_code": "P",
+        "weapon_type": "weopone none",
+        "special_codes": "-",
+        "persons_pluses": "+"
+    },
+    {
+        "name": "Рэйзор",
+        "roles_and_ranks": {
+            "D": "A"
+        },
+        "element": "Электро",
+        "element_code": "E",
+        "weapon_type": "weopone none",
+        "special_codes": "-",
+        "persons_pluses": "+"
+    },
+    {
+        "name": "Барбара",
+        "roles_and_ranks": {
+            "S": "C"
+        },
+        "element": "Гидро",
+        "element_code": "G",
+        "weapon_type": "weopone none",
+        "special_codes": "-",
+        "persons_pluses": "+"
+    },
+    {
+        "name": "Лиза",
+        "roles_and_ranks": {
+            "SD": "C",
+            "D": "D"
+        },
+        "element": "Электро",
+        "element_code": "E",
+        "weapon_type": "weopone none",
+        "special_codes": "-",
+        "persons_pluses": "+"
+    },
+    {
+        "name": "Кэйа",
+        "roles_and_ranks": {
+            "S": "B"
+        },
+        "element": "Крио",
+        "element_code": "K",
+        "weapon_type": "weopone none",
+        "special_codes": "-",
+        "persons_pluses": "+"
+    },
+    {
+        "name": "Эмбер",
+        "roles_and_ranks": {
+            "S": "D"
+        },
+        "element": "Пиро",
+        "element_code": "P",
+        "weapon_type": "weopone none",
+        "special_codes": "-",
+        "persons_pluses": "+"
+    }
+]
