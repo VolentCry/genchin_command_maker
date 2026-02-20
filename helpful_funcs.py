@@ -1,7 +1,10 @@
 """
 Файл со всеми вспомогательными функциями для работы алгоритма, а также здесь вынесены большие цепочки из основной программы, которые дуплируются в разных частях кода
 """
+
 from const_lists import character_elements
+
+
 
 def electro_and_gydor_subdd_or_support(Max_SD: int, subdamaggers_list: list, supports_list: list) -> list:
     """

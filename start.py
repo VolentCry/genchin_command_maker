@@ -1,7 +1,3 @@
-"""
-Docstring for start
-"""
-
 from const_lists import *
 from helpful_funcs import *
 import random

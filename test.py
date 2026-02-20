@@ -1,2 +1,3 @@
-tiori, albedo = False, False
-print("Тиори" if tiori else "Альбедо")
+import const_lists
+
+print(const_lists.character_elements.keys())

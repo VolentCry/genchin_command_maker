@@ -23,7 +23,7 @@ def make_character_classes(name):
         roles_and_ranks[role] = rang
     return Character(name, roles_and_ranks, character_elements_name[name], character_elements[name], "weopone none", "-", "+")
 
-def make_character_json():
+def make_character_json(json_file_name: str):
     """ Эта функция собирает данные и записывает их в json файл """
     character_data_list = []
 
@@ -42,7 +42,7 @@ def make_character_json():
         
         character_data_list.append(character_dict)
     
-    with open("user_characters_data.json", "w", encoding="utf-8") as file:
+    with open(json_file_name, "w", encoding="utf-8") as file:
         json.dump(character_data_list, file, indent=4, ensure_ascii=False)
 
-make_character_json()
+make_character_json("user_characters_data.json")
