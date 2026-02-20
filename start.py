@@ -10,14 +10,10 @@ pattern_1 = "D.SD.SD.S"
 # Желаемая стихия даммагера
 desired_element = "-"
 
-damaggers_list = []
-subdamaggers_list = []
-supports_list = []
+damaggers_list, subdamaggers_list, supports_list = read_characters_from_json("user_characters_data.json")
 
 
-    
-
-    
+# ------------------------- Необходимые функции -------------------------
 def get_rank_for_role(character: str, role: str) -> int:
     """
     Возвращает числовой ранг персонажа для конкретной роли
@@ -63,7 +59,6 @@ def get_rank_for_role(character: str, role: str) -> int:
         return rangs[rank_str]
 
 
-
 def progressive_sort(character_list: list, role: str) -> list:
     """
     Сортирует список персонажей по рангу для указанной роли
@@ -71,9 +66,50 @@ def progressive_sort(character_list: list, role: str) -> list:
     """
     # Сортируем по рангу для указанной роли, а при одинаковом ранге - по имени
     return sorted(character_list, key = lambda char: (get_rank_for_role(char["name"], role), char["name"]))
+# -----------------------------------------------------------------------------------------------------
 
 
-damaggers_list, subdamaggers_list, supports_list = read_characters_from_json("user_characters_data.json")
+
+# ------------------------- Функции непосредственно с поиском персонажей -------------------------
+
+def find_gydro_kryo_subdd(our_command: list) -> None|dict:
+    """ 
+    Функция для поиска гидро или крио. 
+    В случаи успешной "находки" возвращает словарь с данными персонажа, в ином случаи None
+    """
+    gydro_or_kryo_subdd = None
+    for char in subdamaggers_list:
+        if char["element_code"] in ["G", "K"] and char not in our_command:
+            gydro_or_kryo_subdd = char
+            break
+    return gydro_or_kryo_subdd
+
+def find_remaining_supports(our_command: list, cnt_of_S: int) -> list[dict]:
+    """ 
+    Функция находит недостающих персонажей на позиции саппортов 
+    На вход принимает уже имеющуюся команду, а также количество персонажей, которые нужно найти
+    """
+    remaining_supports = []
+    temp_cnt = 0 
+    for char in supports_list:
+        if char not in our_command and temp_cnt < cnt_of_S:
+            remaining_supports.append(char); temp_cnt += 1
+    return remaining_supports
+
+def find_remaining_sudamaggers(our_command: list, cnt_of_SD: int) -> list[dict]:
+    """ 
+    Функция находит недостающих персонажей на позиции сабдамаггеров 
+    На вход принимает уже имеющуюся команду, а также количество персонажей, которые нужно найти
+    """
+    remaining_subdamaggers = []
+    temp_cnt = 0 
+    for char in subdamaggers_list:
+        if char not in our_command and temp_cnt < cnt_of_SD:
+            remaining_subdamaggers.append(char); temp_cnt += 1
+    return remaining_subdamaggers
+
+# -----------------------------------------------------------------------------------------------------
+
 
 
 # СОРТИРУЕМ списки по рангу для каждой роли
@@ -83,9 +119,10 @@ supports_list = progressive_sort(supports_list, "S")
 
 
 
-def make_command(mode: int, pattern: str) -> list:
+
+def make_command(mode: int, pattern: str) -> list[dict]:
     """
-    Это основная функция, которая создаёт для вас граммотную команду персонажей на основе ваших запросов
+    Это основная функция программы, которая создаёт для вас граммотную команду персонажей на основе ваших запросов
     В ней подразумеваются такие режимы: 
     • 0 - случайный подбор команды
     • 1 - сборка пачки из самых лучших персонажей вашего аккаунта
@@ -135,76 +172,81 @@ def make_command(mode: int, pattern: str) -> list:
                     damagger = damaggers_list[D:][0]
                     command.append(damagger); D += 1
 
-                    # Дамаггер пиро
-                    if character_elements[damagger] == "P": 
-                        gydro_or_kryo_subdd = None
-                        for char in subdamaggers_list: # Ищем СабДД Крио или Гидро
-                            if character_elements[char] == "G" or character_elements[char] == "K":
-                                gydro_or_kryo_subdd = char
-                                break
-                        if gydro_or_kryo_subdd != None: command.append(gydro_or_kryo_subdd); SD += 1
+                    # ********* Дамаггер - ПИРО *********
+                    if damagger["element_code"] == "P":
+                        new_member = find_gydro_kryo_subdd()
+                        if new_member != None: 
+                            command.append(new_member)
+                            command_elements.append(new_member["element_code"])
+                            SD += 1
 
-                    # Дамаггер крио/гидро
-                    elif character_elements[damagger] == "G" or character_elements[damagger] == "K":
+
+                    # ********* Дамаггер - КРИО/ГИДРО *********
+                    elif damagger["element_code"] in ["G", "K"]:
                         pyro_subdd = None
-                        for char in subdamaggers_list: # Ищем СабДД Пиро
-                            if character_elements[char] == "P":
+                        # Ищем СабДД Пиро
+                        for char in subdamaggers_list:
+                            if char["element_code"] == "P":
                                 pyro_subdd = char
                                 break
                         if pyro_subdd != None: command.append(pyro_subdd); SD += 1
 
-                    # Дамаггер гео
-                    elif character_elements[damagger] == "Ge":
+
+                    # ********* Дамаггер - ГЕО *********
+                    elif damagger["element_code"] == "Ge":
                         # Сборка Гео даммагера непосредственно в его урон
 
                         # Сначала проверка на Цзы Бай
-                        if character_fraction[damagger] == "Нод-Край":
+                        if character_fraction[damagger] == "Нод-Край": 
                             # Это Цзы Бай
-                            required_geo_nord_karai_person = False
-                            required_gidro_nord_karai_person = False
-                            suitable_characters = [] # Подходящие под Цзы Бай персонажи
+                            required_geo_nord_karai_person = False # Прочерка на наличие гео персонажей из Нод-Края
+                            required_gidro_nord_karai_person = False # Прочерка на наличие гидро персонажей из Нод-Края
+                            suitable_characters = [] # Список для подходящих под Цзы Бай персонажей
+                            suitable_characters_only_names = [] # Список для подходящих под Цзы Бай персонажей (только имена)
                             for char in your_character_list:
-                                if char != damagger and character_fraction[char] == "Нод-Край" and (character_elements[char] == "Ge" or character_elements[char] == "G"):
+                                if char != damagger and char["fraction"] == "Нод-Край" and char["element_code"] in ["Ge", "G"]:
                                     suitable_characters.append(char)
+                                    suitable_characters_only_names.append(char["name"])
                             if len(suitable_characters) != 0:
                                 for char in suitable_characters:
-                                    if "Коломбина" in suitable_characters: # Проверка, есть ли Коломбина
-                                        command.append("Коломбина")
-                                        suitable_characters.remove("Коломбина")
+                                    if "Коломбина" in suitable_characters_only_names: # Проверка, есть ли Коломбина
+                                        command.append(suitable_characters[suitable_characters_only_names.index("Коломбина")])
+                                        suitable_characters.pop(suitable_characters_only_names.index("Коломбина"))
                                         required_gidro_nord_karai_person = True; SD += 1
-                                        if "Иллуги" in suitable_characters: # Проверка, есть ли Иллуги, при учёте наличия Коломбины
-                                            command.append("Иллуги")
-                                            suitable_characters.remove("Иллуги")
+                                        if "Иллуги" in suitable_characters_only_names: # Проверка, есть ли Иллуги, при учёте наличия Коломбины
+                                            command.append(suitable_characters[suitable_characters_only_names.index("Иллуги")])
+                                            suitable_characters.pop(suitable_characters_only_names.index("Иллуги"))
                                             required_geo_nord_karai_person = True; S += 1
                                             break
                                     else:
-                                        if "Иллуги" in suitable_characters: # Проверка, есть ли Иллуги, при учёте отсутствия Коломбины
-                                            command.append("Иллуги")
-                                            suitable_characters.remove("Иллуги")
+                                        if "Иллуги" in suitable_characters_only_names: # Проверка, есть ли Иллуги, при учёте отсутствия Коломбины
+                                            command.append(suitable_characters[suitable_characters_only_names.index("Иллуги")])
+                                            suitable_characters.pop(suitable_characters_only_names.index("Иллуги"))
                                             required_geo_nord_karai_person = True; S += 1
-                                        if "Айно" in suitable_characters:
-                                            command.append("Айно")
-                                            suitable_characters.remove("Айно")
+                                        if "Айно" in suitable_characters_only_names:
+                                            command.append(suitable_characters[suitable_characters_only_names.index("Айно")])
+                                            suitable_characters.pop(suitable_characters_only_names.index("Айно"))
                                             required_gidro_nord_karai_person = True; SD += 1
                                         break
                                     
                             if required_geo_nord_karai_person and required_gidro_nord_karai_person:
                                 if SD < Max_SD:
-                                    if "Коломбина" in command: subdamaggers_list.remove("Коломбина")
-                                    elif "Айно" in command: subdamaggers_list.remove("Айно")
-                                    command.append(subdamaggers_list[0]); SD += 1
+                                    for char in subdamaggers_list:
+                                        if char not in command:
+                                            command.append(char); SD += 1
                                 elif S < Max_S:
-                                    supports_list.remove("Иллуги")
-                                    command.append(supports_list[0]); S += 1
+                                    for char in supports_list:
+                                        if char not in command:
+                                            command.append(char); S += 1
                                 
                             else: # Случай, если у человека нет ни одного Гео/Гидро Нод-Край персонажа
-                                suitable_characters = [] # Подходящие под Цзы Бай персонажи, а именно Нин Гуан, Тиори, Альбедо
+                                suitable_characters = [] # Подходящие под Цзы Бай персонажи, кроме Нодкраевцев, а именно Нин Гуан, Тиори, Альбедо
                                 if "Нин Гуан" in your_character_list:
-                                    supports_list.append("Нин Гуан")
+                                    suitable_characters.append("Нин Гуан")
                                 if "Тиори" in your_character_list:
-                                    supports_list.append("Тиори")
+                                    suitable_characters.append("Тиори")
                                 if "Альбедо" in your_character_list:
-                                    supports_list.append("Альбедо") 
+                                    suitable_characters.append("Альбедо") 
                                 if len(suitable_characters) == 0:
                                     while (SD < Max_SD and S < Max_S):
                                         if SD < Max_SD:
@@ -227,8 +269,8 @@ def make_command(mode: int, pattern: str) -> list:
                         elif damagger == "Навия": # Теперь обрабатываем Навию
                             pass
 
-                    # Главный дамаггер анемо стихии
-                    elif character_elements[damagger] == "A":
+                    # ********* Дамаггер - АНЕМО *********
+                    elif damagger["element_code"] == "A":
                         command_elements.append("A")
                         if character_fraction[damagger] == "-":
                             pass
@@ -258,8 +300,8 @@ def make_command(mode: int, pattern: str) -> list:
                                     command.append(fraction_support)
                                     command_elements.append(fraction_support_element)
 
-                    # Главный дамаггер электро стихии
-                    elif character_elements[damagger] == "E": 
+                    # ********* Дамаггер - ЭЛЕКТРО *********
+                    elif damagger["element_code"] == "E": 
                         
                         # Дамаггер из Нод-Края, значит это Флинс, под него в первую очередь СОбираем Инеффу и Коломбину,
                         # если нет их двоих, то пихаем Айно, чтобы закрыть синергию нодкраевцев до второго уровня,
@@ -302,18 +344,81 @@ def make_command(mode: int, pattern: str) -> list:
                             command_elements += element_of_members
                             Max_SD -= now_SD; Max_S -= now_S
 
-                    # Главный дамаггер дендро стихии
-                    elif character_elements[damagger] == "D": 
+                    # ********* Дамаггер - ДЕНДРО *********
+                    elif damagger["element_code"] == "D": 
                         pass
 
-            # Поиск сабдамаггера
-            elif position == "SD" and SD < Max_SD:
-                command.append(subdamaggers_list[SD:][0]); SD += 1
+                # Поиск сабдамаггера
+                if position == "SD" and SD < Max_SD:
+                    new_subdamaggers = find_remaining_sudamaggers(command, Max_SD - SD)
+                    command += new_subdamaggers
+                    for i in new_subdamaggers:
+                        command_elements.append(i["element_code"])
 
-            # Поиск саппорта
-            elif position == "S" and S < Max_S:
-                command.append(supports_list[S:][0]); S += 1
+                # Поиск саппорта
+                if position == "S" and S < Max_S:
+                    new_supports = find_remaining_supports(command, Max_S - S)
+                    command += new_supports
+                    for i in new_supports:
+                        command_elements.append(i["element_code"])
 
+
+            # ********** Желаемый элемент дамаггера ПИРО **********
+            elif desired_element == "P" and D < Max_D:
+                for char in damaggers_list:
+                    pyro_damagger = None
+                    if char["element_code"] == 'P':
+                        pyro_damagger = char; D += 1
+                        command.append(char); command_elements.append("P")
+                        break
+                if pyro_damagger == None:
+                    raise TypeError("У вас отсутствует пиро персонаж подходящий на роль дамаггера")
+                
+                for i in range(Max_SD):
+                    new_member = find_gydro_kryo_subdd(command)
+                    if new_member != None:
+                        command.append(new_member)
+                        command_elements.append(new_member["element_code"])
+                        SD += 1
+
+                # Поиск сабдамаггеров, если они нужны
+                if SD < Max_SD:
+                    new_subdamaggers = find_remaining_sudamaggers(command, Max_SD - SD)
+                    command += new_subdamaggers
+                    for i in new_subdamaggers:
+                        command_elements.append(i["element_code"])
+
+                # Поиск саппорта
+                if S < Max_S:
+                    new_supports = find_remaining_supports(command, Max_S - S)
+                    command += new_supports
+                    for i in new_supports:
+                        command_elements.append(i["element_code"])
+            
+            # ********** Желаемый элемент дамаггера ГИДРО **********
+            elif desired_element == "G":
+                pass
+
+            # ********** Желаемый элемент дамаггера КРИО **********
+            elif desired_element == "K":
+                pass
+
+            # ********** Желаемый элемент дамаггера ЭЛЕКТРО **********
+            elif desired_element == "E":
+                pass
+
+            # ********** Желаемый элемент дамаггера ДЕНДРО **********
+            elif desired_element == "D":
+                pass
+
+            # ********** Желаемый элемент дамаггера ГЕО **********
+            elif desired_element == "Ge":
+                pass
+
+            # ********** Желаемый элемент дамаггера АНЕМО **********
+            elif desired_element == "A":
+                pass
+                        
 
     # --------------------- 3. Моноэлементная пачка --------------------- 
     elif mode == 3:
@@ -351,7 +456,7 @@ def make_command(mode: int, pattern: str) -> list:
 print("Выберите способ генерации команды (0 - случайный, 1 - лучший из лучших, 2 - сложный алгоритм составления(дольше), 3 - моноэлементальные пачик):  ", end=" ")
 
 make_mode = int(input())
-if make_mode == 3:
+if make_mode == 3 or (make_mode == 2 and len(your_character_list) >= 15):
     print("Введите элемент вашей будущей команды:\n\t1. - Пиро\n\t2. - Гидро\n\t3. - Электро\n\t4. - Крио\n\t5. - Дендро\n\t6. - Гео\n\t7. - Анемо\nВведите нужный элемент: ", end="")
     desired_element = element_codes[input()]
     if element_characters_counter(your_character_list)[desired_element] < 4:

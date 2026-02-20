@@ -147,7 +147,7 @@ def make_character_classes(name):
     roles_and_ranks = {}
     for role, rang in zip(character_roles[name], character_rang[name]):
         roles_and_ranks[role] = rang
-    return Character(name, roles_and_ranks, character_elements_name[name], character_elements[name], "weopone none", "-", "+", character_fraction[name])
+    return Character(name, roles_and_ranks, character_elements_name[name], character_elements[name], "weopone none", 0, "-", "+", character_fraction[name])
 
 
 def make_character_json(json_file_name: str, char_list: list):
@@ -163,6 +163,7 @@ def make_character_json(json_file_name: str, char_list: list):
             "element": character_obj.element,
             "element_code": character_obj.element_code,
             "weapon_type": character_obj.weapon_type,
+            "constellations": character_obj.constellations,
             "special_codes": character_obj.special_codes,
             "persons_pluses": character_obj.persons_pluses,
             "fraction": character_obj.fraction
@@ -195,4 +196,3 @@ def read_characters_from_json(json_name: str) -> list[list]:
 
 # make_character_json("user_characters_data.json", your_character_list)
 # make_character_json("all_characters_data.json", all_characters_names)
-
