@@ -1,3 +1,5 @@
 import const_lists
 
-print(const_lists.character_elements.keys())
+a = list(const_lists.character_elements.keys())
+a.sort()
+print(a)

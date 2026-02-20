@@ -1,13 +1,16 @@
 """
 Файл со всеми вспомогательными функциями для работы алгоритма, а также здесь вынесены большие цепочки из основной программы, которые дуплируются в разных частях кода
 """
+import json
 
-from const_lists import character_elements
+from const_lists import *
+from class_patterns import Character
 
 
 
 def electro_and_gydor_subdd_or_support(Max_SD: int, subdamaggers_list: list, supports_list: list) -> list:
     """
+
     """
     new_command_members = [] # Персонажи добавляются обязательно в порядке сначало гидро, потом электро
     elements_of_new_command_members = []
@@ -137,3 +140,59 @@ def element_characters_counter(your_characters: list) -> dict:
         element_counts[character_elements[char]] += 1
 
     return element_counts
+
+
+def make_character_classes(name):
+    """ Из многочисленных consts_lists собирает под каждого персонажа цельный класс со всеми необходимыми данными """
+    roles_and_ranks = {}
+    for role, rang in zip(character_roles[name], character_rang[name]):
+        roles_and_ranks[role] = rang
+    return Character(name, roles_and_ranks, character_elements_name[name], character_elements[name], "weopone none", "-", "+", character_fraction[name])
+
+
+def make_character_json(json_file_name: str, char_list: list):
+    """ Эта функция собирает данные и записывает их в json файл """
+    character_data_list = []
+
+    for char_name in char_list:
+        character_obj = make_character_classes(char_name)
+        
+        character_dict = {
+            "name": character_obj.name,
+            "roles_and_ranks": character_obj.roles_and_ranks,
+            "element": character_obj.element,
+            "element_code": character_obj.element_code,
+            "weapon_type": character_obj.weapon_type,
+            "special_codes": character_obj.special_codes,
+            "persons_pluses": character_obj.persons_pluses,
+            "fraction": character_obj.fraction
+        }
+        
+        character_data_list.append(character_dict)
+    
+    with open(json_file_name, "w", encoding="utf-8") as file:
+        json.dump(character_data_list, file, indent=4, ensure_ascii=False)
+
+
+def read_characters_from_json(json_name: str) -> list[list]:
+    """ 
+    Извлекает информацию из файла user_characters_data.json, где описаны данных всех персонажей, которые есть у пользователя. 
+    После сортирует всех персонажей в группы по их ролям
+    """
+    damaggers_list = []
+    subdamaggers_list = []
+    supports_list = []
+
+    with open(json_name, 'r', encoding='utf-8') as file:
+        raw_data = json.load(file)
+    for character_info in raw_data:
+        for role in character_info["roles_and_ranks"].keys():
+            if role == "D": damaggers_list.append(character_info)
+            if role == "SD": subdamaggers_list.append(character_info)
+            if role == "S": supports_list.append(character_info)
+    return damaggers_list, subdamaggers_list, supports_list
+
+
+# make_character_json("user_characters_data.json", your_character_list)
+# make_character_json("all_characters_data.json", all_characters_names)
+

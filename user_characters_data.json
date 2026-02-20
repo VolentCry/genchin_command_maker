@@ -8,7 +8,8 @@
         "element_code": "Ge",
         "weapon_type": "weopone none",
         "special_codes": "-",
-        "persons_pluses": "+"
+        "persons_pluses": "+",
+        "fraction": "Натлан"
     },
     {
         "name": "Сетос",
@@ -19,7 +20,8 @@
         "element_code": "E",
         "weapon_type": "weopone none",
         "special_codes": "-",
-        "persons_pluses": "+"
+        "persons_pluses": "+",
+        "fraction": "-"
     },
     {
         "name": "Ка Мин",
@@ -30,7 +32,8 @@
         "element_code": "P",
         "weapon_type": "weopone none",
         "special_codes": "-",
-        "persons_pluses": "+"
+        "persons_pluses": "+",
+        "fraction": "-"
     },
     {
         "name": "Шеврёз",
@@ -41,7 +44,8 @@
         "element_code": "P",
         "weapon_type": "weopone none",
         "special_codes": "-",
-        "persons_pluses": "+"
+        "persons_pluses": "+",
+        "fraction": "-"
     },
     {
         "name": "Шарлотта",
@@ -52,7 +56,8 @@
         "element_code": "K",
         "weapon_type": "weopone none",
         "special_codes": "-",
-        "persons_pluses": "+"
+        "persons_pluses": "+",
+        "fraction": "-"
     },
     {
         "name": "Нёвиллет",
@@ -63,7 +68,8 @@
         "element_code": "G",
         "weapon_type": "weopone none",
         "special_codes": "-",
-        "persons_pluses": "+"
+        "persons_pluses": "+",
+        "fraction": "-"
     },
     {
         "name": "Фремине",
@@ -74,7 +80,8 @@
         "element_code": "K",
         "weapon_type": "weopone none",
         "special_codes": "-",
-        "persons_pluses": "+"
+        "persons_pluses": "+",
+        "fraction": "-"
     },
     {
         "name": "Линетт",
@@ -85,7 +92,8 @@
         "element_code": "A",
         "weapon_type": "weopone none",
         "special_codes": "-",
-        "persons_pluses": "+"
+        "persons_pluses": "+",
+        "fraction": "-"
     },
     {
         "name": "Кирара",
@@ -96,7 +104,8 @@
         "element_code": "D",
         "weapon_type": "weopone none",
         "special_codes": "-",
-        "persons_pluses": "+"
+        "persons_pluses": "+",
+        "fraction": "-"
     },
     {
         "name": "Кавех",
@@ -107,7 +116,8 @@
         "element_code": "D",
         "weapon_type": "weopone none",
         "special_codes": "-",
-        "persons_pluses": "+"
+        "persons_pluses": "+",
+        "fraction": "-"
     },
     {
         "name": "Мика",
@@ -118,7 +128,8 @@
         "element_code": "K",
         "weapon_type": "weopone none",
         "special_codes": "-",
-        "persons_pluses": "+"
+        "persons_pluses": "+",
+        "fraction": "-"
     },
     {
         "name": "Яо Яо",
@@ -129,7 +140,8 @@
         "element_code": "D",
         "weapon_type": "weopone none",
         "special_codes": "-",
-        "persons_pluses": "+"
+        "persons_pluses": "+",
+        "fraction": "-"
     },
     {
         "name": "Фарузан",
@@ -140,7 +152,8 @@
         "element_code": "A",
         "weapon_type": "weopone none",
         "special_codes": "-",
-        "persons_pluses": "+"
+        "persons_pluses": "+",
+        "fraction": "-"
     },
     {
         "name": "Лайла",
@@ -151,7 +164,8 @@
         "element_code": "K",
         "weapon_type": "weopone none",
         "special_codes": "-",
-        "persons_pluses": "+"
+        "persons_pluses": "+",
+        "fraction": "-"
     },
     {
         "name": "Кандакия",
@@ -162,7 +176,8 @@
         "element_code": "G",
         "weapon_type": "weopone none",
         "special_codes": "-",
-        "persons_pluses": "+"
+        "persons_pluses": "+",
+        "fraction": "-"
     },
     {
         "name": "Тигнари",
@@ -173,7 +188,8 @@
         "element_code": "D",
         "weapon_type": "weopone none",
         "special_codes": "-",
-        "persons_pluses": "+"
+        "persons_pluses": "+",
+        "fraction": "-"
     },
     {
         "name": "Коллеи",
@@ -184,7 +200,8 @@
         "element_code": "D",
         "weapon_type": "weopone none",
         "special_codes": "-",
-        "persons_pluses": "+"
+        "persons_pluses": "+",
+        "fraction": "-"
     },
     {
         "name": "Хэйдзо",
@@ -195,7 +212,8 @@
         "element_code": "A",
         "weapon_type": "weopone none",
         "special_codes": "-",
-        "persons_pluses": "+"
+        "persons_pluses": "+",
+        "fraction": "-"
     },
     {
         "name": "Синобу",
@@ -207,7 +225,8 @@
         "element_code": "E",
         "weapon_type": "weopone none",
         "special_codes": "-",
-        "persons_pluses": "+"
+        "persons_pluses": "+",
+        "fraction": "-"
     },
     {
         "name": "Юнь Цзинь",
@@ -218,7 +237,8 @@
         "element_code": "Ge",
         "weapon_type": "weopone none",
         "special_codes": "-",
-        "persons_pluses": "+"
+        "persons_pluses": "+",
+        "fraction": "-"
     },
     {
         "name": "Горо",
@@ -229,7 +249,8 @@
         "element_code": "Ge",
         "weapon_type": "weopone none",
         "special_codes": "-",
-        "persons_pluses": "+"
+        "persons_pluses": "+",
+        "fraction": "-"
     },
     {
         "name": "Тома",
@@ -241,7 +262,8 @@
         "element_code": "P",
         "weapon_type": "weopone none",
         "special_codes": "-",
-        "persons_pluses": "+"
+        "persons_pluses": "+",
+        "fraction": "-"
     },
     {
         "name": "Сара",
@@ -252,7 +274,8 @@
         "element_code": "E",
         "weapon_type": "weopone none",
         "special_codes": "-",
-        "persons_pluses": "+"
+        "persons_pluses": "+",
+        "fraction": "-"
     },
     {
         "name": "Саю",
@@ -264,7 +287,8 @@
         "element_code": "A",
         "weapon_type": "weopone none",
         "special_codes": "-",
-        "persons_pluses": "+"
+        "persons_pluses": "+",
+        "fraction": "-"
     },
     {
         "name": "Аяка",
@@ -275,7 +299,8 @@
         "element_code": "K",
         "weapon_type": "weopone none",
         "special_codes": "-",
-        "persons_pluses": "+"
+        "persons_pluses": "+",
+        "fraction": "-"
     },
     {
         "name": "Кадзуха",
@@ -286,7 +311,8 @@
         "element_code": "A",
         "weapon_type": "weopone none",
         "special_codes": "-",
-        "persons_pluses": "+"
+        "persons_pluses": "+",
+        "fraction": "-"
     },
     {
         "name": "Янь Фэй",
@@ -297,7 +323,8 @@
         "element_code": "P",
         "weapon_type": "weopone none",
         "special_codes": "-",
-        "persons_pluses": "+"
+        "persons_pluses": "+",
+        "fraction": "-"
     },
     {
         "name": "Розария",
@@ -309,7 +336,8 @@
         "element_code": "K",
         "weapon_type": "weopone none",
         "special_codes": "-",
-        "persons_pluses": "+"
+        "persons_pluses": "+",
+        "fraction": "-"
     },
     {
         "name": "Сяо",
@@ -320,7 +348,8 @@
         "element_code": "A",
         "weapon_type": "weopone none",
         "special_codes": "-",
-        "persons_pluses": "+"
+        "persons_pluses": "+",
+        "fraction": "-"
     },
     {
         "name": "Гань Юй",
@@ -332,7 +361,8 @@
         "element_code": "K",
         "weapon_type": "weopone none",
         "special_codes": "-",
-        "persons_pluses": "+"
+        "persons_pluses": "+",
+        "fraction": "-"
     },
     {
         "name": "Синь Янь",
@@ -345,7 +375,8 @@
         "element_code": "P",
         "weapon_type": "weopone none",
         "special_codes": "-",
-        "persons_pluses": "+"
+        "persons_pluses": "+",
+        "fraction": "-"
     },
     {
         "name": "Тарталья",
@@ -356,7 +387,8 @@
         "element_code": "G",
         "weapon_type": "weopone none",
         "special_codes": "-",
-        "persons_pluses": "+"
+        "persons_pluses": "+",
+        "fraction": "-"
     },
     {
         "name": "Диона",
@@ -367,7 +399,8 @@
         "element_code": "K",
         "weapon_type": "weopone none",
         "special_codes": "-",
-        "persons_pluses": "+"
+        "persons_pluses": "+",
+        "fraction": "-"
     },
     {
         "name": "Кли",
@@ -378,7 +411,8 @@
         "element_code": "P",
         "weapon_type": "weopone none",
         "special_codes": "-",
-        "persons_pluses": "+"
+        "persons_pluses": "+",
+        "fraction": "Шабаш"
     },
     {
         "name": "Мона",
@@ -390,7 +424,8 @@
         "element_code": "G",
         "weapon_type": "weopone none",
         "special_codes": "-",
-        "persons_pluses": "+"
+        "persons_pluses": "+",
+        "fraction": "Шабаш"
     },
     {
         "name": "Ци Ци",
@@ -401,7 +436,8 @@
         "element_code": "K",
         "weapon_type": "weopone none",
         "special_codes": "-",
-        "persons_pluses": "+"
+        "persons_pluses": "+",
+        "fraction": "-"
     },
     {
         "name": "Дилюк",
@@ -412,7 +448,8 @@
         "element_code": "P",
         "weapon_type": "weopone none",
         "special_codes": "-",
-        "persons_pluses": "+"
+        "persons_pluses": "+",
+        "fraction": "-"
     },
     {
         "name": "Джинн",
@@ -423,7 +460,8 @@
         "element_code": "A",
         "weapon_type": "weopone none",
         "special_codes": "-",
-        "persons_pluses": "+"
+        "persons_pluses": "+",
+        "fraction": "-"
     },
     {
         "name": "Сахароза",
@@ -435,7 +473,8 @@
         "element_code": "A",
         "weapon_type": "weopone none",
         "special_codes": "-",
-        "persons_pluses": "+"
+        "persons_pluses": "+",
+        "fraction": "Шабаш"
     },
     {
         "name": "Чун Юнь",
@@ -447,7 +486,8 @@
         "element_code": "K",
         "weapon_type": "weopone none",
         "special_codes": "-",
-        "persons_pluses": "+"
+        "persons_pluses": "+",
+        "fraction": "-"
     },
     {
         "name": "Ноэлль",
@@ -459,7 +499,8 @@
         "element_code": "Ge",
         "weapon_type": "weopone none",
         "special_codes": "-",
-        "persons_pluses": "+"
+        "persons_pluses": "+",
+        "fraction": "-"
     },
     {
         "name": "Беннет",
@@ -470,7 +511,8 @@
         "element_code": "P",
         "weapon_type": "weopone none",
         "special_codes": "-",
-        "persons_pluses": "+"
+        "persons_pluses": "+",
+        "fraction": "-"
     },
     {
         "name": "Фишль",
@@ -482,7 +524,8 @@
         "element_code": "E",
         "weapon_type": "weopone none",
         "special_codes": "-",
-        "persons_pluses": "+"
+        "persons_pluses": "+",
+        "fraction": "Шабаш"
     },
     {
         "name": "Нин Гуан",
@@ -493,7 +536,8 @@
         "element_code": "Ge",
         "weapon_type": "weopone none",
         "special_codes": "-",
-        "persons_pluses": "+"
+        "persons_pluses": "+",
+        "fraction": "-"
     },
     {
         "name": "Син Цю",
@@ -504,7 +548,8 @@
         "element_code": "G",
         "weapon_type": "weopone none",
         "special_codes": "-",
-        "persons_pluses": "+"
+        "persons_pluses": "+",
+        "fraction": "-"
     },
     {
         "name": "Бэй Доу",
@@ -515,7 +560,8 @@
         "element_code": "E",
         "weapon_type": "weopone none",
         "special_codes": "-",
-        "persons_pluses": "+"
+        "persons_pluses": "+",
+        "fraction": "-"
     },
     {
         "name": "Сян Лин",
@@ -526,7 +572,8 @@
         "element_code": "P",
         "weapon_type": "weopone none",
         "special_codes": "-",
-        "persons_pluses": "+"
+        "persons_pluses": "+",
+        "fraction": "-"
     },
     {
         "name": "Рэйзор",
@@ -537,7 +584,8 @@
         "element_code": "E",
         "weapon_type": "weopone none",
         "special_codes": "-",
-        "persons_pluses": "+"
+        "persons_pluses": "+",
+        "fraction": "Шабаш"
     },
     {
         "name": "Барбара",
@@ -548,7 +596,8 @@
         "element_code": "G",
         "weapon_type": "weopone none",
         "special_codes": "-",
-        "persons_pluses": "+"
+        "persons_pluses": "+",
+        "fraction": "-"
     },
     {
         "name": "Лиза",
@@ -560,7 +609,8 @@
         "element_code": "E",
         "weapon_type": "weopone none",
         "special_codes": "-",
-        "persons_pluses": "+"
+        "persons_pluses": "+",
+        "fraction": "-"
     },
     {
         "name": "Кэйа",
@@ -571,7 +621,8 @@
         "element_code": "K",
         "weapon_type": "weopone none",
         "special_codes": "-",
-        "persons_pluses": "+"
+        "persons_pluses": "+",
+        "fraction": "-"
     },
     {
         "name": "Эмбер",
@@ -582,6 +633,7 @@
         "element_code": "P",
         "weapon_type": "weopone none",
         "special_codes": "-",
-        "persons_pluses": "+"
+        "persons_pluses": "+",
+        "fraction": "-"
     }
 ]

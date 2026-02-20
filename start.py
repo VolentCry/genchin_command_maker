@@ -15,20 +15,8 @@ subdamaggers_list = []
 supports_list = []
 
 
-
-
-def get_rank_for_role(character: str, role: str) -> int:
-    """
-    Возвращает числовой ранг персонажа для конкретной роли
-    0 - S+, 1 - S, 2 - A, 3 - B, 4 - C, 5 - D
-    Если персонаж не имеет указанной роли, возвращает 6 (худший ранг)
-    """
-    # Словарь для преобразования ранга в число
-    rangs = {"S+": 0, "S": 1, "A": 2, "B": 3, "C": 4, "D": 5}
     
-    # Получаем роли персонажа
-    char_roles = character_roles[character]
-    char_rangs = character_rang[character]
+
     
 def get_rank_for_role(character: str, role: str) -> int:
     """
@@ -74,43 +62,7 @@ def get_rank_for_role(character: str, role: str) -> int:
         
         return rangs[rank_str]
 
-def progressive_sort(character_list: list, role: str) -> list:
-    """
-    Сортирует список персонажей по рангу для указанной роли
-    Сначала идут персонажи с лучшим рангом (S+), затем с худшим (D)
-    """
-    # Сортируем по рангу для указанной роли, а при одинаковом ранге - по имени
-    return sorted(character_list, key=lambda char: (get_rank_for_role(char, role), char))
-    # Если у персонажа одна роль
-    if isinstance(char_roles, str):
-        if char_roles == role:
-            # Если ранг - строка
-            if isinstance(char_rangs, str):
-                return rangs[char_rangs]
-            # Если ранг - список (должно быть одно значение)
-            else:
-                return rangs[char_rangs[0]]
-        else:
-            # Персонаж не имеет этой роли
-            return 6
-    
-    # Если у персонажа несколько ролей
-    else:
-        # Ищем индекс нужной роли
-        try:
-            role_index = char_roles.index(role)
-        except ValueError:
-            # Персонаж не имеет этой роли
-            return 6
-        
-        # Получаем ранг для этой роли
-        if isinstance(char_rangs, list):
-            rank_str = char_rangs[role_index]
-        else:
-            # Если ранг - строка, но ролей несколько (не должно быть, но на всякий случай)
-            rank_str = char_rangs
-        
-        return rangs[rank_str]
+
 
 def progressive_sort(character_list: list, role: str) -> list:
     """
@@ -118,31 +70,11 @@ def progressive_sort(character_list: list, role: str) -> list:
     Сначала идут персонажи с лучшим рангом (S+), затем с худшим (D)
     """
     # Сортируем по рангу для указанной роли, а при одинаковом ранге - по имени
-    return sorted(character_list, key=lambda char: (get_rank_for_role(char, role), char))
+    return sorted(character_list, key = lambda char: (get_rank_for_role(char["name"], role), char["name"]))
 
-# Формируем списки персонажей по ролям
-for i in your_character_list:
-    role = character_roles[i]
-    if type(role) == str:  # Одна роль
-        if role == "D":
-            damaggers_list.append(i)
-        elif role == "SD":
-            subdamaggers_list.append(i)
-        else:
-            supports_list.append(i)
-    else:  # Две или более роли
-        for j in role:
-            if j == "D":
-                damaggers_list.append(i)
-            elif j == "SD":
-                subdamaggers_list.append(i)
-            else:
-                supports_list.append(i)
 
-# Убираем дубликаты (если персонаж имеет несколько ролей)
-damaggers_list = list(set(damaggers_list))
-subdamaggers_list = list(set(subdamaggers_list))
-supports_list = list(set(supports_list))
+damaggers_list, subdamaggers_list, supports_list = read_characters_from_json("user_characters_data.json")
+
 
 # СОРТИРУЕМ списки по рангу для каждой роли
 damaggers_list = progressive_sort(damaggers_list, "D")
@@ -150,7 +82,16 @@ subdamaggers_list = progressive_sort(subdamaggers_list, "SD")
 supports_list = progressive_sort(supports_list, "S")
 
 
+
 def make_command(mode: int, pattern: str) -> list:
+    """
+    Это основная функция, которая создаёт для вас граммотную команду персонажей на основе ваших запросов
+    В ней подразумеваются такие режимы: 
+    • 0 - случайный подбор команды
+    • 1 - сборка пачки из самых лучших персонажей вашего аккаунта
+    • 2 - сборка пачки посредством сложных алгоритмов для достижения лучшего результата
+    • 3 - сборка моноэлементальной пачик 
+    """
     command, command_elements = [], []
     Max_D = pattern.split(".").count("D"); Max_SD = pattern.split(".").count("SD"); Max_S = pattern.split(".").count("S")
     D = 0; SD = 0; S = 0
@@ -158,7 +99,9 @@ def make_command(mode: int, pattern: str) -> list:
     if len(your_character_list) < 4: 
         raise ValueError("Невозможно составить команду, у вас меньше 4-ёх персонажей")
 
-    if mode == 0: # Режим смеха ради
+
+    # --------------------- 0. Режим рандомизации --------------------- 
+    if mode == 0:
         for position in pattern.split("."):
             if position == "D":
                 command.append(random.choice(damaggers_list))
@@ -166,7 +109,24 @@ def make_command(mode: int, pattern: str) -> list:
                 command.append(random.choice(subdamaggers_list))
             else:
                 command.append(random.choice(supports_list))
-    elif mode == 2: # Класисческий режим генерации
+
+
+    # --------------------- 1. Подборка лучший из лучших --------------------- 
+    elif mode == 1:
+        for position in pattern.split("."):
+            # Поиск дамаггера
+            if position == "D" and D < Max_D:
+                command.append(damaggers_list[D:][0]); D += 1
+            # Поиск сабдамаггера
+            elif position == "SD" and SD < Max_SD:
+                command.append(subdamaggers_list[SD:][0]); SD += 1
+            # Поиск саппорта
+            elif position == "S" and S < Max_S:
+                command.append(supports_list[S:][0]); S += 1
+
+
+    # --------------------- 2. Класисческий режим генерации --------------------- 
+    elif mode == 2:
         for position in pattern.split("."):
             # Поиск дамаггера
 
@@ -354,52 +314,38 @@ def make_command(mode: int, pattern: str) -> list:
             elif position == "S" and S < Max_S:
                 command.append(supports_list[S:][0]); S += 1
 
-    elif mode == 3: # Моноэлементная пачка
+
+    # --------------------- 3. Моноэлементная пачка --------------------- 
+    elif mode == 3:
             for position in pattern.split("."):
                 # Поиск дамаггера
                 if position == "D" and D < Max_D:
                     for character in damaggers_list:
-                        if character_elements[character] == desired_element and character not in command:
+                        if character["element_code"] == desired_element and character not in command:
                             command.append(character)
                             D += 1
-                            damaggers_list.remove(character)
                             break
 
                 # Поиск сабдамаггера
                 elif position == "SD" and SD < Max_SD:
                     for character in subdamaggers_list:
-                        if character_elements[character] == desired_element and character not in command:
+                        if character["element_code"] == desired_element and character not in command:
                             command.append(character)
                             SD += 1
-                            subdamaggers_list.remove(character)
                             break
                 
                 # Поиск саппорта
                 elif position == "S" and S < Max_S:
                     for character in supports_list:
-                        if character_elements[character] == desired_element and character not in command:
+                        if character["element_code"] == desired_element and character not in command:
                             command.append(character)
                             S += 1
-                            supports_list.remove(character)
                             break
 
-    elif mode == 1: # Подборка лучший из лучших
-        for position in pattern.split("."):
-            # Поиск дамаггера
-            if position == "D" and D < Max_D:
-                command.append(damaggers_list[D:][0]); D += 1
-            # Поиск сабдамаггера
-            elif position == "SD" and SD < Max_SD:
-                command.append(subdamaggers_list[SD:][0]); SD += 1
-            # Поиск саппорта
-            elif position == "S" and S < Max_S:
-                command.append(supports_list[S:][0]); S += 1
+    # Пользователь указывает невероное (не существующее) значение режима
     else:
         raise ValueError("Неверное значение режима.")
 
-    # if len(command) != 4: 
-    #     raise ValueError("Команде не хватает персонажей или их слишком много. Алгоритм сработал неверно.")
-    
     return command
 
 print("Выберите способ генерации команды (0 - случайный, 1 - лучший из лучших, 2 - сложный алгоритм составления(дольше), 3 - моноэлементальные пачик):  ", end=" ")
@@ -414,4 +360,7 @@ elif make_mode == 2 and len(your_character_list) <= 15:
     print("У вас слишком мало персонажей для данного алгоритма подбора, скорее всего он не сможет подобрать грамотный отряд")
 
 
-print(make_command(make_mode, pattern_1))
+my_command = make_command(make_mode, pattern_1)
+print(" --- Ваш билд ---")
+for i in my_command:
+    print(f"{i["name"]} - {i["element"]}")
