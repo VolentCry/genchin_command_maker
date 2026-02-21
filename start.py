@@ -84,6 +84,24 @@ def find_gydro_kryo_subdd(our_command: list) -> None|dict:
             break
     return gydro_or_kryo_subdd
 
+def find_element_subdd_or_sup(our_command: list, element_code: str, role: str) -> None|dict:
+    """ 
+    Функция для поиска сабдд или саппорта одной определеённой стихии. 
+    В случаи успешной "находки" возвращает словарь с данным персонажем, в ином случаи None
+    """
+    necessary_person = None
+    if role == "SD":
+        for char in subdamaggers_list:
+            if char["element_code"] == element_code and char not in our_command:
+                necessary_person = char
+                break
+    elif role == "S":
+        for char in supports_list:
+            if char["element_code"] == element_code and char not in our_command:
+                necessary_person = char
+                break
+    return necessary_person
+
 def find_remaining_supports(our_command: list, cnt_of_S: int) -> list[dict]:
     """ 
     Функция находит недостающих персонажей на позиции саппортов 
@@ -174,7 +192,7 @@ def make_command(mode: int, pattern: str) -> list[dict]:
 
                     # ********* Дамаггер - ПИРО *********
                     if damagger["element_code"] == "P":
-                        new_member = find_gydro_kryo_subdd()
+                        new_member = find_gydro_kryo_subdd(command)
                         if new_member != None: 
                             command.append(new_member)
                             command_elements.append(new_member["element_code"])
@@ -183,13 +201,11 @@ def make_command(mode: int, pattern: str) -> list[dict]:
 
                     # ********* Дамаггер - КРИО/ГИДРО *********
                     elif damagger["element_code"] in ["G", "K"]:
-                        pyro_subdd = None
-                        # Ищем СабДД Пиро
-                        for char in subdamaggers_list:
-                            if char["element_code"] == "P":
-                                pyro_subdd = char
-                                break
-                        if pyro_subdd != None: command.append(pyro_subdd); SD += 1
+                        new_member = find_element_subdd_or_sup(command, "P", "SD")
+                        if new_member != None: 
+                            command.append(new_member)
+                            command_elements.append(new_member["element_code"])
+                            SD += 1
 
 
                     # ********* Дамаггер - ГЕО *********
@@ -397,11 +413,19 @@ def make_command(mode: int, pattern: str) -> list[dict]:
             
             # ********** Желаемый элемент дамаггера ГИДРО **********
             elif desired_element == "G":
-                pass
+                new_member = find_element_subdd_or_sup(command, "P", "SD")
+                if new_member != None: 
+                    command.append(new_member)
+                    command_elements.append(new_member["element_code"])
+                    SD += 1
 
             # ********** Желаемый элемент дамаггера КРИО **********
             elif desired_element == "K":
-                pass
+                new_member = find_element_subdd_or_sup(command, "P", "SD")
+                if new_member != None: 
+                    command.append(new_member)
+                    command_elements.append(new_member["element_code"])
+                    SD += 1
 
             # ********** Желаемый элемент дамаггера ЭЛЕКТРО **********
             elif desired_element == "E":
