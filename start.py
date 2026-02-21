@@ -102,29 +102,37 @@ def find_element_subdd_or_sup(our_command: list, element_code: str, role: str) -
                 break
     return necessary_person
 
-def find_remaining_supports(our_command: list, cnt_of_S: int) -> list[dict]:
+def find_remaining_sudamaggers_and_supports(our_command: list, cnt_of_SD: int, cnt_of_Max_SD: int,  cnt_of_S: int, cnt_of_Max_S: int) -> list[dict]:
     """ 
-    Функция находит недостающих персонажей на позиции саппортов 
+    Функция находит недостающих персонажей на позиции сабдамаггеров и саппортов
     На вход принимает уже имеющуюся команду, а также количество персонажей, которые нужно найти
     """
-    remaining_supports = []
-    temp_cnt = 0 
-    for char in supports_list:
-        if char not in our_command and temp_cnt < cnt_of_S:
-            remaining_supports.append(char); temp_cnt += 1
-    return remaining_supports
+    new_members = []
+    for i in range(cnt_of_Max_SD - cnt_of_SD):
+        for char in subdamaggers_list:
+            if char not in our_command and char not in new_members and ((len(our_command) + len(new_members)) < 4):
+                new_members.append(char)
+                break
+    
+    for j in range(cnt_of_Max_S - cnt_of_S):
+        for char in supports_list:
+            if char not in our_command and char not in new_members and ((len(our_command) + len(new_members)) < 4):
+                new_members.append(char)
+                break
 
-def find_remaining_sudamaggers(our_command: list, cnt_of_SD: int) -> list[dict]:
-    """ 
-    Функция находит недостающих персонажей на позиции сабдамаггеров 
-    На вход принимает уже имеющуюся команду, а также количество персонажей, которые нужно найти
-    """
-    remaining_subdamaggers = []
-    temp_cnt = 0 
-    for char in subdamaggers_list:
-        if char not in our_command and temp_cnt < cnt_of_SD:
-            remaining_subdamaggers.append(char); temp_cnt += 1
-    return remaining_subdamaggers
+    return new_members
+
+def finr_needed_element_damagger(element_code: str):
+    """ Ищет одного дамаггера необходимой стихии """
+    needed_damagger = None
+    for char in damaggers_list:
+        if char["element_code"] == element_code:
+            needed_damagger = char
+            break
+    if needed_damagger == None:
+        raise TypeError("У вас отсутствует пиро персонаж подходящий на роль дамаггера")
+    else:
+        return needed_damagger
 
 # -----------------------------------------------------------------------------------------------------
 
@@ -184,7 +192,6 @@ def make_command(mode: int, pattern: str) -> list[dict]:
     elif mode == 2:
         for position in pattern.split("."):
             # Поиск дамаггера
-
             if desired_element == "-":
                 if position == "D" and D < Max_D:
                     damagger = damaggers_list[D:][0]
@@ -366,14 +373,14 @@ def make_command(mode: int, pattern: str) -> list[dict]:
 
                 # Поиск сабдамаггера
                 if position == "SD" and SD < Max_SD:
-                    new_subdamaggers = find_remaining_sudamaggers(command, Max_SD - SD)
+                    new_subdamaggers = find_remaining_sudamaggers_and_supports(command, SD, Max_SD, 0, 0)
                     command += new_subdamaggers
                     for i in new_subdamaggers:
                         command_elements.append(i["element_code"])
 
                 # Поиск саппорта
                 if position == "S" and S < Max_S:
-                    new_supports = find_remaining_supports(command, Max_S - S)
+                    new_supports = find_remaining_sudamaggers_and_supports(command, 0, 0, S, Max_S)
                     command += new_supports
                     for i in new_supports:
                         command_elements.append(i["element_code"])
@@ -397,35 +404,59 @@ def make_command(mode: int, pattern: str) -> list[dict]:
                         command_elements.append(new_member["element_code"])
                         SD += 1
 
-                # Поиск сабдамаггеров, если они нужны
-                if SD < Max_SD:
-                    new_subdamaggers = find_remaining_sudamaggers(command, Max_SD - SD)
-                    command += new_subdamaggers
-                    for i in new_subdamaggers:
-                        command_elements.append(i["element_code"])
-
-                # Поиск саппорта
-                if S < Max_S:
-                    new_supports = find_remaining_supports(command, Max_S - S)
-                    command += new_supports
-                    for i in new_supports:
-                        command_elements.append(i["element_code"])
+                # Поиск сабдамаггеров и саппортов, если они нужны
+                new_subdamaggers_and_supports = find_remaining_sudamaggers_and_supports(command, SD, Max_SD, S, Max_S)
+                command += new_subdamaggers_and_supports
+                for i in new_subdamaggers_and_supports:
+                    command_elements.append(i["element_code"])
             
             # ********** Желаемый элемент дамаггера ГИДРО **********
             elif desired_element == "G":
+                for char in damaggers_list:
+                    gydro_damagger = None
+                    if char["element_code"] == 'G':
+                        gydro_damagger = char; D += 1
+                        command.append(char); command_elements.append("P")
+                        break
+                if gydro_damagger == None:
+                    raise TypeError("У вас отсутствует гидро персонаж подходящий на роль дамаггера")
+
                 new_member = find_element_subdd_or_sup(command, "P", "SD")
                 if new_member != None: 
                     command.append(new_member)
                     command_elements.append(new_member["element_code"])
                     SD += 1
 
+
+                # Поиск сабдамаггеров и саппортов, если они нужны
+                new_subdamaggers_and_supports = find_remaining_sudamaggers_and_supports(command, SD, Max_SD, S, Max_S)
+                command += new_subdamaggers_and_supports
+                for i in new_subdamaggers_and_supports:
+                    command_elements.append(i["element_code"])
+
             # ********** Желаемый элемент дамаггера КРИО **********
             elif desired_element == "K":
+                for char in damaggers_list:
+                    gydro_damagger = None
+                    if char["element_code"] == 'G':
+                        gydro_damagger = char; D += 1
+                        command.append(char); command_elements.append("P")
+                        break
+                if gydro_damagger == None:
+                    raise TypeError("У вас отсутствует гидро персонаж подходящий на роль дамаггера")
+
+
                 new_member = find_element_subdd_or_sup(command, "P", "SD")
                 if new_member != None: 
                     command.append(new_member)
                     command_elements.append(new_member["element_code"])
                     SD += 1
+
+                # Поиск сабдамаггеров и саппортов, если они нужны
+                new_subdamaggers_and_supports = find_remaining_sudamaggers_and_supports(command, SD, Max_SD, S, Max_S)
+                command += new_subdamaggers_and_supports
+                for i in new_subdamaggers_and_supports:
+                    command_elements.append(i["element_code"])
 
             # ********** Желаемый элемент дамаггера ЭЛЕКТРО **********
             elif desired_element == "E":
@@ -482,9 +513,13 @@ print("Выберите способ генерации команды (0 - сл
 make_mode = int(input())
 if make_mode == 3 or (make_mode == 2 and len(your_character_list) >= 15):
     print("Введите элемент вашей будущей команды:\n\t1. - Пиро\n\t2. - Гидро\n\t3. - Электро\n\t4. - Крио\n\t5. - Дендро\n\t6. - Гео\n\t7. - Анемо\nВведите нужный элемент: ", end="")
-    desired_element = element_codes[input()]
-    if element_characters_counter(your_character_list)[desired_element] < 4:
-        raise ValueError("У вас недостаточно персонажей данной стихии.")
+    try:
+        desired_element = element_codes[input()]
+        if element_characters_counter(your_character_list)[desired_element] < 4:
+            raise ValueError("У вас недостаточно персонажей данной стихии.")
+    except:
+        desired_element = "-"
+    
 elif make_mode == 2 and len(your_character_list) <= 15:
     print("У вас слишком мало персонажей для данного алгоритма подбора, скорее всего он не сможет подобрать грамотный отряд")
 
