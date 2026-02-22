@@ -216,20 +216,28 @@ def make_command(mode: int, pattern: str) -> list[dict]:
 
                 # ********* Дамаггер - ПИРО *********
                 if damagger["element_code"] == "P":
-                    new_member = find_gydro_kryo_subdd(command)
-                    if new_member != None: 
-                        command.append(new_member)
-                        command_elements.append(new_member["element_code"])
-                        SD += 1
+                    priority = 1
+                    if priority == 1:
+                        new_member = find_gydro_kryo_subdd(command)
+                        if new_member != None: 
+                            command.append(new_member)
+                            command_elements.append(new_member["element_code"])
+                            SD += 1
+                    elif priority == 2:
+                        pass
 
 
                 # ********* Дамаггер - КРИО/ГИДРО *********
                 elif damagger["element_code"] in ["G", "K"]:
-                    new_member = find_element_subdd_or_sup(command, "P", "SD")
-                    if new_member != None: 
-                        command.append(new_member)
-                        command_elements.append(new_member["element_code"])
-                        SD += 1
+                    priority = 1
+                    if priority == 1:
+                        new_member = find_element_subdd_or_sup(command, "P", "SD")
+                        if new_member != None: 
+                            command.append(new_member)
+                            command_elements.append(new_member["element_code"])
+                            SD += 1
+                    elif priority == 2:
+                        pass
 
 
                 # ********* Дамаггер - ГЕО *********
@@ -312,33 +320,96 @@ def make_command(mode: int, pattern: str) -> list[dict]:
                 # ********* Дамаггер - АНЕМО *********
                 elif damagger["element_code"] == "A":
                     command_elements.append("A")
-                    if character_fraction[damagger] == "-":
-                        pass
-                    else:
-                        # Поиск сабдамаггера из такой же фракции электро, гидро, крио или пиро стихии
-                        for i in Max_SD:
-                            fraction_subdamagger, fraction_subdamagger_element = None, None
-                            for (name, element), (_, fraction) in zip(character_elements.items(), character_fraction.items()):
-                                if element in ["E", "G", "P", "K"] and fraction == character_fraction[damagger] and (name in subdamaggers_list):
-                                    fraction_subdamagger = name
-                                    SD += 1
-                                    fraction_subdamagger_element = element
-                            if fraction_subdamagger == None: break
-                            else: 
-                                command.append(fraction_subdamagger)
-                                command_elements.append(fraction_subdamagger_element)
 
-                        for j in Max_S:
-                            fraction_support, fraction_support_element = None, None
-                            for (name, element), (_, fraction) in zip(character_elements.items(), character_fraction.items()):
-                                if element in ["E", "G", "P", "K"] and fraction == character_fraction[damagger] and (name in supports_list):
-                                    fraction_support = name
-                                    S += 1
-                                    fraction_support_element = element
-                            if fraction_support == None: break
+                    # Дамаггер безх фракции: Сяо, Странник, Часка, Ифа, Мидзуки, Хэйдзо, или Сянь Юнь
+                    if damagger["fraction"] == "-": 
+                        # Поиск сабдамаггера электро, гидро, крио или пиро стихии
+                        for i in range(Max_SD):
+                            subdamagger = None
+                            for char in subdamaggers_list:
+                                if char["element_code"] in ["E", "G", "P", "K"]:
+                                    subdamagger = char
+                                    SD += 1
+
+                            if subdamagger == None: 
+                                break
                             else: 
-                                command.append(fraction_support)
-                                command_elements.append(fraction_support_element)
+                                command.append(subdamagger)
+                                command_elements.append(subdamagger["element_code"])
+
+                        # Поиск саппорта электро, гидро, крио или пиро стихии
+                        for j in range(Max_S):
+                            support = None
+                            for char in supports_list:
+                                if char["element_code"] in ["E", "G", "P", "K"]:
+                                    support = char
+                                    S += 1
+                            
+                            if support == None: 
+                                break
+                            else: 
+                                command.append(support)
+                                command_elements.append(support["element_code"])
+
+                    else: # Персонаж какой-то фракции, скорее всего Венти или Варка
+
+                        # Главный анемо дамаггер - ВЕНТИ  
+                        if damagger["name"] == "Венти":
+                            # Поиск сабдамаггера электро, гидро, крио, пиро или анемо стихии
+                            for i in range(Max_SD):
+                                subdamagger = None
+                                for char in subdamaggers_list:
+                                    if char["element_code"] in ["E", "G", "P", "K", "A"]:
+                                        subdamagger = char
+                                        SD += 1
+
+                                if subdamagger == None: 
+                                    break
+                                else: 
+                                    command.append(subdamagger)
+                                    command_elements.append(subdamagger["element_code"])
+
+                            # Поиск саппорта электро, гидро, крио, пиро или анемо стихии
+                            for j in range(Max_S):
+                                support = None
+                                for char in supports_list:
+                                    if char["element_code"] in ["E", "G", "P", "K", "A"]:
+                                        support = char
+                                        S += 1
+                                
+                                if support == None: 
+                                    break
+                                else: 
+                                    command.append(support)
+                                    command_elements.append(support["element_code"])
+
+                        # Главный анемо дамаггер - ВАРКА            
+                        elif damagger["name"] == "Варка":
+                            for char in subdamaggers_list:
+                                varka_new_members = []
+                                if char["name"] in ["Дурин", "Венти", "Сахароза"]:
+                                    varka_new_members.append(char)
+                            command += varka_new_members
+                            for element in varka_new_members:
+                                command_elements.append(element["element_code"])
+                            
+                            match len(command):
+                                case 4:
+                                    break
+                                case 3:
+                                    if Max_SD == 1:
+                                        SD += 1; S += 1
+                                    else: 
+                                        SD += 2
+                                case 2:
+                                    SD += 1
+
+                            # Добираем нехватающих персонажей
+                            new_members_to_varka = find_remaining_sudamaggers_and_supports(command, SD, Max_SD, S, Max_S)
+                            command += new_members_to_varka
+                            for elem in new_members_to_varka:
+                                command_elements.append(elem["element_code"])
+                        
 
                 # ********* Дамаггер - ЭЛЕКТРО *********
                 elif damagger["element_code"] == "E": 
