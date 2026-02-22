@@ -1,0 +1,189 @@
+[
+    {
+        "timestamp": "2024-05-20 12:00",
+        "mode": "Лучший из лучших",
+        "element": "Любой",
+        "team_raw": "⚔️ Арлекино | Пиро | weopone none\n⚔️ Гань Юй | Крио | weopone none\n⚔️ Дэхья | Пиро | weopone none\n⚔️ Беннет | Пиро | weopone none",
+        "team_data": [
+            {
+                "name": "Арлекино",
+                "roles_and_ranks": {
+                    "D": "S"
+                },
+                "element": "Пиро",
+                "element_code": "P",
+                "weapon_type": "weopone none",
+                "constellations": 0,
+                "special_codes": "-",
+                "persons_pluses": "+",
+                "fraction": "-"
+            },
+            {
+                "name": "Гань Юй",
+                "roles_and_ranks": {
+                    "D": "B",
+                    "SD": "B"
+                },
+                "element": "Крио",
+                "element_code": "K",
+                "weapon_type": "weopone none",
+                "constellations": 0,
+                "special_codes": "-",
+                "persons_pluses": "+",
+                "fraction": "-"
+            },
+            {
+                "name": "Дэхья",
+                "roles_and_ranks": {
+                    "D": "D",
+                    "SD": "C",
+                    "S": "B"
+                },
+                "element": "Пиро",
+                "element_code": "P",
+                "weapon_type": "weopone none",
+                "constellations": 0,
+                "special_codes": "-",
+                "persons_pluses": "+",
+                "fraction": "-"
+            },
+            {
+                "name": "Беннет",
+                "roles_and_ranks": {
+                    "S": "S"
+                },
+                "element": "Пиро",
+                "element_code": "P",
+                "weapon_type": "weopone none",
+                "constellations": 0,
+                "special_codes": "-",
+                "persons_pluses": "+",
+                "fraction": "-"
+            }
+        ]
+    },
+    {
+        "timestamp": "2024-05-20 12:00",
+        "mode": "Моноэлемент",
+        "element": "Любой",
+        "team_raw": "⚔️ Арлекино | Пиро | weopone none\n⚔️ Гань Юй | Крио | weopone none\n⚔️ Дэхья | Пиро | weopone none\n⚔️ Беннет | Пиро | weopone none",
+        "team_data": [
+            {
+                "name": "Арлекино",
+                "roles_and_ranks": {
+                    "D": "S"
+                },
+                "element": "Пиро",
+                "element_code": "P",
+                "weapon_type": "weopone none",
+                "constellations": 0,
+                "special_codes": "-",
+                "persons_pluses": "+",
+                "fraction": "-"
+            },
+            {
+                "name": "Гань Юй",
+                "roles_and_ranks": {
+                    "D": "B",
+                    "SD": "B"
+                },
+                "element": "Крио",
+                "element_code": "K",
+                "weapon_type": "weopone none",
+                "constellations": 0,
+                "special_codes": "-",
+                "persons_pluses": "+",
+                "fraction": "-"
+            },
+            {
+                "name": "Дэхья",
+                "roles_and_ranks": {
+                    "D": "D",
+                    "SD": "C",
+                    "S": "B"
+                },
+                "element": "Пиро",
+                "element_code": "P",
+                "weapon_type": "weopone none",
+                "constellations": 0,
+                "special_codes": "-",
+                "persons_pluses": "+",
+                "fraction": "-"
+            },
+            {
+                "name": "Беннет",
+                "roles_and_ranks": {
+                    "S": "S"
+                },
+                "element": "Пиро",
+                "element_code": "P",
+                "weapon_type": "weopone none",
+                "constellations": 0,
+                "special_codes": "-",
+                "persons_pluses": "+",
+                "fraction": "-"
+            }
+        ]
+    },
+    {
+        "timestamp": "2024-05-20 12:00",
+        "mode": "Лучший из лучших",
+        "element": "Любой",
+        "team_raw": "⚔️ Нефер | Дендро | weopone none\n⚔️ Нахида | Дендро | weopone none\n⚔️ Синобу | Электро | weopone none\n⚔️ Беннет | Пиро | weopone none",
+        "team_data": [
+            {
+                "name": "Нефер",
+                "roles_and_ranks": {
+                    "D": "S"
+                },
+                "element": "Дендро",
+                "element_code": "D",
+                "weapon_type": "weopone none",
+                "constellations": 0,
+                "special_codes": "-",
+                "persons_pluses": "+",
+                "fraction": "Нод-Край"
+            },
+            {
+                "name": "Нахида",
+                "roles_and_ranks": {
+                    "SD": "S"
+                },
+                "element": "Дендро",
+                "element_code": "D",
+                "weapon_type": "weopone none",
+                "constellations": 0,
+                "special_codes": "-",
+                "persons_pluses": "+",
+                "fraction": "-"
+            },
+            {
+                "name": "Синобу",
+                "roles_and_ranks": {
+                    "SD": "S",
+                    "S": "A"
+                },
+                "element": "Электро",
+                "element_code": "E",
+                "weapon_type": "weopone none",
+                "constellations": 0,
+                "special_codes": "-",
+                "persons_pluses": "+",
+                "fraction": "-"
+            },
+            {
+                "name": "Беннет",
+                "roles_and_ranks": {
+                    "S": "S"
+                },
+                "element": "Пиро",
+                "element_code": "P",
+                "weapon_type": "weopone none",
+                "constellations": 0,
+                "special_codes": "-",
+                "persons_pluses": "+",
+                "fraction": "-"
+            }
+        ]
+    }
+]

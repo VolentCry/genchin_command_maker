@@ -2,16 +2,6 @@ from const_lists import *
 from helpful_funcs import *
 import random
 
-# Допустимые паттерны создания команд 
-pattern_1 = "D.SD.S.S"
-pattern_1 = "D.SD.SD.S"
-
-
-# Желаемая стихия даммагера
-desired_element = "-"
-
-damaggers_list, subdamaggers_list, supports_list = read_characters_from_json("user_characters_data.json")
-
 
 # ------------------------- Необходимые функции -------------------------
 def get_rank_for_role(character: str, role: str) -> int:
@@ -58,7 +48,6 @@ def get_rank_for_role(character: str, role: str) -> int:
         
         return rangs[rank_str]
 
-
 def progressive_sort(character_list: list, role: str) -> list:
     """
     Сортирует список персонажей по рангу для указанной роли
@@ -72,7 +61,7 @@ def progressive_sort(character_list: list, role: str) -> list:
 
 # ------------------------- Функции непосредственно с поиском персонажей -------------------------
 
-def find_gydro_kryo_subdd(our_command: list) -> None|dict:
+def find_gydro_kryo_subdd(our_command: list, subdamaggers_list: list) -> None|dict:
     """ 
     Функция для поиска гидро или крио. 
     В случаи успешной "находки" возвращает словарь с данными персонажа, в ином случаи None
@@ -84,7 +73,7 @@ def find_gydro_kryo_subdd(our_command: list) -> None|dict:
             break
     return gydro_or_kryo_subdd
 
-def find_element_subdd_or_sup(our_command: list, element_code: str, role: str) -> None|dict:
+def find_element_subdd_or_sup(our_command: list, element_code: str, role: str, subdamaggers_list: list, supports_list: list) -> None|dict:
     """ 
     Функция для поиска сабдд или саппорта одной определеённой стихии. 
     В случаи успешной "находки" возвращает словарь с данным персонажем, в ином случаи None
@@ -102,7 +91,7 @@ def find_element_subdd_or_sup(our_command: list, element_code: str, role: str) -
                 break
     return necessary_person
 
-def find_remaining_sudamaggers_and_supports(our_command: list, cnt_of_SD: int, cnt_of_Max_SD: int,  cnt_of_S: int, cnt_of_Max_S: int, desired_element: str = "-") -> list[dict]:
+def find_remaining_sudamaggers_and_supports(our_command: list, cnt_of_SD: int, cnt_of_Max_SD: int,  cnt_of_S: int, cnt_of_Max_S: int, subdamaggers_list: list, supports_list: list, desired_element: str = "-") -> list[dict]:
     """ 
     Функция находит недостающих персонажей на позиции сабдамаггеров и саппортов
     На вход принимает уже имеющуюся команду, а также количество персонажей, которые нужно найти
@@ -133,7 +122,7 @@ def find_remaining_sudamaggers_and_supports(our_command: list, cnt_of_SD: int, c
 
     return new_members
 
-def find_needed_element_damagger(element_code: str):
+def find_needed_element_damagger(element_code: str, damaggers_list: list):
     """ Ищет одного дамаггера необходимой стихии """
     needed_damagger = None
     for char in damaggers_list:
@@ -149,15 +138,8 @@ def find_needed_element_damagger(element_code: str):
 
 
 
-# СОРТИРУЕМ списки по рангу для каждой роли
-damaggers_list = progressive_sort(damaggers_list, "D")
-subdamaggers_list = progressive_sort(subdamaggers_list, "SD")
-supports_list = progressive_sort(supports_list, "S")
 
-
-
-
-def make_command(mode: int, pattern: str) -> list[dict]:
+def make_command(mode: int, pattern: str, desired_element: str = "-") -> list[dict]:
     """
     Это основная функция программы, которая создаёт для вас граммотную команду персонажей на основе ваших запросов
     В ней подразумеваются такие режимы: 
@@ -169,6 +151,13 @@ def make_command(mode: int, pattern: str) -> list[dict]:
     command, command_elements = [], []
     Max_D = pattern.split(".").count("D"); Max_SD = pattern.split(".").count("SD"); Max_S = pattern.split(".").count("S")
     D = 0; SD = 0; S = 0
+
+    damaggers_list, subdamaggers_list, supports_list = read_characters_from_json("user_characters_data.json")
+
+    # СОРТИРУЕМ списки по рангу для каждой роли
+    damaggers_list = progressive_sort(damaggers_list, "D")
+    subdamaggers_list = progressive_sort(subdamaggers_list, "SD")
+    supports_list = progressive_sort(supports_list, "S")
 
     if len(your_character_list) < 4: 
         raise ValueError("Невозможно составить команду, у вас меньше 4-ёх персонажей")
@@ -210,7 +199,7 @@ def make_command(mode: int, pattern: str) -> list[dict]:
                     damagger = damaggers_list[D:][0]
                     command.append(damagger); command_elements.append(damagger["element_code"]); D += 1
                 else:
-                    damagger = find_needed_element_damagger(desired_element); D += 1
+                    damagger = find_needed_element_damagger(desired_element, damaggers_list); D += 1
                     command.append(damagger); command_elements.append(desired_element)
 
 
@@ -218,7 +207,7 @@ def make_command(mode: int, pattern: str) -> list[dict]:
                 if damagger["element_code"] == "P":
                     priority = 1
                     if priority == 1:
-                        new_member = find_gydro_kryo_subdd(command)
+                        new_member = find_gydro_kryo_subdd(command, subdamaggers_list)
                         if new_member != None: 
                             command.append(new_member)
                             command_elements.append(new_member["element_code"])
@@ -231,7 +220,7 @@ def make_command(mode: int, pattern: str) -> list[dict]:
                 elif damagger["element_code"] in ["G", "K"]:
                     priority = 1
                     if priority == 1:
-                        new_member = find_element_subdd_or_sup(command, "P", "SD")
+                        new_member = find_element_subdd_or_sup(command, "P", "SD", subdamaggers_list, supports_list)
                         if new_member != None: 
                             command.append(new_member)
                             command_elements.append(new_member["element_code"])
@@ -405,7 +394,7 @@ def make_command(mode: int, pattern: str) -> list[dict]:
                                     SD += 1
 
                             # Добираем нехватающих персонажей
-                            new_members_to_varka = find_remaining_sudamaggers_and_supports(command, SD, Max_SD, S, Max_S)
+                            new_members_to_varka = find_remaining_sudamaggers_and_supports(command, SD, Max_SD, S, Max_S, subdamaggers_list, supports_list)
                             command += new_members_to_varka
                             for elem in new_members_to_varka:
                                 command_elements.append(elem["element_code"])
@@ -496,9 +485,9 @@ def make_command(mode: int, pattern: str) -> list[dict]:
                                 bloom = True
                                 if bloom:
                                     # Поиск одного дендро перса
-                                    dendro_sd = find_remaining_sudamaggers_and_supports(command, SD, Max_SD, 0, 0, "D")
+                                    dendro_sd = find_remaining_sudamaggers_and_supports(command, SD, Max_SD, 0, 0, subdamaggers_list, supports_list, "D")
                                     if len(dendro_sd) == 0: # Не нашолся ни один дендро сабДД
-                                        dendro_s = find_remaining_sudamaggers_and_supports(command, SD, Max_SD, 0, 0, "D")
+                                        dendro_s = find_remaining_sudamaggers_and_supports(command, SD, Max_SD, 0, 0, subdamaggers_list, supports_list, "D")
                                         if len(dendro_s) != 0:
                                             S += 1
                                             command.append(dendro_s[0]); command_elements.append("D")
@@ -507,7 +496,7 @@ def make_command(mode: int, pattern: str) -> list[dict]:
                                         command.append(dendro_sd[0]); command_elements.append("D")
 
                                     # Поиск одного пиро перса
-                                    pyro_sd_or_s = find_remaining_sudamaggers_and_supports(command, SD, Max_SD, S, Max_S, "P")
+                                    pyro_sd_or_s = find_remaining_sudamaggers_and_supports(command, SD, Max_SD, S, Max_S, subdamaggers_list, supports_list, "P")
                                     for char in pyro_sd_or_s:
                                         if SD < Max_SD: SD += 1
                                         elif S < Max_S: S += 1
@@ -516,9 +505,9 @@ def make_command(mode: int, pattern: str) -> list[dict]:
                             case 2: # Стимуляция, разрастание, обострение
 
                                 # Поиск одного дендро перса
-                                dendro_sd = find_remaining_sudamaggers_and_supports(command, SD, Max_SD, 0, 0, "D")
+                                dendro_sd = find_remaining_sudamaggers_and_supports(command, SD, Max_SD, 0, 0, subdamaggers_list, supports_list, "D")
                                 if len(dendro_sd) == 0: # Не нашолся ни один дендро сабДД
-                                    dendro_s = find_remaining_sudamaggers_and_supports(command, SD, Max_SD, 0, 0, "D")
+                                    dendro_s = find_remaining_sudamaggers_and_supports(command, SD, Max_SD, 0, 0, subdamaggers_list, supports_list, "D")
                                     if len(dendro_s) != 0:
                                         S += 1
                                         command.append(dendro_s[0]); command_elements.append("D")
@@ -527,7 +516,7 @@ def make_command(mode: int, pattern: str) -> list[dict]:
                                     command.append(dendro_sd[0]); command_elements.append("D")
 
                                 # Поиск двух пиро персов
-                                electro_sd_or_s = find_remaining_sudamaggers_and_supports(command, SD, Max_SD, S, Max_S, "E")
+                                electro_sd_or_s = find_remaining_sudamaggers_and_supports(command, SD, Max_SD, S, Max_S, subdamaggers_list, supports_list, "E")
                                 for char in electro_sd_or_s:
                                     if SD < Max_SD: SD += 1
                                     elif S < Max_S: S += 1
@@ -535,9 +524,9 @@ def make_command(mode: int, pattern: str) -> list[dict]:
                                     
                             case 3: # Горение
                                 # Поиск одного дендро перса
-                                dendro_sd = find_remaining_sudamaggers_and_supports(command, SD, Max_SD, 0, 0, "D")
+                                dendro_sd = find_remaining_sudamaggers_and_supports(command, SD, Max_SD, 0, 0, subdamaggers_list, supports_list, "D")
                                 if len(dendro_sd) == 0: # Не нашолся ни один дендро сабДД
-                                    dendro_s = find_remaining_sudamaggers_and_supports(command, SD, Max_SD, 0, 0, "D")
+                                    dendro_s = find_remaining_sudamaggers_and_supports(command, SD, Max_SD, 0, 0, subdamaggers_list, supports_list, "D")
                                     if len(dendro_s) != 0:
                                         S += 1
                                         command.append(dendro_s[0]); command_elements.append("D")
@@ -546,7 +535,7 @@ def make_command(mode: int, pattern: str) -> list[dict]:
                                     command.append(dendro_sd[0]); command_elements.append("D")
 
                                 # Поиск двух пиро персов
-                                pyro_sd_or_s = find_remaining_sudamaggers_and_supports(command, SD, Max_SD, S, Max_S, "P")
+                                pyro_sd_or_s = find_remaining_sudamaggers_and_supports(command, SD, Max_SD, S, Max_S, subdamaggers_list, supports_list, "P")
                                 for char in pyro_sd_or_s:
                                     if SD < Max_SD: SD += 1
                                     elif S < Max_S: S += 1
@@ -555,14 +544,14 @@ def make_command(mode: int, pattern: str) -> list[dict]:
 
             # Поиск сабдамаггера
             if position == "SD" and SD < Max_SD:
-                new_subdamaggers = find_remaining_sudamaggers_and_supports(command, SD, Max_SD, 0, 0)
+                new_subdamaggers = find_remaining_sudamaggers_and_supports(command, SD, Max_SD, 0, 0, subdamaggers_list, supports_list,)
                 command += new_subdamaggers
                 for i in new_subdamaggers:
                     command_elements.append(i["element_code"])
 
             # Поиск саппорта
             if position == "S" and S < Max_S:
-                new_supports = find_remaining_sudamaggers_and_supports(command, 0, 0, S, Max_S)
+                new_supports = find_remaining_sudamaggers_and_supports(command, 0, 0, S, Max_S, subdamaggers_list, supports_list,)
                 command += new_supports
                 for i in new_supports:
                     command_elements.append(i["element_code"])
@@ -601,24 +590,3 @@ def make_command(mode: int, pattern: str) -> list[dict]:
         raise ValueError("Неверное значение режима.")
 
     return command
-
-print("Выберите способ генерации команды (0 - случайный, 1 - лучший из лучших, 2 - сложный алгоритм составления(дольше), 3 - моноэлементальные пачик):  ", end=" ")
-
-make_mode = int(input())
-if make_mode == 3 or (make_mode == 2 and len(your_character_list) >= 15):
-    print("Введите элемент вашей будущей команды:\n\t1. - Пиро\n\t2. - Гидро\n\t3. - Электро\n\t4. - Крио\n\t5. - Дендро\n\t6. - Гео\n\t7. - Анемо\nВведите нужный элемент: ", end="")
-    try:
-        desired_element = element_codes[input()]
-        if element_characters_counter(your_character_list)[desired_element] < 4:
-            raise ValueError("У вас недостаточно персонажей данной стихии.")
-    except:
-        desired_element = "-"
-    
-elif make_mode == 2 and len(your_character_list) <= 15:
-    print("У вас слишком мало персонажей для данного алгоритма подбора, скорее всего он не сможет подобрать грамотный отряд")
-
-
-my_command = make_command(make_mode, pattern_1)
-print(" --- Ваш билд ---")
-for i in my_command:
-    print(f"{i["name"]} - {i["element"]}")

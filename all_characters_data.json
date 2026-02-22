@@ -6,7 +6,7 @@
         },
         "element": "Гидро",
         "element_code": "G",
-        "weapon_type": "weopone none",
+        "weapon_type": "Древковое",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "Нод-Край"
@@ -18,7 +18,7 @@
         },
         "element": "Дендро",
         "element_code": "D",
-        "weapon_type": "weopone none",
+        "weapon_type": "Одноручное",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -30,7 +30,7 @@
         },
         "element": "Гео",
         "element_code": "Ge",
-        "weapon_type": "weopone none",
+        "weapon_type": "Одноручное",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "Шабаш"
@@ -42,7 +42,7 @@
         },
         "element": "Пиро",
         "element_code": "P",
-        "weapon_type": "weopone none",
+        "weapon_type": "Древковое",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -54,7 +54,7 @@
         },
         "element": "Крио",
         "element_code": "K",
-        "weapon_type": "weopone none",
+        "weapon_type": "Одноручное",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -66,7 +66,7 @@
         },
         "element": "Гидро",
         "element_code": "G",
-        "weapon_type": "weopone none",
+        "weapon_type": "Одноручное",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -78,7 +78,7 @@
         },
         "element": "Дендро",
         "element_code": "D",
-        "weapon_type": "weopone none",
+        "weapon_type": "Катализатор",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -90,7 +90,7 @@
         },
         "element": "Гидро",
         "element_code": "G",
-        "weapon_type": "weopone none",
+        "weapon_type": "Катализатор",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -102,7 +102,7 @@
         },
         "element": "Пиро",
         "element_code": "P",
-        "weapon_type": "weopone none",
+        "weapon_type": "Одноручное",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -114,7 +114,7 @@
         },
         "element": "Электро",
         "element_code": "E",
-        "weapon_type": "weopone none",
+        "weapon_type": "Двуручное",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -126,7 +126,7 @@
         },
         "element": "Электро",
         "element_code": "E",
-        "weapon_type": "weopone none",
+        "weapon_type": "Катализатор",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "Натлан"
@@ -139,7 +139,7 @@
         },
         "element": "Анемо",
         "element_code": "A",
-        "weapon_type": "weopone none",
+        "weapon_type": "Стрелковое",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "Шабаш"
@@ -152,7 +152,7 @@
         },
         "element": "Крио",
         "element_code": "K",
-        "weapon_type": "weopone none",
+        "weapon_type": "Стрелковое",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -164,7 +164,7 @@
         },
         "element": "Гео",
         "element_code": "Ge",
-        "weapon_type": "weopone none",
+        "weapon_type": "Стрелковое",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -176,7 +176,7 @@
         },
         "element": "Гидро",
         "element_code": "G",
-        "weapon_type": "weopone none",
+        "weapon_type": "Одноручное",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -188,7 +188,7 @@
         },
         "element": "Анемо",
         "element_code": "A",
-        "weapon_type": "weopone none",
+        "weapon_type": "Одноручное",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -200,7 +200,7 @@
         },
         "element": "Пиро",
         "element_code": "P",
-        "weapon_type": "weopone none",
+        "weapon_type": "Двуручное",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -212,7 +212,7 @@
         },
         "element": "Крио",
         "element_code": "K",
-        "weapon_type": "weopone none",
+        "weapon_type": "Стрелковое",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -224,7 +224,7 @@
         },
         "element": "Электро",
         "element_code": "E",
-        "weapon_type": "weopone none",
+        "weapon_type": "Двуручное",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -237,7 +237,7 @@
         },
         "element": "Пиро",
         "element_code": "P",
-        "weapon_type": "weopone none",
+        "weapon_type": "Одноручное",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "Шабаш"
@@ -251,7 +251,7 @@
         },
         "element": "Пиро",
         "element_code": "P",
-        "weapon_type": "weopone none",
+        "weapon_type": "Двуручное",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -263,7 +263,7 @@
         },
         "element": "Гидро",
         "element_code": "G",
-        "weapon_type": "weopone none",
+        "weapon_type": "Стрелковое",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -275,7 +275,7 @@
         },
         "element": "Пиро",
         "element_code": "P",
-        "weapon_type": "weopone none",
+        "weapon_type": "Стрелковое",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -287,7 +287,7 @@
         },
         "element": "Электро",
         "element_code": "E",
-        "weapon_type": "weopone none",
+        "weapon_type": "Древковое",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "Натлан"
@@ -299,7 +299,7 @@
         },
         "element": "Гео",
         "element_code": "Ge",
-        "weapon_type": "weopone none",
+        "weapon_type": "Древковое",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "Нод-Край"
@@ -312,7 +312,7 @@
         },
         "element": "Электро",
         "element_code": "E",
-        "weapon_type": "weopone none",
+        "weapon_type": "Древковое",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "Нод-Край"
@@ -324,7 +324,7 @@
         },
         "element": "Гео",
         "element_code": "Ge",
-        "weapon_type": "weopone none",
+        "weapon_type": "Двуручное",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -336,7 +336,7 @@
         },
         "element": "Анемо",
         "element_code": "A",
-        "weapon_type": "weopone none",
+        "weapon_type": "Катализатор",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "Натлан"
@@ -348,7 +348,7 @@
         },
         "element": "Пиро",
         "element_code": "P",
-        "weapon_type": "weopone none",
+        "weapon_type": "Двуручное",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -360,7 +360,7 @@
         },
         "element": "Дендро",
         "element_code": "D",
-        "weapon_type": "weopone none",
+        "weapon_type": "Двуручное",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -372,7 +372,7 @@
         },
         "element": "Анемо",
         "element_code": "A",
-        "weapon_type": "weopone none",
+        "weapon_type": "Одноручное",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -384,7 +384,7 @@
         },
         "element": "Гидро",
         "element_code": "G",
-        "weapon_type": "weopone none",
+        "weapon_type": "Древковое",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -396,7 +396,7 @@
         },
         "element": "Гео",
         "element_code": "Ge",
-        "weapon_type": "weopone none",
+        "weapon_type": "Древковое",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "Натлан"
@@ -408,7 +408,7 @@
         },
         "element": "Дендро",
         "element_code": "D",
-        "weapon_type": "weopone none",
+        "weapon_type": "Одноручное",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -420,7 +420,7 @@
         },
         "element": "Пиро",
         "element_code": "P",
-        "weapon_type": "weopone none",
+        "weapon_type": "Катализатор",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "Шабаш"
@@ -432,7 +432,7 @@
         },
         "element": "Электро",
         "element_code": "E",
-        "weapon_type": "weopone none",
+        "weapon_type": "Одноручное",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -445,7 +445,7 @@
         },
         "element": "Гидро",
         "element_code": "G",
-        "weapon_type": "weopone none",
+        "weapon_type": "Катализатор",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -457,7 +457,7 @@
         },
         "element": "Дендро",
         "element_code": "D",
-        "weapon_type": "weopone none",
+        "weapon_type": "Стрелковое",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -470,7 +470,7 @@
         },
         "element": "Гидро",
         "element_code": "G",
-        "weapon_type": "weopone none",
+        "weapon_type": "Катализатор",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "Нод-Край"
@@ -482,7 +482,7 @@
         },
         "element": "Электро",
         "element_code": "E",
-        "weapon_type": "weopone none",
+        "weapon_type": "Одноручное",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -494,7 +494,7 @@
         },
         "element": "Крио",
         "element_code": "K",
-        "weapon_type": "weopone none",
+        "weapon_type": "Одноручное",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -506,7 +506,7 @@
         },
         "element": "Крио",
         "element_code": "K",
-        "weapon_type": "weopone none",
+        "weapon_type": "Одноручное",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -518,7 +518,7 @@
         },
         "element": "Анемо",
         "element_code": "A",
-        "weapon_type": "weopone none",
+        "weapon_type": "Катализатор",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -531,7 +531,7 @@
         },
         "element": "Дендро",
         "element_code": "D",
-        "weapon_type": "weopone none",
+        "weapon_type": "Катализатор",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "Нод-Край"
@@ -544,7 +544,7 @@
         },
         "element": "Электро",
         "element_code": "E",
-        "weapon_type": "weopone none",
+        "weapon_type": "Катализатор",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -556,7 +556,7 @@
         },
         "element": "Анемо",
         "element_code": "A",
-        "weapon_type": "weopone none",
+        "weapon_type": "Одноручное",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -568,7 +568,7 @@
         },
         "element": "Пиро",
         "element_code": "P",
-        "weapon_type": "weopone none",
+        "weapon_type": "Стрелковое",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -581,7 +581,7 @@
         },
         "element": "Пиро",
         "element_code": "P",
-        "weapon_type": "weopone none",
+        "weapon_type": "Двуручное",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "Натлан"
@@ -594,7 +594,7 @@
         },
         "element": "Анемо",
         "element_code": "A",
-        "weapon_type": "weopone none",
+        "weapon_type": "Катализатор",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -606,7 +606,7 @@
         },
         "element": "Крио",
         "element_code": "K",
-        "weapon_type": "weopone none",
+        "weapon_type": "Древковое",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -619,7 +619,7 @@
         },
         "element": "Гидро",
         "element_code": "G",
-        "weapon_type": "weopone none",
+        "weapon_type": "Катализатор",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "Шабаш"
@@ -631,7 +631,7 @@
         },
         "element": "Гидро",
         "element_code": "G",
-        "weapon_type": "weopone none",
+        "weapon_type": "Катализатор",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "Натлна"
@@ -643,7 +643,7 @@
         },
         "element": "Гео",
         "element_code": "Ge",
-        "weapon_type": "weopone none",
+        "weapon_type": "Двуручное",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -655,7 +655,7 @@
         },
         "element": "Дендро",
         "element_code": "D",
-        "weapon_type": "weopone none",
+        "weapon_type": "Катализатор",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -667,7 +667,7 @@
         },
         "element": "Дендро",
         "element_code": "D",
-        "weapon_type": "weopone none",
+        "weapon_type": "Катализатор",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "Нод-Край"
@@ -679,7 +679,7 @@
         },
         "element": "Гидро",
         "element_code": "G",
-        "weapon_type": "weopone none",
+        "weapon_type": "Одноручное",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -691,7 +691,7 @@
         },
         "element": "Гео",
         "element_code": "Ge",
-        "weapon_type": "weopone none",
+        "weapon_type": "Катализатор",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -704,7 +704,7 @@
         },
         "element": "Гео",
         "element_code": "Ge",
-        "weapon_type": "weopone none",
+        "weapon_type": "Двуручное",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -716,7 +716,7 @@
         },
         "element": "Гидро",
         "element_code": "G",
-        "weapon_type": "weopone none",
+        "weapon_type": "Катализатор",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -728,7 +728,7 @@
         },
         "element": "Электро",
         "element_code": "E",
-        "weapon_type": "weopone none",
+        "weapon_type": "Стрелковое",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "Натлан"
@@ -741,7 +741,7 @@
         },
         "element": "Электро",
         "element_code": "E",
-        "weapon_type": "weopone none",
+        "weapon_type": "Древковое",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -753,7 +753,7 @@
         },
         "element": "Крио",
         "element_code": "K",
-        "weapon_type": "weopone none",
+        "weapon_type": "Катализатор",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -766,7 +766,7 @@
         },
         "element": "Крио",
         "element_code": "K",
-        "weapon_type": "weopone none",
+        "weapon_type": "Древковое",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -778,7 +778,7 @@
         },
         "element": "Электро",
         "element_code": "E",
-        "weapon_type": "weopone none",
+        "weapon_type": "Двуручное",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "Шабаш"
@@ -790,7 +790,7 @@
         },
         "element": "Электро",
         "element_code": "E",
-        "weapon_type": "weopone none",
+        "weapon_type": "Древковое",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -802,7 +802,7 @@
         },
         "element": "Электро",
         "element_code": "E",
-        "weapon_type": "weopone none",
+        "weapon_type": "Стрелковое",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -815,7 +815,7 @@
         },
         "element": "Анемо",
         "element_code": "A",
-        "weapon_type": "weopone none",
+        "weapon_type": "Катализатор",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "Шабаш"
@@ -828,7 +828,7 @@
         },
         "element": "Анемо",
         "element_code": "A",
-        "weapon_type": "weopone none",
+        "weapon_type": "Двуручное",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -840,7 +840,7 @@
         },
         "element": "Электро",
         "element_code": "E",
-        "weapon_type": "weopone none",
+        "weapon_type": "Стрелковое",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -852,7 +852,7 @@
         },
         "element": "Гидро",
         "element_code": "G",
-        "weapon_type": "weopone none",
+        "weapon_type": "Стрелковое",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -864,7 +864,7 @@
         },
         "element": "Гидро",
         "element_code": "G",
-        "weapon_type": "weopone none",
+        "weapon_type": "Одноручное",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -877,7 +877,7 @@
         },
         "element": "Электро",
         "element_code": "E",
-        "weapon_type": "weopone none",
+        "weapon_type": "Одноручное",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -891,7 +891,7 @@
         },
         "element": "Пиро",
         "element_code": "P",
-        "weapon_type": "weopone none",
+        "weapon_type": "Двуручное",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -903,7 +903,7 @@
         },
         "element": "Крио",
         "element_code": "K",
-        "weapon_type": "weopone none",
+        "weapon_type": "Катализатор",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "Натлан"
@@ -915,7 +915,7 @@
         },
         "element": "Крио",
         "element_code": "K",
-        "weapon_type": "weopone none",
+        "weapon_type": "Одноручное",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -927,7 +927,7 @@
         },
         "element": "Анемо",
         "element_code": "A",
-        "weapon_type": "weopone none",
+        "weapon_type": "Катализатор",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -939,7 +939,7 @@
         },
         "element": "Пиро",
         "element_code": "P",
-        "weapon_type": "weopone none",
+        "weapon_type": "Древковое",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -951,7 +951,7 @@
         },
         "element": "Анемо",
         "element_code": "A",
-        "weapon_type": "weopone none",
+        "weapon_type": "Катализатор",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -963,7 +963,7 @@
         },
         "element": "Анемо",
         "element_code": "A",
-        "weapon_type": "weopone none",
+        "weapon_type": "Древковое",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -975,7 +975,7 @@
         },
         "element": "Гидро",
         "element_code": "G",
-        "weapon_type": "weopone none",
+        "weapon_type": "Стрелковое",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -987,7 +987,7 @@
         },
         "element": "Дендро",
         "element_code": "D",
-        "weapon_type": "weopone none",
+        "weapon_type": "Стрелковое",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -999,7 +999,7 @@
         },
         "element": "Гео",
         "element_code": "Ge",
-        "weapon_type": "weopone none",
+        "weapon_type": "Одноручное",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -1012,7 +1012,7 @@
         },
         "element": "Пиро",
         "element_code": "P",
-        "weapon_type": "weopone none",
+        "weapon_type": "Древковое",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -1024,7 +1024,7 @@
         },
         "element": "Анемо",
         "element_code": "A",
-        "weapon_type": "weopone none",
+        "weapon_type": "Стрелковое",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -1037,7 +1037,7 @@
         },
         "element": "Электро",
         "element_code": "E",
-        "weapon_type": "weopone none",
+        "weapon_type": "Стрелковое",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "Шабаш"
@@ -1049,7 +1049,7 @@
         },
         "element": "Электро",
         "element_code": "E",
-        "weapon_type": "weopone none",
+        "weapon_type": "Древковое",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "Нод-Край"
@@ -1061,7 +1061,7 @@
         },
         "element": "Крио",
         "element_code": "K",
-        "weapon_type": "weopone none",
+        "weapon_type": "Двуручное",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -1074,7 +1074,7 @@
         },
         "element": "Гидро",
         "element_code": "G",
-        "weapon_type": "weopone none",
+        "weapon_type": "Одноручное",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -1086,7 +1086,7 @@
         },
         "element": "Пиро",
         "element_code": "P",
-        "weapon_type": "weopone none",
+        "weapon_type": "Древковое",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -1098,7 +1098,7 @@
         },
         "element": "Анемо",
         "element_code": "A",
-        "weapon_type": "weopone none",
+        "weapon_type": "Катализатор",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -1110,7 +1110,7 @@
         },
         "element": "Гео",
         "element_code": "Ge",
-        "weapon_type": "weopone none",
+        "weapon_type": "Одноручное",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "Нод-Край"
@@ -1122,7 +1122,7 @@
         },
         "element": "Крио",
         "element_code": "K",
-        "weapon_type": "weopone none",
+        "weapon_type": "Одноручное",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -1134,7 +1134,7 @@
         },
         "element": "Анемо",
         "element_code": "A",
-        "weapon_type": "weopone none",
+        "weapon_type": "Стрелковое",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "Натлан"
@@ -1146,7 +1146,7 @@
         },
         "element": "Гео",
         "element_code": "Ge",
-        "weapon_type": "weopone none",
+        "weapon_type": "Древковое",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -1159,7 +1159,7 @@
         },
         "element": "Крио",
         "element_code": "K",
-        "weapon_type": "weopone none",
+        "weapon_type": "Двуручное",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -1171,7 +1171,7 @@
         },
         "element": "Крио",
         "element_code": "K",
-        "weapon_type": "weopone none",
+        "weapon_type": "Катализатор",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -1183,7 +1183,7 @@
         },
         "element": "Пиро",
         "element_code": "P",
-        "weapon_type": "weopone none",
+        "weapon_type": "Древковое",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -1195,7 +1195,7 @@
         },
         "element": "Гео",
         "element_code": "Ge",
-        "weapon_type": "weopone none",
+        "weapon_type": "Одноручное",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "Натлан"
@@ -1207,7 +1207,7 @@
         },
         "element": "Крио",
         "element_code": "K",
-        "weapon_type": "weopone none",
+        "weapon_type": "Древковое",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -1219,7 +1219,7 @@
         },
         "element": "Пиро",
         "element_code": "P",
-        "weapon_type": "weopone none",
+        "weapon_type": "Стрелковое",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -1231,7 +1231,7 @@
         },
         "element": "Дендро",
         "element_code": "D",
-        "weapon_type": "weopone none",
+        "weapon_type": "Древковое",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -1243,7 +1243,7 @@
         },
         "element": "Крио",
         "element_code": "K",
-        "weapon_type": "weopone none",
+        "weapon_type": "Двуручное",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -1256,7 +1256,7 @@
         },
         "element": "Крио",
         "element_code": "K",
-        "weapon_type": "weopone none",
+        "weapon_type": "Древковое",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -1268,7 +1268,7 @@
         },
         "element": "Гео",
         "element_code": "Ge",
-        "weapon_type": "weopone none",
+        "weapon_type": "Древковое",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -1281,7 +1281,7 @@
         },
         "element": "Анемо",
         "element_code": "A",
-        "weapon_type": "weopone none",
+        "weapon_type": "Стрелковое",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -1293,7 +1293,7 @@
         },
         "element": "Пиро",
         "element_code": "P",
-        "weapon_type": "weopone none",
+        "weapon_type": "Древковое",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -1305,7 +1305,7 @@
         },
         "element": "Дендро",
         "element_code": "D",
-        "weapon_type": "weopone none",
+        "weapon_type": "Древковое",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -1317,7 +1317,7 @@
         },
         "element": "Электро",
         "element_code": "E",
-        "weapon_type": "weopone none",
+        "weapon_type": "Катализатор",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
