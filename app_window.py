@@ -3,6 +3,7 @@ from helpful_funcs import read_characters_from_json, make_character_json, elemen
 from start import make_command
 from const_lists import element_codes, list_of_resonance
 import json
+import os
 from collections import Counter
 # from PIL import Image
 
@@ -61,7 +62,7 @@ def my_custom_generation_function(selected_characters, mode, target_element) -> 
 
 
 class TeamBuilderApp(ctk.CTk):
-    def __init__(self, characters_list, owned_characters):
+    def __init__(self, characters_list, owned_characters, user_data=None):
         super().__init__()
 
         self.title("Сборщик команд")
@@ -74,6 +75,7 @@ class TeamBuilderApp(ctk.CTk):
         self.owned_characters = owned_characters
         self.checkbox_vars = {}
         self.current_generated_team = [] # Для хранения данных последнего отряда
+        self.user_data = user_data or [] 
 
         # # Путь к иконкам
         # self.icons_path = os.path.join(CURRENT_DIR, "assets")
@@ -104,13 +106,102 @@ class TeamBuilderApp(ctk.CTk):
         text_area.configure(state="disabled")
 
     def open_profile(self):
+        """Продвинутое окно профиля пользователя"""
         profile_window = ctk.CTkToplevel(self)
         profile_window.title("Мой профиль")
-        profile_window.geometry("300x200")
+        profile_window.geometry("550x750")
         profile_window.attributes("-topmost", True)
         
-        ctk.CTkLabel(profile_window, text="Профиль пользователя", font=ctk.CTkFont(size=18, weight="bold")).pack(pady=20)
-        ctk.CTkLabel(profile_window, text=f"Всего персонажей: {len(self.characters_list)}\nУ вас в наличии: {len(self.owned_characters)}").pack(pady=10)
+        # 1. Никнейм (По центру, большой шрифт)
+        ctk.CTkLabel(
+            profile_window, 
+            text="Никнейм_Заглушка", 
+            font=ctk.CTkFont(size=26, weight="bold")
+        ).pack(pady=(20, 0))
+        
+        # 2. Код пользователя (Чуть меньше, тусклый)
+        ctk.CTkLabel(
+            profile_window, 
+            text="UID: 700000000", 
+            font=ctk.CTkFont(size=13), 
+            text_color="gray"
+        ).pack(pady=(0, 20))
+        
+        # 3. Количество имеющихся персонажей
+        ctk.CTkLabel(
+            profile_window, 
+            text=f"Имеющиеся персонажи: {len(self.owned_characters)}", 
+            font=ctk.CTkFont(size=16, weight="bold")
+        ).pack(pady=(0, 10))
+        
+        # 4. Мини-табличка со статистикой по стихиям
+        element_counts = {}
+        for char in self.user_data:
+            el = char.get("element", "Неизвестно")
+            element_counts[el] = element_counts.get(el, 0) + 1
+            
+        stats_frame = ctk.CTkFrame(profile_window, fg_color="transparent")
+        stats_frame.pack(fill="x", padx=40, pady=5)
+        
+        row, col = 0, 0
+        for el, count in element_counts.items():
+            label_text = f"{el} - {count} шт."
+            lbl = ctk.CTkLabel(stats_frame, text=label_text, font=ctk.CTkFont(size=13))
+            lbl.grid(row=row, column=col, padx=15, pady=2, sticky="w")
+            col += 1
+            if col > 2: # 3 колонки максимум
+                col = 0
+                row += 1
+        
+        # Центруем столбцы в табличке
+        stats_frame.grid_columnconfigure((0, 1, 2), weight=1)
+
+        # 5. Статистика по звездам (4* и 5*)
+        stars_frame = ctk.CTkFrame(profile_window, fg_color="transparent")
+        stars_frame.pack(pady=10)
+        
+        ctk.CTkLabel(
+            stars_frame, text="Персонажи 4* - N штук", font=ctk.CTkFont(size=14)
+        ).pack(side="left", padx=15)
+        ctk.CTkLabel(
+            stars_frame, text="Персонажи 5* - N штук", font=ctk.CTkFont(size=14)
+        ).pack(side="left", padx=15)
+
+        # 6. Разделитель и Заголовок для сохраненных команд
+        ctk.CTkLabel(
+            profile_window, text="Сохранённые команды:", 
+            font=ctk.CTkFont(size=18, weight="bold")
+        ).pack(pady=(15, 5), anchor="w", padx=30)
+
+        # 7. Slide bar (Scrollable Frame) для сохраненных команд
+        teams_scroll = ctk.CTkScrollableFrame(profile_window, fg_color="transparent")
+        teams_scroll.pack(fill="both", expand=True, padx=20, pady=(0, 20))
+
+        # Читаем файл с командами
+        saved_teams = []
+        with open("user_app_data.json", "r", encoding="utf-8") as f:
+            saved_teams = json.load(f)
+
+        # Отображаем команды
+        if not saved_teams:
+            ctk.CTkLabel(teams_scroll, text="У вас пока нет сохранённых команд.", text_color="gray").pack(pady=20)
+        else:
+            # Разворачиваем список, чтобы новые были сверху (по желанию)
+            for team in reversed(saved_teams):
+                team_card = ctk.CTkFrame(teams_scroll, corner_radius=10, border_width=1, border_color="#D1D1D1")
+                team_card.pack(fill="x", padx=10, pady=8)
+                
+                # Заголовок карточки (Время, режим, элемент)
+                header = f"🗓 {team.get('timestamp', 'Неизвестно')} | Режим: {team.get('mode', '-')} | Элемент: {team.get('element', '-')}"
+                ctk.CTkLabel(
+                    team_card, text=header, font=ctk.CTkFont(size=13, weight="bold"), text_color="#555555"
+                ).pack(anchor="w", padx=15, pady=(10, 5))
+                
+                # Текст команды
+                ctk.CTkLabel(
+                    team_card, text=team.get('team_raw', 'Пусто'), font=ctk.CTkFont(size=13), justify="left"
+                ).pack(anchor="w", padx=15, pady=(0, 10))
+
 
     def setup_ui(self):
         # Верхняя панель
@@ -270,12 +361,15 @@ if __name__ == "__main__":
     name_list.sort()
     
     owned_names = []
+    user_data = []
     try:
+        # Читаем полную информацию о персонажах для профиля
         with open("user_characters_data.json", "r", encoding="utf-8") as f:
             user_data = json.load(f)
             owned_names = [char["name"] for char in user_data]
     except Exception as e:
         print(f"Ошибка чтения данных пользователя: {e}")
 
-    app = TeamBuilderApp(characters_list=name_list, owned_characters=owned_names)
+    # Передаем user_data в приложение
+    app = TeamBuilderApp(characters_list=name_list, owned_characters=owned_names, user_data=user_data)
     app.mainloop()
