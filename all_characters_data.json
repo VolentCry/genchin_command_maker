@@ -132,6 +132,18 @@
         "fraction": "Натлан"
     },
     {
+        "name": "Варка",
+        "roles_and_ranks": {
+            "D": "-"
+        },
+        "element": "Анемо",
+        "element_code": "A",
+        "weapon_type": "Двуручное",
+        "special_codes": "-",
+        "persons_pluses": "+",
+        "fraction": "Шабаш"
+    },
+    {
         "name": "Венти",
         "roles_and_ranks": {
             "D": "A",
@@ -295,7 +307,7 @@
     {
         "name": "Иллуги",
         "roles_and_ranks": {
-            "S": "-"
+            "S": "A"
         },
         "element": "Гео",
         "element_code": "Ge",
@@ -1013,7 +1025,7 @@
         "element": "Пиро",
         "element_code": "P",
         "weapon_type": "Древковое",
-        "special_codes": "-",
+        "special_codes": "SiD",
         "persons_pluses": "+",
         "fraction": "-"
     },
@@ -1075,7 +1087,7 @@
         "element": "Гидро",
         "element_code": "G",
         "weapon_type": "Одноручное",
-        "special_codes": "-",
+        "special_codes": "HP",
         "persons_pluses": "+",
         "fraction": "-"
     },
@@ -1106,7 +1118,7 @@
     {
         "name": "Цзы Бай",
         "roles_and_ranks": {
-            "D": "-"
+            "D": "S+"
         },
         "element": "Гео",
         "element_code": "Ge",
@@ -1123,7 +1135,7 @@
         "element": "Крио",
         "element_code": "K",
         "weapon_type": "Одноручное",
-        "special_codes": "-",
+        "special_codes": "HP",
         "persons_pluses": "+",
         "fraction": "-"
     },
@@ -1147,7 +1159,7 @@
         "element": "Гео",
         "element_code": "Ge",
         "weapon_type": "Древковое",
-        "special_codes": "-",
+        "special_codes": "SiD",
         "persons_pluses": "+",
         "fraction": "-"
     },

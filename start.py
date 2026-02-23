@@ -139,7 +139,7 @@ def find_needed_element_damagger(element_code: str, damaggers_list: list):
 
 
 
-def make_command(mode: int, pattern: str, desired_element: str = "-") -> list[dict]:
+def make_command(mode: int, pattern: str, desired_element: str = "-") -> tuple[list]:
     """
     Это основная функция программы, которая создаёт для вас граммотную команду персонажей на основе ваших запросов
     В ней подразумеваются такие режимы: 
@@ -167,11 +167,17 @@ def make_command(mode: int, pattern: str, desired_element: str = "-") -> list[di
     if mode == 0:
         for position in pattern.split("."):
             if position == "D":
-                command.append(random.choice(damaggers_list))
+                damagger = random.choice(damaggers_list)
+                command.append(damagger)
+                command_elements.append(damagger["element_code"])
             elif position == "SD":
-                command.append(random.choice(subdamaggers_list))
+                subdamagger = random.choice(subdamaggers_list)
+                command.append(subdamagger)
+                command_elements.append(subdamagger["element_code"])
             else:
-                command.append(random.choice(supports_list))
+                support = random.choice(supports_list)
+                command.append(support)
+                command_elements.append(support["element_code"])
 
 
     # --------------------- 1. Подборка лучший из лучших --------------------- 
@@ -234,7 +240,7 @@ def make_command(mode: int, pattern: str, desired_element: str = "-") -> list[di
                     # Сборка Гео даммагера непосредственно в его урон
 
                     # Сначала проверка на Цзы Бай
-                    if character_fraction[damagger] == "Нод-Край": 
+                    if damagger["fraction"] == "Нод-Край": 
                         # Это Цзы Бай
                         required_geo_nord_karai_person = False # Прочерка на наличие гео персонажей из Нод-Края
                         required_gidro_nord_karai_person = False # Прочерка на наличие гидро персонажей из Нод-Края
@@ -316,7 +322,7 @@ def make_command(mode: int, pattern: str, desired_element: str = "-") -> list[di
                         for i in range(Max_SD):
                             subdamagger = None
                             for char in subdamaggers_list:
-                                if char["element_code"] in ["E", "G", "P", "K"]:
+                                if char["element_code"] in ["E", "G", "P", "K"] and char not in command:
                                     subdamagger = char
                                     SD += 1
 
@@ -330,7 +336,7 @@ def make_command(mode: int, pattern: str, desired_element: str = "-") -> list[di
                         for j in range(Max_S):
                             support = None
                             for char in supports_list:
-                                if char["element_code"] in ["E", "G", "P", "K"]:
+                                if char["element_code"] in ["E", "G", "P", "K"] and char not in command:
                                     support = char
                                     S += 1
                             
@@ -348,7 +354,7 @@ def make_command(mode: int, pattern: str, desired_element: str = "-") -> list[di
                             for i in range(Max_SD):
                                 subdamagger = None
                                 for char in subdamaggers_list:
-                                    if char["element_code"] in ["E", "G", "P", "K", "A"]:
+                                    if char["element_code"] in ["E", "G", "P", "K", "A"] and char not in command:
                                         subdamagger = char
                                         SD += 1
 
@@ -362,7 +368,7 @@ def make_command(mode: int, pattern: str, desired_element: str = "-") -> list[di
                             for j in range(Max_S):
                                 support = None
                                 for char in supports_list:
-                                    if char["element_code"] in ["E", "G", "P", "K", "A"]:
+                                    if char["element_code"] in ["E", "G", "P", "K", "A"] and char not in command:
                                         support = char
                                         S += 1
                                 
@@ -406,7 +412,7 @@ def make_command(mode: int, pattern: str, desired_element: str = "-") -> list[di
                     # Дамаггер из Нод-Края, значит это Флинс, под него в первую очередь СОбираем Инеффу и Коломбину,
                     # если нет их двоих, то пихаем Айно, чтобы закрыть синергию нодкраевцев до второго уровня,
                     # если и она отсутствует, то собираем просто хороших гидро и электро сабдд и саппортов
-                    if character_fraction[damagger] == "Нод-Край":
+                    if damagger["fraction"] == "Нод-Край":
                         if "Коломбина" in your_character_list and "Инеффа" in your_character_list:
                             command += "Коломбина", "Инеффа"
                             command_elements += "G", "E"
@@ -589,4 +595,4 @@ def make_command(mode: int, pattern: str, desired_element: str = "-") -> list[di
     else:
         raise ValueError("Неверное значение режима.")
 
-    return command
+    return command, command_elements

@@ -8,7 +8,7 @@ from class_patterns import Character
 
 
 
-def electro_and_gydor_subdd_or_support(Max_SD: int, subdamaggers_list: list, supports_list: list) -> list:
+def electro_and_gydor_subdd_or_support(Max_SD: int, subdamaggers_list: list, supports_list: list ) -> list:
     """
 
     """
@@ -20,32 +20,32 @@ def electro_and_gydor_subdd_or_support(Max_SD: int, subdamaggers_list: list, sup
         # Поиск подходящего гидро СабДД и электро СабДД, а после единственный слот саппорта заполнится лучшим из имеющихся саппортов
         gydro_subdamagger = None; electro_subdamagger = None
         for name in subdamaggers_list:
-            if name["element_code"] == "G" and gydro_subdamagger == None:
+            if name["element_code"] == "G" and gydro_subdamagger == None and name not in new_command_members:
                 gydro_subdamagger = name; SD += 1
-            elif name["element_code"] == "E" and electro_subdamagger == None:
+            elif name["element_code"] == "E" and electro_subdamagger == None and name not in new_command_members:
                 electro_subdamagger = name; SD += 1
         
         # Не нашлось ни гидро, ни электро СабДД, поэтому ищем саппортов этой стихии
         if gydro_subdamagger == None and electro_subdamagger == None:
             electro_suport = None; gydro_suport = None
             for name in supports_list:
-                if name["element_code"] == "G" and gydro_suport == None:
+                if name["element_code"] == "G" and gydro_suport == None and name not in new_command_members:
                     gydro_suport = name; S += 1
-                elif name["element_code"] == "E" and electro_suport == None:
+                elif name["element_code"] == "E" and electro_suport == None and name not in new_command_members:
                     electro_suport = name; S += 1
 
         # Не нашлось гидро СабДД, поэтому ищем саппорта этой стихии
         elif gydro_subdamagger == None:
             gydro_suport = None
             for name in supports_list:
-                if name["element_code"] == "G" and gydro_suport == None:
+                if name["element_code"] == "G" and gydro_suport == Non and name not in new_command_memberse:
                     gydro_suport = name; S += 1
 
         # Не нашлось электро СабДД, поэтому ищем саппорта этой стихии
         elif electro_subdamagger == None:
             electro_suport = None
             for name in supports_list:
-                if name["element_code"] == "E" and electro_suport == None:
+                if name["element_code"] == "E" and electro_suport == None and name not in new_command_members:
                     electro_suport = name; S += 1
 
         # Финальная проверка и вывод результатов

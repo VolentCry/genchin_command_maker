@@ -1,13 +1,14 @@
 import customtkinter as ctk
 from helpful_funcs import read_characters_from_json, make_character_json, element_characters_counter
 from start import make_command
-from const_lists import element_codes
+from const_lists import element_codes, list_of_resonance
 import json
+from collections import Counter
 # from PIL import Image
 
 
 
-def my_custom_generation_function(selected_characters, mode, target_element):
+def my_custom_generation_function(selected_characters, mode, target_element) -> tuple:
     """
     Сюда будет передаваться список имён выбранных персонажей.
     
@@ -43,11 +44,20 @@ def my_custom_generation_function(selected_characters, mode, target_element):
     print(f"[LOG] Выбран целевой элемент {desired_element}")
 
     # Формируем команду пользователя
-    user_command = make_command(make_mode, pattern_2, desired_element)
+    user_command, user_command_elements = make_command(make_mode, pattern_2, desired_element)
+    user_resonance = []
+    print(user_command_elements)
+
+    if len(Counter(user_command_elements)) != 4:
+        for key, value in Counter(user_command_elements).items():
+            if value >= 2:
+                user_resonance.append(list_of_resonance[key])
+    else: 
+        user_resonance.append("Элементальное сопротивление +15%, физ. сопротивление +15%.")
 
     print("[LOG] Команда сгенерированна")
     
-    return user_command
+    return user_command, user_resonance
 
 
 class TeamBuilderApp(ctk.CTk):
@@ -193,7 +203,7 @@ class TeamBuilderApp(ctk.CTk):
         current_element = self.element_menu.get()
 
         # Сохраняем результат в переменную класса для последующего сохранения в файл
-        self.current_generated_team = my_custom_generation_function(selected_chars, current_mode, current_element)
+        self.current_generated_team, self.resonance_of_current_generated_team = my_custom_generation_function(selected_chars, current_mode, current_element)
 
         self.result_textbox.configure(state="normal")
         self.result_textbox.delete("1.0", "end")
@@ -204,6 +214,11 @@ class TeamBuilderApp(ctk.CTk):
             for char in self.current_generated_team:
                 line = f"⚔️ {char.get('name')} | {char.get('element')} | {char.get('weapon_type')}\n"
                 self.result_textbox.insert("end", line)
+
+        self.result_textbox.insert("end", "- "*50 + "\n")
+        for resonance in self.resonance_of_current_generated_team:
+            line = f"* {resonance}\n"
+            self.result_textbox.insert("end", line)
 
         self.result_textbox.configure(state="disabled")
 

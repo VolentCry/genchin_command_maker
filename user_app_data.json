@@ -185,5 +185,71 @@
                 "fraction": "-"
             }
         ]
+    },
+    {
+        "timestamp": "2024-05-20 12:00",
+        "mode": "Случайный",
+        "element": "Любой",
+        "team_raw": "⚔️ Дэхья | Пиро | Двуручное\n⚔️ Венти | Анемо | Стрелковое\n⚔️ Венти | Анемо | Стрелковое\n⚔️ Дэхья | Пиро | Двуручное\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n* Пылающий огонь: Уменьшает длительность Крио эффекта на 40%. Увеличивает силу атаки на 25%.\n* Проворный ветер: Уменьшает потребление выносливости на 15%. Увеличивает скорость передвижения на 10%. Уменьшает время отката навыков на 5%.",
+        "team_data": [
+            {
+                "name": "Дэхья",
+                "roles_and_ranks": {
+                    "D": "D",
+                    "SD": "C",
+                    "S": "B"
+                },
+                "element": "Пиро",
+                "element_code": "P",
+                "weapon_type": "Двуручное",
+                "constellations": 0,
+                "special_codes": "-",
+                "persons_pluses": "+",
+                "fraction": "-"
+            },
+            {
+                "name": "Венти",
+                "roles_and_ranks": {
+                    "D": "A",
+                    "SD": "A"
+                },
+                "element": "Анемо",
+                "element_code": "A",
+                "weapon_type": "Стрелковое",
+                "constellations": 0,
+                "special_codes": "-",
+                "persons_pluses": "+",
+                "fraction": "Шабаш"
+            },
+            {
+                "name": "Венти",
+                "roles_and_ranks": {
+                    "D": "A",
+                    "SD": "A"
+                },
+                "element": "Анемо",
+                "element_code": "A",
+                "weapon_type": "Стрелковое",
+                "constellations": 0,
+                "special_codes": "-",
+                "persons_pluses": "+",
+                "fraction": "Шабаш"
+            },
+            {
+                "name": "Дэхья",
+                "roles_and_ranks": {
+                    "D": "D",
+                    "SD": "C",
+                    "S": "B"
+                },
+                "element": "Пиро",
+                "element_code": "P",
+                "weapon_type": "Двуручное",
+                "constellations": 0,
+                "special_codes": "-",
+                "persons_pluses": "+",
+                "fraction": "-"
+            }
+        ]
     }
 ]
