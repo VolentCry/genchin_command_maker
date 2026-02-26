@@ -126,5 +126,68 @@
                 "fraction": "-"
             }
         ]
+    },
+    {
+        "timestamp": "2024-05-20 12:00",
+        "mode": "Лучший из лучших",
+        "element": "Любой",
+        "team_raw": "⚔️ Вареса | Электро | Катализатор\n⚔️ Венти | Анемо | Стрелковое\n⚔️ Дэхья | Пиро | Двуручное\n⚔️ Беннет | Пиро | Одноручное\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -",
+        "team_data": [
+            {
+                "name": "Вареса",
+                "roles_and_ranks": {
+                    "D": "S"
+                },
+                "element": "Электро",
+                "element_code": "E",
+                "weapon_type": "Катализатор",
+                "constellations": 0,
+                "special_codes": "-",
+                "persons_pluses": "+",
+                "fraction": "Натлан"
+            },
+            {
+                "name": "Венти",
+                "roles_and_ranks": {
+                    "D": "A",
+                    "SD": "A"
+                },
+                "element": "Анемо",
+                "element_code": "A",
+                "weapon_type": "Стрелковое",
+                "constellations": 0,
+                "special_codes": "-",
+                "persons_pluses": "+",
+                "fraction": "Шабаш"
+            },
+            {
+                "name": "Дэхья",
+                "roles_and_ranks": {
+                    "D": "D",
+                    "SD": "C",
+                    "S": "B"
+                },
+                "element": "Пиро",
+                "element_code": "P",
+                "weapon_type": "Двуручное",
+                "constellations": 0,
+                "special_codes": "-",
+                "persons_pluses": "+",
+                "fraction": "-"
+            },
+            {
+                "name": "Беннет",
+                "roles_and_ranks": {
+                    "S": "S"
+                },
+                "element": "Пиро",
+                "element_code": "P",
+                "weapon_type": "Одноручное",
+                "constellations": 0,
+                "special_codes": "-",
+                "persons_pluses": "+",
+                "fraction": "-"
+            }
+        ]
     }
 ]

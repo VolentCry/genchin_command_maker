@@ -5,9 +5,12 @@ from const_lists import element_codes, list_of_resonance
 import json
 import os
 from collections import Counter
-# from PIL import Image
+from PIL import Image
 
-
+# Получаем путь к текущей директории скрипта
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+# Папка, где должны лежать картинки (например: character_images/Варка.png)
+IMAGES_DIR = os.path.join(CURRENT_DIR, "images\characters")
 
 def my_custom_generation_function(selected_characters, mode, target_element) -> tuple:
     """
@@ -77,18 +80,16 @@ class TeamBuilderApp(ctk.CTk):
         self.current_generated_team = [] # Для хранения данных последнего отряда
         self.user_data = user_data or [] 
 
-        # # Путь к иконкам
-        # self.icons_path = os.path.join(CURRENT_DIR, "assets")
-        # self.profile_image = self.load_icon("profile_icon.png", (20, 20))
-        # self.magic_image = self.load_icon("magic_icon.png", (24, 24))
+        # Путь к иконкам
+        self.profile_image = self.load_icon("images/icons/profile_icon.png", (20, 20))
+        self.magic_image = self.load_icon("images/icons/magic_icon.png", (24, 24))
 
         self.setup_ui()
 
-    # def load_icon(self, filename, size):
-    #     path = os.path.join(self.icons_path, filename)
-    #     if os.path.exists(path):
-    #         return ctk.CTkImage(light_image=Image.open(path), dark_image=Image.open(path), size=size)
-    #     return None
+    def load_icon(self, filename, size):
+        if os.path.exists(filename):
+            return ctk.CTkImage(light_image=Image.open(filename), dark_image=Image.open(filename), size=size)
+        return None
 
     def open_info(self):
         """Окно с инструкцией"""
@@ -232,13 +233,13 @@ class TeamBuilderApp(ctk.CTk):
         self.subtitle_label.pack(anchor="w", padx=35, pady=(0, 10))
 
         # Блок персонажей
-        self.scroll_container = ctk.CTkScrollableFrame(self, height=250, fg_color="transparent")
+        self.scroll_container = ctk.CTkScrollableFrame(self, height=400, fg_color="transparent")
         self.scroll_container.pack(fill="x", padx=30)
         
         self.grid_frame = ctk.CTkFrame(self.scroll_container, fg_color="transparent")
         self.grid_frame.pack(expand=True)
 
-        columns = 4
+        columns = 6
         for index, char_name in enumerate(self.characters_list):
             # Устанавливаем "on", если персонаж есть в файле user_characters_data
             initial_state = "on" if char_name in self.owned_characters else "off"
@@ -248,6 +249,30 @@ class TeamBuilderApp(ctk.CTk):
             # Создаем "блок" для персонажа (как на концепте)
             char_card = ctk.CTkFrame(self.grid_frame, corner_radius=8, border_width=1, border_color="#D1D1D1")
             char_card.grid(row=index // columns, column=index % columns, padx=8, pady=8, sticky="nsew")
+
+            # --- БЛОК С КАРТИНКОЙ 256x256 ---
+            image_path = os.path.join(IMAGES_DIR, f"{char_name}.png")
+            size_of_pic = 256 / 4
+            if os.path.exists(image_path):
+                try:
+                    # Загружаем картинку через PIL и масштабируем её под 256x256
+                    pil_image = Image.open(image_path)
+                    ctk_image = ctk.CTkImage(
+                        light_image=pil_image,
+                        dark_image=pil_image,
+                        size=(size_of_pic, size_of_pic)
+                    )
+                    img_label = ctk.CTkLabel(char_card, image=ctk_image, text="")
+                except Exception as e:
+                    print(f"Не удалось загрузить картинку {char_name}: {e}")
+                    img_label = ctk.CTkLabel(char_card, text="[Ошибка]", width=size_of_pic, height=size_of_pic, fg_color="#333333", corner_radius=8)
+            else:
+                # Заглушка, если картинки нет
+                img_label = ctk.CTkLabel(char_card, text="[Нет фото]", width=size_of_pic, height=size_of_pic, fg_color="#333333", text_color="white", corner_radius=8)
+            
+            # Размещаем картинку над чекбоксом
+            img_label.pack(padx=10, pady=(10, 5))
+            # --------------------------------
             
             cb = ctk.CTkCheckBox(
                 char_card, text=char_name, variable=var, 
