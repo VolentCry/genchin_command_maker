@@ -141,6 +141,18 @@ def element_characters_counter(your_characters: list) -> dict:
 
     return element_counts
 
+        
+def rarity_characters_counter(your_characters: list) -> dict:
+    """Это счётчик количество четырёх и пяти звёздочных персонажей у вас на аккаунте"""
+    four_cnt = 0
+    five_cnt = 0
+
+    for char in your_characters:
+        if char['rarity'] == 4:
+            four_cnt += 1
+        else: five_cnt += 1
+
+    return five_cnt, four_cnt
 
 def make_character_classes(name):
     """ Из многочисленных consts_lists собирает под каждого персонажа цельный класс со всеми необходимыми данными """
@@ -148,7 +160,8 @@ def make_character_classes(name):
         raw_data = json.load(file)
     for i in raw_data:
         if i["name"] == name:
-            return Character(i["name"], i["roles_and_ranks"], i["element"], i["element_code"], i["weapon_type"], 0, i["special_codes"], i["persons_pluses"], i["fraction"])
+            print(i)
+            return Character(i["name"], i["roles_and_ranks"], i["rarity"], i["element"], i["element_code"], i["weapon_type"], 0, i["special_codes"], i["persons_pluses"], i["fraction"])
 
 
 def make_character_json(json_file_name: str, char_list: list):
@@ -161,6 +174,7 @@ def make_character_json(json_file_name: str, char_list: list):
         character_dict = {
             "name": character_obj.name,
             "roles_and_ranks": character_obj.roles_and_ranks,
+            "rarity": character_obj.rarity,
             "element": character_obj.element,
             "element_code": character_obj.element_code,
             "weapon_type": character_obj.weapon_type,
@@ -197,3 +211,14 @@ def read_characters_from_json(json_name: str) -> list[list]:
 
 # make_character_json("user_characters_data.json", your_character_list)
 # make_character_json("all_characters_data.json", all_characters_names)
+
+# raw_data = None
+# name = []
+# with open("user_characters_data.json", 'r', encoding='utf-8') as file:
+#     raw_data = json.load(file)
+
+# for i in raw_data:
+#     name.append(i["name"])
+
+
+# make_character_json("user_characters_data.json", name)

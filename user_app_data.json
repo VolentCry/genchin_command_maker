@@ -189,5 +189,69 @@
                 "fraction": "-"
             }
         ]
+    },
+    {
+        "timestamp": "2024-05-20 12:00",
+        "mode": "Профи",
+        "element": "Пиро",
+        "team_raw": "⚔️ Мавуика | Пиро | Двуручное\n⚔️ Коломбина | Гидро | Катализатор\n⚔️ Лаума | Дендро | Катализатор\n⚔️ Фурина | Гидро | Одноручное\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n* Успокаивающая вода: Снижена длительность Пиро эффета на 40%. Повышает макс. HP на 25%",
+        "team_data": [
+            {
+                "name": "Мавуика",
+                "roles_and_ranks": {
+                    "D": "S+",
+                    "SD": "S+"
+                },
+                "element": "Пиро",
+                "element_code": "P",
+                "weapon_type": "Двуручное",
+                "constellations": 0,
+                "special_codes": "-",
+                "persons_pluses": "+",
+                "fraction": "Натлан"
+            },
+            {
+                "name": "Коломбина",
+                "roles_and_ranks": {
+                    "SD": "S+",
+                    "S": "S+"
+                },
+                "element": "Гидро",
+                "element_code": "G",
+                "weapon_type": "Катализатор",
+                "constellations": 0,
+                "special_codes": "-",
+                "persons_pluses": "+",
+                "fraction": "Нод-Край"
+            },
+            {
+                "name": "Лаума",
+                "roles_and_ranks": {
+                    "SD": "S",
+                    "S": "+"
+                },
+                "element": "Дендро",
+                "element_code": "D",
+                "weapon_type": "Катализатор",
+                "constellations": 0,
+                "special_codes": "-",
+                "persons_pluses": "+",
+                "fraction": "Нод-Край"
+            },
+            {
+                "name": "Фурина",
+                "roles_and_ranks": {
+                    "SD": "S+",
+                    "S": "S+"
+                },
+                "element": "Гидро",
+                "element_code": "G",
+                "weapon_type": "Одноручное",
+                "constellations": 0,
+                "special_codes": "HP",
+                "persons_pluses": "+",
+                "fraction": "-"
+            }
+        ]
     }
 ]

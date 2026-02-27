@@ -1,5 +1,5 @@
 import customtkinter as ctk
-from helpful_funcs import read_characters_from_json, make_character_json, element_characters_counter
+from helpful_funcs import read_characters_from_json, make_character_json, element_characters_counter, rarity_characters_counter
 from start import make_command
 from const_lists import element_codes, list_of_resonance
 import json
@@ -160,12 +160,16 @@ class TeamBuilderApp(ctk.CTk):
         # 5. Статистика по звездам (4* и 5*)
         stars_frame = ctk.CTkFrame(profile_window, fg_color="transparent")
         stars_frame.pack(pady=10)
+        four_starts_characters = 0
+        five_starts_characters = 0
+
+        four_starts_characters, five_starts_characters = rarity_characters_counter(self.user_data)
         
         ctk.CTkLabel(
-            stars_frame, text="Персонажи 4* - N штук", font=ctk.CTkFont(size=14)
+            stars_frame, text=f"Персонажи 4⭐️ - {four_starts_characters} штук", font=ctk.CTkFont(size=14)
         ).pack(side="left", padx=15)
         ctk.CTkLabel(
-            stars_frame, text="Персонажи 5* - N штук", font=ctk.CTkFont(size=14)
+            stars_frame, text=f"Персонажи 5⭐️ - {five_starts_characters} штук", font=ctk.CTkFont(size=14)
         ).pack(side="left", padx=15)
 
         # 6. Разделитель и Заголовок для сохраненных команд

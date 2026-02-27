@@ -3,9 +3,10 @@ from const_lists import *
 
 class Character:
     """ Объект персонажа """
-    def __init__(self, name, roles_and_ranks, element, element_code, weapon_type, constellations, special_codes, persons_pluses, fraction):
+    def __init__(self, name, roles_and_ranks, rarity, element, element_code, weapon_type, constellations, special_codes, persons_pluses, fraction):
         self.name = name
         self.roles_and_ranks = roles_and_ranks
+        self.rarity = rarity
         self.element = element
         self.element_code = element_code
         self.weapon_type = weapon_type
