@@ -38,7 +38,7 @@ def electro_and_gydor_subdd_or_support(Max_SD: int, subdamaggers_list: list, sup
         elif gydro_subdamagger == None:
             gydro_suport = None
             for name in supports_list:
-                if name["element_code"] == "G" and gydro_suport == Non and name not in new_command_memberse:
+                if name["element_code"] == "G" and gydro_suport == None and name not in new_command_members:
                     gydro_suport = name; S += 1
 
         # Не нашлось электро СабДД, поэтому ищем саппорта этой стихии
@@ -160,7 +160,6 @@ def make_character_classes(name):
         raw_data = json.load(file)
     for i in raw_data:
         if i["name"] == name:
-            print(i)
             return Character(i["name"], i["roles_and_ranks"], i["rarity"], i["element"], i["element_code"], i["weapon_type"], 0, i["special_codes"], i["persons_pluses"], i["fraction"])
 
 

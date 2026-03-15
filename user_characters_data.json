@@ -554,6 +554,20 @@
         "fraction": "Натлна"
     },
     {
+        "name": "Навия",
+        "roles_and_ranks": {
+            "D": "A"
+        },
+        "rarity": 5,
+        "element": "Гео",
+        "element_code": "Ge",
+        "weapon_type": "Двуручное",
+        "constellations": 0,
+        "special_codes": "-",
+        "persons_pluses": "+",
+        "fraction": "-"
+    },
+    {
         "name": "Нахида",
         "roles_and_ranks": {
             "SD": "S"

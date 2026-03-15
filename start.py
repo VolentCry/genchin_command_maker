@@ -11,7 +11,7 @@ def get_rank_for_role(character: str, role: str) -> int:
     Если персонаж не имеет указанной роли, возвращает 6 (худший ранг)
     """
     # Словарь для преобразования ранга в число
-    rangs = {"S+": 0, "S": 1, "A": 2, "B": 3, "C": 4, "D": 5, "-": 999}
+    rangs = {"S+": 0, "S": 1, "A": 2, "B": 3, "C": 4, "D": 5, "-": 6}
     
     # Получаем роли персонажа
     char_roles = character_roles[character]
@@ -47,6 +47,17 @@ def get_rank_for_role(character: str, role: str) -> int:
             rank_str = char_rangs
         
         return rangs[rank_str]
+
+def character_rank_to_int(rank: str) -> int:
+    """
+    Возвращает числовой ранг персонажа
+    0 - S+, 1 - S, 2 - A, 3 - B, 4 - C, 5 - D
+    Если персонаж не имеет указанной роли, возвращает 6 (худший ранг)
+    """
+    # Словарь для преобразования ранга в число
+    rangs = {"S+": 0, "S": 1, "A": 2, "B": 3, "C": 4, "D": 5, "-": 6}
+    
+    return rangs[rank]
 
 def progressive_sort(character_list: list, role: str) -> list:
     """
@@ -297,7 +308,7 @@ def make_command(mode: int, pattern: str, desired_element: str = "-") -> tuple[l
                                     if S < Max_S:
                                         command.append(supports_list[S:][0]); S += 1
                                         
-                    elif damagger == "Итто": # Теперь обрабатываем Итто
+                    elif damagger["name"] == "Итто": # Теперь обрабатываем Итто
                         tiori, albedo = False, False # флаги для описка АЛьбедо и Тиори
                         for char_sub_dd_for_itto in subdamaggers_list:
                             if char_sub_dd_for_itto == "Тиори": tiori = True
@@ -309,8 +320,150 @@ def make_command(mode: int, pattern: str, desired_element: str = "-") -> tuple[l
                             command.append("Тиори" if tiori else "Альбедо")
                             command_elements.append("Ge")
                             
-                    elif damagger == "Навия": # Теперь обрабатываем Навию
-                        pass
+                    elif damagger["name"] == "Навия": # Теперь обрабатываем Навию
+                        print("У нас Навия")
+                        # Проверяем, есть ли Шилонен
+                        shilonen_search = False
+                        for char in supports_list:
+                            if char["name"] == "Шилонен":
+                                shilonen_search = True
+                                command.append("Шилонен")
+                                command_elements.append("Ge")
+                                S += 1
+                                break
+                        
+                        # Ищем лучших Гидро, Крио, Электро и Пиро сабДД для закрытия реакци Кристалл 
+                        best_subDD_for_Navia = {"P": None, "G": None, "E": None, "K": None}
+                        best_subDD_for_Navia_rang = {"P": 6, "G": 6, "E": 6, "K": 6}
+                        for char in subdamaggers_list:
+                            if char["element_code"] == "E":
+                                if type(char['roles_and_ranks']) == str:
+                                    if character_rank_to_int(char['roles_and_ranks']) < best_subDD_for_Navia_rang["E"]:
+                                        best_subDD_for_Navia['E'] = char
+                                        best_subDD_for_Navia_rang['E'] = character_rank_to_int(char['roles_and_ranks'])
+                                else:
+                                    if character_rank_to_int(char['roles_and_ranks']['SD']) < best_subDD_for_Navia_rang["E"]:
+                                        best_subDD_for_Navia['E'] = char
+                                        best_subDD_for_Navia_rang['E'] = character_rank_to_int(char['roles_and_ranks']['SD'])
+                            
+                            elif char["element_code"] == "G":
+                                if type(char['roles_and_ranks']) == str:
+                                    if character_rank_to_int(char['roles_and_ranks']) < best_subDD_for_Navia_rang["G"]:
+                                        best_subDD_for_Navia['G'] = char
+                                        best_subDD_for_Navia_rang['G'] = character_rank_to_int(char['roles_and_ranks'])
+                                else:
+                                    if character_rank_to_int(char['roles_and_ranks']['SD']) < best_subDD_for_Navia_rang["G"]:
+                                        best_subDD_for_Navia['G'] = char
+                                        best_subDD_for_Navia_rang['G'] = character_rank_to_int(char['roles_and_ranks']['SD'])
+                                
+                            elif char["element_code"] == "P":
+                                if type(char['roles_and_ranks']) == str:
+                                    if character_rank_to_int(char['roles_and_ranks']) < best_subDD_for_Navia_rang["P"]:
+                                        best_subDD_for_Navia['P'] = char
+                                        best_subDD_for_Navia_rang['P'] = character_rank_to_int(char['roles_and_ranks'])
+                                else:
+                                    if character_rank_to_int(char['roles_and_ranks']['SD']) < best_subDD_for_Navia_rang["P"]:
+                                        best_subDD_for_Navia['P'] = char
+                                        best_subDD_for_Navia_rang['P'] = character_rank_to_int(char['roles_and_ranks']['SD'])
+                                
+                            elif char["element_code"] == "K":
+                                if type(char['roles_and_ranks']) == str:
+                                    if character_rank_to_int(char['roles_and_ranks']) < best_subDD_for_Navia_rang["K"]:
+                                        best_subDD_for_Navia['K'] = char
+                                        best_subDD_for_Navia_rang['K'] = character_rank_to_int(char['roles_and_ranks'])
+                                else:
+                                    if character_rank_to_int(char['roles_and_ranks']['SD']) < best_subDD_for_Navia_rang["K"]:
+                                        best_subDD_for_Navia['K'] = char
+                                        best_subDD_for_Navia_rang['K'] = character_rank_to_int(char['roles_and_ranks']['SD'])
+                                
+                        # Выбираем лучшего по рангу 
+                        for character in best_subDD_for_Navia.values():
+                            top_character = None
+                            top_character_rang = 6
+                            if type(character['roles_and_ranks']) == str:
+                                if character_rank_to_int(character['roles_and_ranks']) < top_character_rang:
+                                    top_character = char
+                                    top_character_rang = character_rank_to_int(character['roles_and_ranks'])
+                            else: 
+                                if character_rank_to_int(character['roles_and_ranks']['SD']) < top_character_rang:
+                                    top_character = char
+                                    top_character_rang = character_rank_to_int(character['roles_and_ranks']['SD'])
+
+                        #Добавляем его в команду 
+                        command.append(top_character['name'])
+                        command_elements.append(top_character['element_code'])
+                        SD += 1
+
+                        # Если у нас сабДД, которого мы искали выше имеет пиро стихию, то мы в команду ищем Беннета
+                        if top_character['element_code'] == "P":
+                            Bennet = False
+                            for char in zip(supports_list, subdamaggers_list):
+                                if char['name'] == "Беннет":
+                                    Bennet = True
+                                    if Max_SD == SD:
+                                        S += 1
+                                    elif Max_S == S:
+                                        SD += 1
+                                    break
+                            
+                            if Bennet: # Добавляем Беннета в команду
+                                command.append("Беннет")
+                                command_elements.append("P")
+                            else: # Так как беннета не нашли добавляем самого лучшего пиро сабДД или саппорта
+                                add_character = None
+                                add_character_rang = 6
+                                for char in zip(supports_list, subdamaggers_list):
+                                    if char['element_code'] == "P":
+                                        if type(char['roles_and_ranks']) == str:
+                                            if character_rank_to_int(char['roles_and_ranks']) < add_character_rang:
+                                                add_character = char
+                                                add_character_rang = character_rank_to_int(char['roles_and_ranks'])
+                                        else: 
+                                            if character_rank_to_int(char['roles_and_ranks']['SD']) < add_character_rang:
+                                                add_character = char
+                                                add_character_rang = character_rank_to_int(char['roles_and_ranks']['SD'])
+                                
+                                # Добавляем в команду выбранного дополнительного пиро персонажа
+                                command.append(add_character['name'])
+                                command_elements.append(add_character['element_code'])
+
+                        # Ищем сабДД/саппорта той стихии, которая указана в переменной top_character['element_code']
+                        else:
+                            add_character = None
+                            add_character_rang = 6
+                            for char in zip(supports_list, subdamaggers_list):
+                                if char['element_code'] == top_character['element_code']:
+                                    if type(char['roles_and_ranks']) == str:
+                                        if character_rank_to_int(char['roles_and_ranks']) < add_character_rang:
+                                            add_character = char
+                                            add_character_rang = character_rank_to_int(char['roles_and_ranks'])
+                                    else: 
+                                        if character_rank_to_int(char['roles_and_ranks']['SD']) < add_character_rang:
+                                            add_character = char
+                                            add_character_rang = character_rank_to_int(char['roles_and_ranks']['SD'])
+                            
+                            # Добавляем в команду выбранного дополнительного персонажа
+                            command.append(add_character['name'])
+                            command_elements.append(add_character['element_code'])
+                        
+                        if len(command) == 3:
+                            add_character = None
+                            add_character_rang = 6
+                            for char in zip(supports_list, subdamaggers_list):
+                                if char['element_code'] == "Ge":
+                                    if type(char['roles_and_ranks']) == str:
+                                        if character_rank_to_int(char['roles_and_ranks']) < add_character_rang:
+                                            add_character = char
+                                            add_character_rang = character_rank_to_int(char['roles_and_ranks'])
+                                    else: 
+                                        if character_rank_to_int(char['roles_and_ranks']['SD']) < add_character_rang:
+                                            add_character = char
+                                            add_character_rang = character_rank_to_int(char['roles_and_ranks']['SD'])
+                            
+                            # Добавляем в команду выбранного дополнительного персонажа
+                            command.append(add_character['name'])
+                            command_elements.append(add_character['Ge'])
+
 
                 # ********* Дамаггер - АНЕМО *********
                 elif damagger["element_code"] == "A":

@@ -14,13 +14,8 @@ IMAGES_DIR = os.path.join(CURRENT_DIR, "images\characters")
 
 def my_custom_generation_function(selected_characters, mode, target_element) -> tuple:
     """
-    Сюда будет передаваться список имён выбранных персонажей.
-    
-    Заглушка
     """
-    print(f"[LOG] Персонажи: {selected_characters}")
-    print(f"[LOG] Режим: {mode}")
-    print(f"[LOG] Целевой элемент: {target_element}")
+    print(f"[LOG] Режим: {mode}. Целевой элемент: {target_element}")
 
     # Формируем новый JSON-файл с персонажами пользователя
     make_character_json("user_characters_data.json", selected_characters)
@@ -100,10 +95,18 @@ class TeamBuilderApp(ctk.CTk):
         
         label = ctk.CTkLabel(info_window, text="Как пользоваться программой", font=ctk.CTkFont(size=18, weight="bold"))
         label.pack(pady=15)
+
+        text_of_instruction = """
+        При первом запуске программы пожалуйста укажите всех, имеющихся у вас персонажей на данный момент на аккаунте. После этого данные сохранятся в файл на вашем ПК и по новой указывать не придётся.
+        \n
+        Для того чтобы программа выдала вам желаемый результат нужно выбрать необходимые характеристики. На данный момент существует два параметра настройки: 
+        \n1. Режим генерации
+        \n2. Целевой элемент
+        """
         
         text_area = ctk.CTkTextbox(info_window, width=350, height=180)
         text_area.pack(padx=20, pady=10)
-        text_area.insert("0.0", "Здесь будет ваша инструкция...\n\n1. Выберите персонажей.\n2. Выберите режим.\n3. Нажмите генерацию.\n4. Сохраните понравившийся отряд.")
+        text_area.insert("0.0", text_of_instruction )
         text_area.configure(state="disabled")
 
     def open_profile(self):
@@ -243,7 +246,7 @@ class TeamBuilderApp(ctk.CTk):
         self.grid_frame = ctk.CTkFrame(self.scroll_container, fg_color="transparent")
         self.grid_frame.pack(expand=True)
 
-        columns = 6
+        columns = 9
         for index, char_name in enumerate(self.characters_list):
             # Устанавливаем "on", если персонаж есть в файле user_characters_data
             initial_state = "on" if char_name in self.owned_characters else "off"
@@ -301,14 +304,13 @@ class TeamBuilderApp(ctk.CTk):
             self, text="Начать генерацию", compound="left",
             font=ctk.CTkFont(size=16, weight="bold"), height=45, command=self.on_generate_click
         )
-        self.generate_btn.pack(pady=10)
+        self.generate_btn.pack(pady=0)
 
-        # Результат
-        ctk.CTkLabel(self, text="Результат:", font=ctk.CTkFont(size=16, weight="bold")).pack(pady=(10, 5))
-
-        self.result_textbox = ctk.CTkTextbox(self, font=ctk.CTkFont(size=14), corner_radius=10, height=150)
-        self.result_textbox.pack(fill="x", padx=30, pady=(0, 10))
-        self.result_textbox.configure(state="disabled")
+        # --- СЕКЦИЯ РЕЗУЛЬТАТА ---
+        ctk.CTkLabel(self, text="Ваш отряд:", font=ctk.CTkFont(size=18, weight="bold")).pack(pady=(10, 5))
+        
+        self.result_container = ctk.CTkFrame(self, fg_color="transparent")
+        self.result_container.pack(fill="x", padx=30, pady=10)
 
         # Кнопка сохранения (внизу)
         self.save_btn = ctk.CTkButton(
@@ -317,68 +319,100 @@ class TeamBuilderApp(ctk.CTk):
         )
         self.save_btn.pack(anchor="w", padx=30, pady=(0, 20))
 
-    def on_generate_click(self):
-        selected_chars = [char for char, var in self.checkbox_vars.items() if var.get() == "on"]
-        current_mode = self.mode_menu.get()
-        current_element = self.element_menu.get()
+    def create_character_card(self, parent, char_info):
+        """Создает визуальную карточку для одного персонажа отряда."""
+        card = ctk.CTkFrame(parent, corner_radius=10, border_width=1, border_color="#555555")
+        card.pack(side="left", expand=True, padx=10, fill="both")
 
-        # Сохраняем результат в переменную класса для последующего сохранения в файл
-        self.current_generated_team, self.resonance_of_current_generated_team = my_custom_generation_function(selected_chars, current_mode, current_element)
-
-        self.result_textbox.configure(state="normal")
-        self.result_textbox.delete("1.0", "end")
-
-        if not self.current_generated_team:
-            self.result_textbox.insert("end", "Команда не найдена.")
+        # Получаем данные
+        if isinstance(char_info, dict):
+            name = char_info.get('name', 'Неизвестно')
+            weapon = char_info.get('weapon_type', 'Неизвестно')
         else:
+            name = char_info
+            weapon = "Данные отсутствуют"
+
+        # Загрузка картинки
+        img_path = os.path.join(IMAGES_DIR, f"{name}.png")
+        img_size = 120 / 2
+        if os.path.exists(img_path):
+            try:
+                pil_img = Image.open(img_path)
+                ctk_img = ctk.CTkImage(light_image=pil_img, dark_image=pil_img, size=(img_size, img_size))
+                img_label = ctk.CTkLabel(card, image=ctk_img, text="")
+            except:
+                img_label = ctk.CTkLabel(card, text="[Ошибка]", width=img_size, height=img_size)
+        else:
+            img_label = ctk.CTkLabel(card, text="[Нет фото]", width=img_size, height=img_size, fg_color="#333333", corner_radius=5)
+        
+        img_label.pack(pady=(10, 5), padx=10)
+
+        # Имя
+        name_label = ctk.CTkLabel(card, text=name, font=ctk.CTkFont(size=14, weight="bold"))
+        name_label.pack()
+
+        # Оружие
+        weapon_label = ctk.CTkLabel(card, text=weapon, font=ctk.CTkFont(size=11), text_color="gray")
+        weapon_label.pack(pady=(0, 10))
+
+        return card
+    
+    def on_generate_click(self):
+        # Очистка предыдущего результата
+        for widget in self.result_container.winfo_children():
+            widget.destroy()
+
+        selected_chars = [char for char, var in self.checkbox_vars.items() if var.get() == "on"]
+        
+        try:
+            res = my_custom_generation_function(selected_chars, self.mode_menu.get(), self.element_menu.get())
+            # make_command возвращает (команда, доп_инфо), берем только список персонажей
+            self.current_generated_team = res[0] if isinstance(res, tuple) else res
+            
+            if not self.current_generated_team:
+                ctk.CTkLabel(self.result_container, text="Не удалось собрать подходящий отряд.", text_color="red").pack(pady=20)
+                self.save_btn.configure(state="disabled")
+                return
+
+            # Отрисовка карточек
             for char in self.current_generated_team:
-                line = f"⚔️ {char.get('name')} | {char.get('element')} | {char.get('weapon_type')}\n"
-                self.result_textbox.insert("end", line)
+                self.create_character_card(self.result_container, char)
+            
+            self.save_btn.configure(state="normal")
 
-        self.result_textbox.insert("end", "- "*50 + "\n")
-        for resonance in self.resonance_of_current_generated_team:
-            line = f"* {resonance}\n"
-            self.result_textbox.insert("end", line)
+        except Exception as e:
+            ctk.CTkLabel(self.result_container, text=f"Ошибка: {str(e)}", text_color="red").pack(pady=20)
+            self.save_btn.configure(state="disabled")
 
-        self.result_textbox.configure(state="disabled")
 
     def on_save_team_click(self):
-        """Функция сохранения текущего отряда в JSON"""
-        # 1. Получаем текст из результата
-        result_text = self.result_textbox.get("1.0", "end-1c").strip()
-        
-        if not result_text or "Команда не найдена" in result_text:
-            print("[LOG] Нечего сохранять")
+        if not self.current_generated_team:
             return
-
-        # Путь к файлу сохранений
-        save_path = "user_app_data.json"
         
-        # Подготавливаем данные для сохранения
+        save_path = "user_app_data.json"
+        # Собираем текстовое описание для истории
+        team_names = [c.get('name') if isinstance(c, dict) else str(c) for c in self.current_generated_team]
+        team_str = " | ".join(team_names)
+        
         new_entry = {
-            "timestamp": "2024-05-20 12:00", # Тут можно добавить реальное время
             "mode": self.mode_menu.get(),
             "element": self.element_menu.get(),
-            "team_raw": result_text,
-            "team_data": self.current_generated_team # Сохраняем структурированные данные
+            "team_raw": team_str,
+            "team_data": self.current_generated_team 
         }
 
-        # 2. Читаем существующие данные
         data = []
-        try:
-            with open(save_path, "r", encoding="utf-8") as f:
-                data = json.load(f)
-        except: data = []
+        if os.path.exists(save_path):
+            try:
+                with open(save_path, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+            except: pass
 
-        # 3. Добавляем и записываем
         data.append(new_entry)
-        try:
-            with open(save_path, "w", encoding="utf-8") as f:
-                json.dump(data, f, ensure_ascii=False, indent=4)
-            print(f"[LOG] Отряд успешно сохранен в {save_path}")
-            # Здесь можно добавить уведомление пользователю в UI
-        except Exception as e:
-            print(f"[LOG] Ошибка сохранения: {e}")
+        with open(save_path, "w", encoding="utf-8") as f:
+            json.dump(data, f, ensure_ascii=False, indent=4)
+        
+        print("[LOG] Отряд сохранен")
 
 
 if __name__ == "__main__":
