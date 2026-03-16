@@ -1,6 +1,16 @@
 from const_lists import *
 from helpful_funcs import *
 import random
+import logging
+import traceback
+
+# Настраиваем запись логов в файл app_errors.log
+logging.basicConfig(
+    filename="app_errors.log", 
+    level=logging.DEBUG,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    encoding='utf-8' # Важно для кириллицы в логах
+)
 
 
 # ------------------------- Необходимые функции -------------------------
@@ -171,6 +181,7 @@ def make_command(mode: int, pattern: str, desired_element: str = "-") -> tuple[l
     supports_list = progressive_sort(supports_list, "S")
 
     if len(your_character_list) < 4: 
+        logging.error("Произошла ошибка:\n%s", traceback.format_exc())
         raise ValueError("Невозможно составить команду, у вас меньше 4-ёх персонажей")
 
 
