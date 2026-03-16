@@ -4,12 +4,12 @@ import random
 import logging
 import traceback
 
-# Настраиваем запись логов в файл app_errors.log
+# Настраиваем запись логов в файл app.log
 logging.basicConfig(
-    filename="app_errors.log", 
+    filename="app.log", 
     level=logging.DEBUG,
     format='%(asctime)s - %(levelname)s - %(message)s',
-    encoding='utf-8' # Важно для кириллицы в логах
+    encoding='utf-8' 
 )
 
 
@@ -169,19 +169,23 @@ def make_command(mode: int, pattern: str, desired_element: str = "-") -> tuple[l
     • 2 - сборка пачки посредством сложных алгоритмов для достижения лучшего результата
     • 3 - сборка моноэлементальной пачик 
     """
+    logging.debug("Алгоритм запущен.")
+
+    logging.info(f"Номер выбранного режима генерации - {mode}. Шаблон генерации - {pattern}. Целевой элемент - {desired_element}")
+
     command, command_elements = [], []
     Max_D = pattern.split(".").count("D"); Max_SD = pattern.split(".").count("SD"); Max_S = pattern.split(".").count("S")
     D = 0; SD = 0; S = 0
 
     damaggers_list, subdamaggers_list, supports_list = read_characters_from_json("user_characters_data.json")
 
-    # СОРТИРУЕМ списки по рангу для каждой роли
+    # Сортируем списки по рангу для каждой роли
     damaggers_list = progressive_sort(damaggers_list, "D")
     subdamaggers_list = progressive_sort(subdamaggers_list, "SD")
     supports_list = progressive_sort(supports_list, "S")
 
     if len(your_character_list) < 4: 
-        logging.error("Произошла ошибка:\n%s", traceback.format_exc())
+        logging.error("ValueError: Невозможно составить команду, у вас меньше 4-ёх персонажей")
         raise ValueError("Невозможно составить команду, у вас меньше 4-ёх персонажей")
 
 
@@ -332,7 +336,6 @@ def make_command(mode: int, pattern: str, desired_element: str = "-") -> tuple[l
                             command_elements.append("Ge")
                             
                     elif damagger["name"] == "Навия": # Теперь обрабатываем Навию
-                        print("У нас Навия")
                         # Проверяем, есть ли Шилонен
                         shilonen_search = False
                         for char in supports_list:
@@ -757,6 +760,7 @@ def make_command(mode: int, pattern: str, desired_element: str = "-") -> tuple[l
 
     # Пользователь указывает невероное (не существующее) значение режима
     else:
+        logging.error("ValueError: Неверное значение режима.")
         raise ValueError("Неверное значение режима.")
 
     return command, command_elements

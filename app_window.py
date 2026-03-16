@@ -6,20 +6,45 @@ import json
 import os
 from collections import Counter
 from PIL import Image
+import logging
+import traceback
+import sys
+import os
 
 # Получаем путь к текущей директории скрипта
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
-# Папка, где должны лежать картинки (например: character_images/Варка.png)
+# Папка, где должны лежать картинки
 IMAGES_DIR = os.path.join(CURRENT_DIR, "images\characters")
+
+
+# Настраиваем запись логов в файл app.log
+logging.basicConfig(
+    filename="app.log", 
+    level=logging.DEBUG,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    encoding='utf-8' 
+)
+
+
+def resource_path(relative_path):
+    """ Получает абсолютный путь к ресурсу, работает и для dev, и для PyInstaller """
+    try:
+        # PyInstaller создает временную папку _MEIPASS и хранит путь в sys._MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        # Если запускаем просто через Python
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
 
 def my_custom_generation_function(selected_characters, mode, target_element) -> tuple:
     """
     """
-    print(f"[LOG] Режим: {mode}. Целевой элемент: {target_element}")
 
     # Формируем новый JSON-файл с персонажами пользователя
-    make_character_json("user_characters_data.json", selected_characters)
-    print("[LOG] Новый JSON-файл создан")
+    make_character_json(resource_path("user_characters_data.json"), selected_characters)
+    logging.debug("Новый JSON-файл создан")
+    
 
     pattern_1 = "D.SD.S.S"
     pattern_2 = "D.SD.SD.S"
@@ -30,7 +55,6 @@ def my_custom_generation_function(selected_characters, mode, target_element) -> 
         case "Лучший из лучших": make_mode = 1
         case "Профи": make_mode = 2
         case "Моноэлемент": make_mode = 3
-    print(f"[LOG] Режиму генерации присвоен номер {make_mode}")
 
     # Определяем желаемый элемент дамаггера
     desired_element = "-"
@@ -38,14 +62,13 @@ def my_custom_generation_function(selected_characters, mode, target_element) -> 
     if target_element != "Любой":
         desired_element = element_codes[target_element]
         if element_characters_counter(selected_characters)[desired_element] < 4:
+            logging.error("ValueError: У вас недостаточно персонажей данной стихии.")
             raise ValueError("У вас недостаточно персонажей данной стихии.")
     
-    print(f"[LOG] Выбран целевой элемент {desired_element}")
 
     # Формируем команду пользователя
     user_command, user_command_elements = make_command(make_mode, pattern_2, desired_element)
     user_resonance = []
-    print(user_command_elements)
 
     if len(Counter(user_command_elements)) != 4:
         for key, value in Counter(user_command_elements).items():
@@ -54,7 +77,7 @@ def my_custom_generation_function(selected_characters, mode, target_element) -> 
     else: 
         user_resonance.append("Элементальное сопротивление +15%, физ. сопротивление +15%.")
 
-    print("[LOG] Команда сгенерированна")
+    logging.info("Команда сгенерированна.")
     
     return user_command, user_resonance
 
@@ -116,14 +139,14 @@ class TeamBuilderApp(ctk.CTk):
         profile_window.geometry("550x750")
         profile_window.attributes("-topmost", True)
         
-        # 1. Никнейм (По центру, большой шрифт)
+        # 1. Никнейм
         ctk.CTkLabel(
             profile_window, 
             text="Никнейм_Заглушка", 
             font=ctk.CTkFont(size=26, weight="bold")
         ).pack(pady=(20, 0))
         
-        # 2. Код пользователя (Чуть меньше, тусклый)
+        # 2. Код пользователя
         ctk.CTkLabel(
             profile_window, 
             text="UID: 700000000", 
@@ -187,7 +210,7 @@ class TeamBuilderApp(ctk.CTk):
 
         # Читаем файл с командами
         saved_teams = []
-        with open("user_app_data.json", "r", encoding="utf-8") as f:
+        with open(resource_path("user_app_data.json"), "r", encoding="utf-8") as f:
             saved_teams = json.load(f)
 
         # Отображаем команды
@@ -271,7 +294,7 @@ class TeamBuilderApp(ctk.CTk):
                     )
                     img_label = ctk.CTkLabel(char_card, image=ctk_image, text="")
                 except Exception as e:
-                    print(f"Не удалось загрузить картинку {char_name}: {e}")
+                    logging.warning(f"Не удалось загрузить картинку {char_name}: {e}")
                     img_label = ctk.CTkLabel(char_card, text="[Ошибка]", width=size_of_pic, height=size_of_pic, fg_color="#333333", corner_radius=8)
             else:
                 # Заглушка, если картинки нет
@@ -389,7 +412,7 @@ class TeamBuilderApp(ctk.CTk):
         if not self.current_generated_team:
             return
         
-        save_path = "user_app_data.json"
+        save_path = resource_path("user_app_data.json")
         # Собираем текстовое описание для истории
         team_names = [c.get('name') if isinstance(c, dict) else str(c) for c in self.current_generated_team]
         team_str = " | ".join(team_names)
@@ -412,12 +435,11 @@ class TeamBuilderApp(ctk.CTk):
         with open(save_path, "w", encoding="utf-8") as f:
             json.dump(data, f, ensure_ascii=False, indent=4)
         
-        print("[LOG] Отряд сохранен")
-
+        logging.debug("Отряд сохранен")
 
 if __name__ == "__main__":
     name_list = []
-    for x in read_characters_from_json("all_characters_data.json"):
+    for x in read_characters_from_json(resource_path("all_characters_data.json")):
         for y in x:
             name_list.append(y["name"])
     name_list = list(set(name_list))
@@ -427,11 +449,12 @@ if __name__ == "__main__":
     user_data = []
     try:
         # Читаем полную информацию о персонажах для профиля
-        with open("user_characters_data.json", "r", encoding="utf-8") as f:
+        with open(resource_path("user_characters_data.json"), "r", encoding="utf-8") as f:
             user_data = json.load(f)
             owned_names = [char["name"] for char in user_data]
-    except Exception as e:
-        print(f"Ошибка чтения данных пользователя: {e}")
+    except Exception:
+        logging.error("Ошибка чтения данных пользователя: \n%s", traceback.format_exc())
+        
 
     # Передаем user_data в приложение
     app = TeamBuilderApp(characters_list=name_list, owned_characters=owned_names, user_data=user_data)
