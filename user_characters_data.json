@@ -481,6 +481,20 @@
         "fraction": "-"
     },
     {
+        "name": "Линнея",
+        "roles_and_ranks": {
+            "S": "-"
+        },
+        "rarity": 5,
+        "element": "Гео",
+        "element_code": "Ge",
+        "weapon_type": "Стрелковое",
+        "constellations": 0,
+        "special_codes": "-",
+        "persons_pluses": "+",
+        "fraction": "Нод-Край"
+    },
+    {
         "name": "Мавуика",
         "roles_and_ranks": {
             "D": "S+",
