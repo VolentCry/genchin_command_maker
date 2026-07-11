@@ -1,7 +1,8 @@
-from const_lists import *
+from const_lists import character_roles, character_rang, your_character_list
 from helpful_funcs import *
 import random
 import logging
+import os
 
 # Настраиваем запись логов в файл app.log
 logging.basicConfig(
@@ -21,11 +22,11 @@ def get_rank_for_role(character: str, role: str) -> int:
     """
     # Словарь для преобразования ранга в число
     rangs = {"S+": 0, "S": 1, "A": 2, "B": 3, "C": 4, "D": 5, "-": 6}
-    
+
     # Получаем роли персонажа
     char_roles = character_roles[character]
     char_rangs = character_rang[character]
-    
+
     # Если у персонажа одна роль
     if isinstance(char_roles, str):
         if char_roles == role:
@@ -38,7 +39,7 @@ def get_rank_for_role(character: str, role: str) -> int:
         else:
             # Персонаж не имеет этой роли
             return 6
-    
+
     # Если у персонажа несколько ролей
     else:
         # Ищем индекс нужной роли
@@ -47,15 +48,17 @@ def get_rank_for_role(character: str, role: str) -> int:
         except ValueError:
             # Персонаж не имеет этой роли
             return 6
-        
+
         # Получаем ранг для этой роли
         if isinstance(char_rangs, list):
             rank_str = char_rangs[role_index]
         else:
-            # Если ранг - строка, но ролей несколько (не должно быть, но на всякий случай)
+            # Если ранг - строка, но ролей несколько
+            # (не должно быть, но на всякий случай)
             rank_str = char_rangs
-        
+
         return rangs[rank_str]
+
 
 def character_rank_to_int(rank: str) -> int:
     """
@@ -65,8 +68,9 @@ def character_rank_to_int(rank: str) -> int:
     """
     # Словарь для преобразования ранга в число
     rangs = {"S+": 0, "S": 1, "A": 2, "B": 3, "C": 4, "D": 5, "-": 6}
-    
+
     return rangs[rank]
+
 
 def progressive_sort(character_list: list, role: str) -> list:
     """
@@ -74,17 +78,18 @@ def progressive_sort(character_list: list, role: str) -> list:
     Сначала идут персонажи с лучшим рангом (S+), затем с худшим (D)
     """
     # Сортируем по рангу для указанной роли, а при одинаковом ранге - по имени
-    return sorted(character_list, key = lambda char: (get_rank_for_role(char["name"], role), char["name"]))
+    return sorted(character_list,
+                  key=lambda char: (get_rank_for_role(char["name"], role), char["name"]))
 # -----------------------------------------------------------------------------------------------------
 
 
-
-# ------------------------- Функции непосредственно с поиском персонажей -------------------------
-
-def find_gydro_kryo_subdd(our_command: list, subdamaggers_list: list) -> None|dict:
-    """ 
-    Функция для поиска гидро или крио. 
-    В случаи успешной "находки" возвращает словарь с данными персонажа, в ином случаи None
+# --------------- Функции непосредственно с поиском персонажей ---------------
+def find_gydro_kryo_subdd(our_command: list,
+                          subdamaggers_list: list) -> None | dict:
+    """
+    Функция для поиска гидро или крио.
+    В случаи успешной "находки" возвращает словарь с данными персонажа,
+    в ином случаи None
     """
     gydro_or_kryo_subdd = None
     for char in subdamaggers_list:
@@ -93,28 +98,42 @@ def find_gydro_kryo_subdd(our_command: list, subdamaggers_list: list) -> None|di
             break
     return gydro_or_kryo_subdd
 
-def find_element_subdd_or_sup(our_command: list, element_code: str, role: str, subdamaggers_list: list, supports_list: list) -> None|dict:
-    """ 
-    Функция для поиска сабдд или саппорта одной определеённой стихии. 
-    В случаи успешной "находки" возвращает словарь с данным персонажем, в ином случаи None
+
+def find_element_subdd_or_sup(our_command: list, element_code: str, role: str,
+                              subdamaggers_list: list,
+                              supports_list: list) -> None | dict:
+    """
+    Функция для поиска сабдд или саппорта одной определеённой стихии.
+    В случаи успешной "находки" возвращает словарь с данным персонажем,
+    в ином случаи None
     """
     necessary_person = None
     if role == "SD":
         for char in subdamaggers_list:
-            if char["element_code"] == element_code and char not in our_command:
+            if char["element_code"] == element_code and \
+                    char not in our_command:
                 necessary_person = char
                 break
     elif role == "S":
         for char in supports_list:
-            if char["element_code"] == element_code and char not in our_command:
+            if char["element_code"] == element_code and \
+                    char not in our_command:
                 necessary_person = char
                 break
     return necessary_person
 
-def find_remaining_sudamaggers_and_supports(our_command: list, cnt_of_SD: int, cnt_of_Max_SD: int,  cnt_of_S: int, cnt_of_Max_S: int, subdamaggers_list: list, supports_list: list, desired_element: str = "-") -> list[dict]:
-    """ 
+
+def find_remaining_sudamaggers_and_supports(our_command: list, cnt_of_SD: int,
+                                            cnt_of_Max_SD: int,  cnt_of_S: int,
+                                            cnt_of_Max_S: int,
+                                            subdamaggers_list: list,
+                                            supports_list: list,
+                                            desired_element: str = "-") \
+                                        -> list[dict]:
+    """
     Функция находит недостающих персонажей на позиции сабдамаггеров и саппортов
-    На вход принимает уже имеющуюся команду, а также количество персонажей, которые нужно найти
+    На вход принимает уже имеющуюся команду,
+    а также количество персонажей, которые нужно найти
     """
     new_members = []
     for i in range(cnt_of_Max_SD - cnt_of_SD):
@@ -124,23 +143,28 @@ def find_remaining_sudamaggers_and_supports(our_command: list, cnt_of_SD: int, c
                     new_members.append(char)
                     break
             else:
-                if char not in our_command and char not in new_members and ((len(our_command) + len(new_members)) < 4) and char["element_code"] == desired_element:
+                if char not in our_command and char not in new_members \
+                        and ((len(our_command) + len(new_members)) < 4) \
+                        and char["element_code"] == desired_element:
                     new_members.append(char)
                     break
-
 
     for j in range(cnt_of_Max_S - cnt_of_S):
         for char in supports_list:
             if desired_element == "-":
-                if char not in our_command and char not in new_members and ((len(our_command) + len(new_members)) < 4):
+                if char not in our_command and char not in new_members \
+                        and ((len(our_command) + len(new_members)) < 4):
                     new_members.append(char)
                     break
             else:
-                if char not in our_command and char not in new_members and ((len(our_command) + len(new_members)) < 4) and char["element_code"] == desired_element:
+                if char not in our_command and char not in new_members and \
+                        ((len(our_command) + len(new_members)) < 4) \
+                        and char["element_code"] == desired_element:
                     new_members.append(char)
                     break
 
     return new_members
+
 
 def find_needed_element_damagger(element_code: str, damaggers_list: list):
     """ Ищет одного дамаггера необходимой стихии """
@@ -149,46 +173,68 @@ def find_needed_element_damagger(element_code: str, damaggers_list: list):
         if char["element_code"] == element_code:
             needed_damagger = char
             break
-    if needed_damagger == None:
-        raise TypeError("У вас отсутствует пиро персонаж подходящий на роль дамаггера")
+    if needed_damagger is None:
+        raise TypeError("У вас отсутствует пиро персонаж подходящий" \
+                        " на роль дамаггера")
     else:
         return needed_damagger
-
 # -----------------------------------------------------------------------------------------------------
 
 
-
-
-def make_command(mode: int, pattern: str, desired_element: str = "-") -> tuple[list]:
+def make_command(mode: int, pattern: str,
+                 desired_element: str = "-") -> tuple[list]:
     """
-    Это основная функция программы, которая создаёт для вас граммотную команду персонажей на основе ваших запросов
-    В ней подразумеваются такие режимы: 
+    Это основная функция программы, которая создаёт для вас
+    граммотную команду персонажей на основе ваших запросов
+    В ней подразумеваются такие режимы:
     • 0 - случайный подбор команды
     • 1 - сборка пачки из самых лучших персонажей вашего аккаунта
-    • 2 - сборка пачки посредством сложных алгоритмов для достижения лучшего результата
-    • 3 - сборка моноэлементальной пачик 
+    • 2 - сборка пачки посредством сложных алгоритмов для
+    достижения лучшего результата
+    • 3 - сборка моноэлементальной пачик
     """
     logging.debug("Алгоритм запущен.")
 
-    logging.info(f"Номер выбранного режима генерации - {mode}. Шаблон генерации - {pattern}. Целевой элемент - {desired_element}")
+    logging.info(f"Номер выбранного режима генерации - {mode}. \
+                    Шаблон генерации - {pattern}. \
+                    Целевой элемент - {desired_element}")
 
     command, command_elements = [], []
-    Max_D = pattern.split(".").count("D"); Max_SD = pattern.split(".").count("SD"); Max_S = pattern.split(".").count("S")
-    D = 0; SD = 0; S = 0
+    Max_D = pattern.split(".").count("D")
+    Max_SD = pattern.split(".").count("SD")
+    Max_S = pattern.split(".").count("S")
+    D = 0
+    SD = 0
+    S = 0
 
-    damaggers_list, subdamaggers_list, supports_list = read_characters_from_json("user_characters_data.json")
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    file_path = os.path.join(current_dir, "user_characters_data.json")
+
+    damaggers_list, subdamaggers_list, \
+        supports_list = read_characters_from_json(file_path)
 
     # Сортируем списки по рангу для каждой роли
     damaggers_list = progressive_sort(damaggers_list, "D")
     subdamaggers_list = progressive_sort(subdamaggers_list, "SD")
     supports_list = progressive_sort(supports_list, "S")
 
-    if len(your_character_list) < 4: 
-        logging.error("ValueError: Невозможно составить команду, у вас меньше 4-ёх персонажей")
+    if Max_D > 0 and not damaggers_list:
+        raise ValueError("У вас нет персонажей на роль Дамаггера!")
+    if Max_SD > 0 and not subdamaggers_list:
+        raise ValueError("У вас нет персонажей на роль Саб-ДД!")
+    if Max_S > 0 and not supports_list:
+        raise ValueError("У вас нет персонажей на роль Саппорта!")
+
+    if len(your_character_list) < 4:
+        logging.error("ValueError: Невозможно составить команду...")
         raise ValueError("Невозможно составить команду, у вас меньше 4-ёх персонажей")
 
 
-    # --------------------- 0. Режим рандомизации --------------------- 
+    if len(your_character_list) < 4:
+        logging.error("ValueError: Невозможно составить команду, у вас меньше 4-ёх персонажей")
+        raise ValueError("Невозможно составить команду, у вас меньше 4-ёх персонажей")
+
+    # --------------------- 0. Режим рандомизации ---------------------
     if mode == 0:
         for position in pattern.split("."):
             if position == "D":
@@ -204,8 +250,7 @@ def make_command(mode: int, pattern: str, desired_element: str = "-") -> tuple[l
                 command.append(support)
                 command_elements.append(support["element_code"])
 
-
-    # --------------------- 1. Подборка лучший из лучших --------------------- 
+    # --------------------- 1. Подборка лучший из лучших ---------------------
     elif mode == 1:
         for position in pattern.split("."):
             # Поиск дамаггера
@@ -218,54 +263,63 @@ def make_command(mode: int, pattern: str, desired_element: str = "-") -> tuple[l
             elif position == "S" and S < Max_S:
                 command.append(supports_list[S:][0]); S += 1
 
-
-    # --------------------- 2. Класисческий режим генерации --------------------- 
+    # ------------------- 2. Класисческий режим генерации -------------------
     elif mode == 2:
         for position in pattern.split("."):
-            
+
             # Поиск дамаггера
             if position == "D" and D < Max_D:
-                # Проверка, нужен ли пользоватулю дамаггер конкретной стихии или без разницы
+                # Проверка, нужен ли пользоватулю дамаггер
+                # конкретной стихии или без разницы
                 if desired_element == "-":
                     damagger = damaggers_list[D:][0]
-                    command.append(damagger); command_elements.append(damagger["element_code"]); D += 1
+                    command.append(damagger)
+                    command_elements.append(damagger["element_code"])
+                    D += 1
                 else:
-                    damagger = find_needed_element_damagger(desired_element, damaggers_list); D += 1
-                    command.append(damagger); command_elements.append(desired_element)
-
+                    damagger = find_needed_element_damagger(desired_element,
+                                                            damaggers_list)
+                    D += 1
+                    command.append(damagger)
+                    command_elements.append(desired_element)
 
                 # ********* Дамаггер - ПИРО *********
                 if damagger["element_code"] == "P":
                     priority = 1
                     if priority == 1:
-                        new_member = find_gydro_kryo_subdd(command, subdamaggers_list)
-                        if new_member != None: 
+                        new_member = find_gydro_kryo_subdd(command,
+                                                           subdamaggers_list)
+                        if new_member:
                             command.append(new_member)
                             command_elements.append(new_member["element_code"])
                             SD += 1
                     elif priority == 2:
                         pass
-
 
                 # ********* Дамаггер - КРИО/ГИДРО *********
                 elif damagger["element_code"] in ["G", "K"]:
                     priority = 1
                     if priority == 1:
-                        new_member = find_element_subdd_or_sup(command, "P", "SD", subdamaggers_list, supports_list)
-                        if new_member != None: 
+                        new_member = find_element_subdd_or_sup(
+                            command,
+                            "P",
+                            "SD",
+                            subdamaggers_list,
+                            supports_list
+                        )
+                        if new_member:
                             command.append(new_member)
                             command_elements.append(new_member["element_code"])
                             SD += 1
                     elif priority == 2:
                         pass
-
 
                 # ********* Дамаггер - ГЕО *********
                 elif damagger["element_code"] == "Ge":
                     # Сборка Гео даммагера непосредственно в его урон
 
                     # Сначала проверка на Цзы Бай
-                    if damagger["fraction"] == "Нод-Край": 
+                    if damagger["fraction"] == "Нод-Край":
                         # Это Цзы Бай
                         required_geo_nord_karai_person = False # Прочерка на наличие гео персонажей из Нод-Края
                         required_gidro_nord_karai_person = False # Прочерка на наличие гидро персонажей из Нод-Края
@@ -296,7 +350,7 @@ def make_command(mode: int, pattern: str, desired_element: str = "-") -> tuple[l
                                         suitable_characters.pop(suitable_characters_only_names.index("Айно"))
                                         required_gidro_nord_karai_person = True; SD += 1
                                     break
-                                
+
                         if required_geo_nord_karai_person and required_gidro_nord_karai_person:
                             if SD < Max_SD:
                                 for char in subdamaggers_list:
@@ -306,9 +360,9 @@ def make_command(mode: int, pattern: str, desired_element: str = "-") -> tuple[l
                                 for char in supports_list:
                                     if char not in command:
                                         command.append(char); S += 1
-                            
-                        else: # Случай, если у человека нет ни одного Гео/Гидро Нод-Край персонажа
-                            suitable_characters = [] # Подходящие под Цзы Бай персонажи, кроме Нодкраевцев, а именно Нин Гуан, Тиори, Альбедо
+
+                        else:  # Случай, если у человека нет ни одного Гео/Гидро Нод-Край персонажа
+                            suitable_characters = []  # Подходящие под Цзы Бай персонажи, кроме Нодкраевцев, а именно Нин Гуан, Тиори, Альбедо
                             if "Нин Гуан" in your_character_list:
                                 suitable_characters.append("Нин Гуан")
                             if "Тиори" in your_character_list:
@@ -321,7 +375,7 @@ def make_command(mode: int, pattern: str, desired_element: str = "-") -> tuple[l
                                         command.append(subdamaggers_list[SD:][0]); SD += 1
                                     if S < Max_S:
                                         command.append(supports_list[S:][0]); S += 1
-                                        
+
                     elif damagger["name"] == "Итто": # Теперь обрабатываем Итто
                         tiori, albedo = False, False # флаги для описка АЛьбедо и Тиори
                         for char_sub_dd_for_itto in subdamaggers_list:
@@ -345,7 +399,7 @@ def make_command(mode: int, pattern: str, desired_element: str = "-") -> tuple[l
                                 S += 1
                                 break
                         
-                        # Ищем лучших Гидро, Крио, Электро и Пиро сабДД для закрытия реакци Кристалл 
+                        # Ищем лучших Гидро, Крио, Электро и Пиро сабДД для закрытия реакци Кристалл
                         best_subDD_for_Navia = {"P": None, "G": None, "E": None, "K": None}
                         best_subDD_for_Navia_rang = {"P": 6, "G": 6, "E": 6, "K": 6}
                         for char in subdamaggers_list:
@@ -388,8 +442,8 @@ def make_command(mode: int, pattern: str, desired_element: str = "-") -> tuple[l
                                     if character_rank_to_int(char['roles_and_ranks']['SD']) < best_subDD_for_Navia_rang["K"]:
                                         best_subDD_for_Navia['K'] = char
                                         best_subDD_for_Navia_rang['K'] = character_rank_to_int(char['roles_and_ranks']['SD'])
-                                
-                        # Выбираем лучшего по рангу 
+
+                        # Выбираем лучшего по рангу
                         for character in best_subDD_for_Navia.values():
                             top_character = None
                             top_character_rang = 6
@@ -402,7 +456,7 @@ def make_command(mode: int, pattern: str, desired_element: str = "-") -> tuple[l
                                     top_character = char
                                     top_character_rang = character_rank_to_int(character['roles_and_ranks']['SD'])
 
-                        #Добавляем его в команду 
+                        # Добавляем его в команду
                         command.append(top_character['name'])
                         command_elements.append(top_character['element_code'])
                         SD += 1
@@ -419,10 +473,10 @@ def make_command(mode: int, pattern: str, desired_element: str = "-") -> tuple[l
                                         SD += 1
                                     break
                             
-                            if Bennet: # Добавляем Беннета в команду
+                            if Bennet:  # Добавляем Беннета в команду
                                 command.append("Беннет")
                                 command_elements.append("P")
-                            else: # Так как беннета не нашли добавляем самого лучшего пиро сабДД или саппорта
+                            else:  # Так как беннета не нашли добавляем самого лучшего пиро сабДД или саппорта
                                 add_character = None
                                 add_character_rang = 6
                                 for char in zip(supports_list, subdamaggers_list):
@@ -477,13 +531,12 @@ def make_command(mode: int, pattern: str, desired_element: str = "-") -> tuple[l
                             command.append(add_character['name'])
                             command_elements.append(add_character['Ge'])
 
-
                 # ********* Дамаггер - АНЕМО *********
                 elif damagger["element_code"] == "A":
                     command_elements.append("A")
 
                     # Дамаггер безх фракции: Сяо, Странник, Часка, Ифа, Мидзуки, Хэйдзо, или Сянь Юнь
-                    if damagger["fraction"] == "-": 
+                    if damagger["fraction"] == "-":
                         # Поиск сабдамаггера электро, гидро, крио или пиро стихии
                         for i in range(Max_SD):
                             subdamagger = None
@@ -492,9 +545,9 @@ def make_command(mode: int, pattern: str, desired_element: str = "-") -> tuple[l
                                     subdamagger = char
                                     SD += 1
 
-                            if subdamagger == None: 
+                            if subdamagger is None:
                                 break
-                            else: 
+                            else:
                                 command.append(subdamagger)
                                 command_elements.append(subdamagger["element_code"])
 
@@ -505,16 +558,16 @@ def make_command(mode: int, pattern: str, desired_element: str = "-") -> tuple[l
                                 if char["element_code"] in ["E", "G", "P", "K"] and char not in command:
                                     support = char
                                     S += 1
-                            
-                            if support == None: 
+
+                            if support is None:
                                 break
-                            else: 
+                            else:
                                 command.append(support)
                                 command_elements.append(support["element_code"])
 
-                    else: # Персонаж какой-то фракции, скорее всего Венти или Варка
+                    else:  # Персонаж какой-то фракции, скорее всего Венти или Варка
 
-                        # Главный анемо дамаггер - ВЕНТИ  
+                        # Главный анемо дамаггер - ВЕНТИ
                         if damagger["name"] == "Венти":
                             # Поиск сабдамаггера электро, гидро, крио, пиро или анемо стихии
                             for i in range(Max_SD):
@@ -524,9 +577,9 @@ def make_command(mode: int, pattern: str, desired_element: str = "-") -> tuple[l
                                         subdamagger = char
                                         SD += 1
 
-                                if subdamagger == None: 
+                                if subdamagger is None:
                                     break
-                                else: 
+                                else:
                                     command.append(subdamagger)
                                     command_elements.append(subdamagger["element_code"])
 
@@ -537,10 +590,10 @@ def make_command(mode: int, pattern: str, desired_element: str = "-") -> tuple[l
                                     if char["element_code"] in ["E", "G", "P", "K", "A"] and char not in command:
                                         support = char
                                         S += 1
-                                
-                                if support == None: 
+
+                                if support is None:
                                     break
-                                else: 
+                                else:
                                     command.append(support)
                                     command_elements.append(support["element_code"])
 
@@ -553,14 +606,15 @@ def make_command(mode: int, pattern: str, desired_element: str = "-") -> tuple[l
                             command += varka_new_members
                             for element in varka_new_members:
                                 command_elements.append(element["element_code"])
-                            
+
                             match len(command):
                                 case 4:
                                     break
                                 case 3:
                                     if Max_SD == 1:
-                                        SD += 1; S += 1
-                                    else: 
+                                        SD += 1
+                                        S += 1
+                                    else:
                                         SD += 2
                                 case 2:
                                     SD += 1
@@ -570,11 +624,10 @@ def make_command(mode: int, pattern: str, desired_element: str = "-") -> tuple[l
                             command += new_members_to_varka
                             for elem in new_members_to_varka:
                                 command_elements.append(elem["element_code"])
-                        
 
                 # ********* Дамаггер - ЭЛЕКТРО *********
-                elif damagger["element_code"] == "E": 
-                    
+                elif damagger["element_code"] == "E":
+
                     # Дамаггер из Нод-Края, значит это Флинс, под него в первую очередь СОбираем Инеффу и Коломбину,
                     # если нет их двоих, то пихаем Айно, чтобы закрыть синергию нодкраевцев до второго уровня,
                     # если и она отсутствует, то собираем просто хороших гидро и электро сабдд и саппортов
@@ -600,13 +653,15 @@ def make_command(mode: int, pattern: str, desired_element: str = "-") -> tuple[l
                         # Не нашлось ни одного подходящего персонажа из Нод-Края
                         else:
                             now_SD, now_S, new_members, element_of_members = electro_and_gydor_subdd_or_support(Max_SD, subdamaggers_list, supports_list)
-                            if len(element_of_members) == 0 and (now_SD != 0 or now_S != 0):
+                            if len(element_of_members) == 0 \
+                                    and (now_SD != 0 or now_S != 0):
                                 command += new_members
                                 command_elements += ["G", "E"]
                             elif len(element_of_members) == 1:
                                 command += new_members
                                 command_elements += element_of_members
-                                Max_SD -= now_SD; Max_S -= now_S
+                                Max_SD -= now_SD
+                                Max_S -= now_S
                             
                     # Электро дамаггер не из Нод-края, значит приоритетно собираем команду в реакцию заряжен, а потом же в перегрузку,
                     # ещё ниже по приоритету стоят реакции Вегетация/Стимуляция, Разрастание, Обострение
@@ -614,27 +669,36 @@ def make_command(mode: int, pattern: str, desired_element: str = "-") -> tuple[l
                         now_SD, now_S, new_members, element_of_members = electro_and_gydor_subdd_or_support(Max_SD, subdamaggers_list, supports_list)
                         command += new_members
                         command_elements += element_of_members
-                        Max_SD -= now_SD; Max_S -= now_S
+                        Max_SD -= now_SD
+                        Max_S -= now_S
 
                 # ********* Дамаггер - ДЕНДРО *********
                 elif damagger["element_code"] == "D": 
                     if damagger["name"] == "Нефер":
                         # Проверяем наличие Коломбины и Лаумы
-                        lauma_flag = None; colombine_flag = None
+                        lauma_flag = None
+                        colombine_flag = None
                         for char in your_character_list:
-                            if char["name"] == "Коломбина": colombine_flag = char
-                            elif char["name"] == "Лаума": lauma_flag = char
+                            if char["name"] == "Коломбина":
+                                colombine_flag = char
+                            elif char["name"] == "Лаума":
+                                lauma_flag = char
 
-                        if lauma_flag != None and colombine_flag != None: # Есть и Лаума, и Коломбина
+                        # Есть и Лаума, и Коломбина
+                        if lauma_flag is not None \
+                                and colombine_flag is not None:
                             command += [lauma_flag, colombine_flag]
                             command_elements += ["D", "G"]
-                            if Max_SD == 1: S += 1; SD += 1
-                            else: SD += 2
+                            if Max_SD == 1:
+                                S += 1
+                                SD += 1
+                            else:
+                                SD += 2
 
-                        elif colombine_flag != None: # Есть только Коломбина
+                        elif colombine_flag is not None:  # Ест тольк Коломбина
                             command.append(colombine_flag); command_elements.append("G"); SD += 1
 
-                        elif lauma_flag != None: # Есть только Лаума
+                        elif lauma_flag is not None:  # Есть только Лаума
                             command.append(lauma_flag); command_elements.append("D"); SD += 1
 
                         else: # Нет ни Лаумы, ни Коломбины, поэтому ищем нового денро дамаггера
@@ -644,7 +708,7 @@ def make_command(mode: int, pattern: str, desired_element: str = "-") -> tuple[l
                                 if new_damagger["name"] != "Нефер" and new_damagger["Дендро"]: 
                                     new_dendro_damagger = new_damagger
                                     break
-                            if new_dendro_damagger != None:
+                            if new_dendro_damagger is not None:
                                 raise ValueError("Не смогли вам подобрать команду под дендро дамаггера, думаю стоит подкопить персонажей.")
                             else:
                                 pass
@@ -673,7 +737,7 @@ def make_command(mode: int, pattern: str, desired_element: str = "-") -> tuple[l
                                         if SD < Max_SD: SD += 1
                                         elif S < Max_S: S += 1
                                         command.append(char); command_elements.append("P")
-                                        
+
                             case 2: # Стимуляция, разрастание, обострение
 
                                 # Поиск одного дендро перса
@@ -693,7 +757,7 @@ def make_command(mode: int, pattern: str, desired_element: str = "-") -> tuple[l
                                     if SD < Max_SD: SD += 1
                                     elif S < Max_S: S += 1
                                     command.append(char); command_elements.append("E")
-                                    
+
                             case 3: # Горение
                                 # Поиск одного дендро перса
                                 dendro_sd = find_remaining_sudamaggers_and_supports(command, SD, Max_SD, 0, 0, subdamaggers_list, supports_list, "D")

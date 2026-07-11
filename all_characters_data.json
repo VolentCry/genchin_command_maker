@@ -39,6 +39,17 @@
         "fraction": "Шабаш"
     },
     {
+        "name": "Алёша",
+        "roles_and_ranks": {},
+        "rarity": 4,
+        "element": "Электро",
+        "element_code": "E",
+        "weapon_type": "Древковое",
+        "special_codes": "-",
+        "persons_pluses": "+",
+        "fraction": "-"
+    },
+    {
         "name": "Арлекино",
         "roles_and_ranks": {
             "D": "S"
@@ -82,6 +93,7 @@
         "roles_and_ranks": {
             "S": "S"
         },
+        "rarity": 5,
         "element": "Дендро",
         "element_code": "D",
         "weapon_type": "Катализатор",
@@ -144,7 +156,7 @@
     {
         "name": "Варка",
         "roles_and_ranks": {
-            "D": "-"
+            "D": "S+"
         },
         "rarity": 5,
         "element": "Анемо",
@@ -264,7 +276,7 @@
         "name": "Дурин",
         "roles_and_ranks": {
             "S": "S",
-            "D": "+"
+            "SD": "S+"
         },
         "rarity": 5,
         "element": "Пиро",
@@ -582,7 +594,7 @@
         "name": "Лаума",
         "roles_and_ranks": {
             "SD": "S",
-            "S": "+"
+            "S": "S+"
         },
         "rarity": 5,
         "element": "Дендро",
@@ -644,6 +656,19 @@
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "Нод-Край"
+    },
+    {
+        "name": "Лоэн",
+        "roles_and_ranks": {
+            "D": "S"
+        },
+        "rarity": 5,
+        "element": "Крио",
+        "element_code": "K",
+        "weapon_type": "Древковое",
+        "special_codes": "-",
+        "persons_pluses": "+",
+        "fraction": "-"
     },
     {
         "name": "Мавуика",
@@ -753,6 +778,19 @@
         "fraction": "Нод-Край"
     },
     {
+        "name": "Николь",
+        "roles_and_ranks": {
+            "S": "S+"
+        },
+        "rarity": 5,
+        "element": "Пиро",
+        "element_code": "P",
+        "weapon_type": "Катализатор",
+        "special_codes": "-",
+        "persons_pluses": "+",
+        "fraction": "Шабаш"
+    },
+    {
         "name": "Нилу",
         "roles_and_ranks": {
             "S": "S"
@@ -804,6 +842,31 @@
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
+    },
+    {
+        "name": "Одетта",
+        "roles_and_ranks": {},
+        "rarity": 5,
+        "element": "Крио",
+        "element_code": "K",
+        "weapon_type": "Одноручное",
+        "special_codes": "-",
+        "persons_pluses": "+",
+        "fraction": "-"
+    },
+    {
+        "name": "Прюн",
+        "roles_and_ranks": {
+            "SD": "A",
+            "S": "S"
+        },
+        "rarity": 4,
+        "element": "Анемо",
+        "element_code": "A",
+        "weapon_type": "Катализатор",
+        "special_codes": "-",
+        "persons_pluses": "+",
+        "fraction": "Шабаш"
     },
     {
         "name": "Оророн",
@@ -881,6 +944,19 @@
         "element": "Электро",
         "element_code": "E",
         "weapon_type": "Древковое",
+        "special_codes": "-",
+        "persons_pluses": "+",
+        "fraction": "-"
+    },
+    {
+        "name": "Сандроне",
+        "roles_and_ranks": {
+            "D": "S+"
+        },
+        "rarity": 5,
+        "element": "Крио",
+        "element_code": "K",
+        "weapon_type": "Двуручное",
         "special_codes": "-",
         "persons_pluses": "+",
         "fraction": "-"
@@ -1142,7 +1218,7 @@
         "name": "Фишль",
         "roles_and_ranks": {
             "S": "S",
-            "D": "+"
+            "D": "S+"
         },
         "rarity": 4,
         "element": "Электро",

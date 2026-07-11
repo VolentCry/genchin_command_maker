@@ -182,6 +182,21 @@
         "fraction": "-"
     },
     {
+        "name": "Дурин",
+        "roles_and_ranks": {
+            "S": "S",
+            "SD": "S+"
+        },
+        "rarity": 5,
+        "element": "Пиро",
+        "element_code": "P",
+        "weapon_type": "Одноручное",
+        "constellations": 0,
+        "special_codes": "-",
+        "persons_pluses": "+",
+        "fraction": "Шабаш"
+    },
+    {
         "name": "Дэхья",
         "roles_and_ranks": {
             "D": "D",
@@ -440,7 +455,7 @@
         "name": "Лаума",
         "roles_and_ranks": {
             "SD": "S",
-            "S": "+"
+            "S": "S+"
         },
         "rarity": 5,
         "element": "Дендро",
@@ -568,20 +583,6 @@
         "fraction": "Натлна"
     },
     {
-        "name": "Навия",
-        "roles_and_ranks": {
-            "D": "A"
-        },
-        "rarity": 5,
-        "element": "Гео",
-        "element_code": "Ge",
-        "weapon_type": "Двуручное",
-        "constellations": 0,
-        "special_codes": "-",
-        "persons_pluses": "+",
-        "fraction": "-"
-    },
-    {
         "name": "Нахида",
         "roles_and_ranks": {
             "SD": "S"
@@ -653,6 +654,21 @@
         "fraction": "Натлан"
     },
     {
+        "name": "Прюн",
+        "roles_and_ranks": {
+            "SD": "A",
+            "S": "S"
+        },
+        "rarity": 4,
+        "element": "Анемо",
+        "element_code": "A",
+        "weapon_type": "Катализатор",
+        "constellations": 0,
+        "special_codes": "-",
+        "persons_pluses": "+",
+        "fraction": "Шабаш"
+    },
+    {
         "name": "Райдэн",
         "roles_and_ranks": {
             "S": "A",
@@ -719,6 +735,20 @@
         "element": "Электро",
         "element_code": "E",
         "weapon_type": "Древковое",
+        "constellations": 0,
+        "special_codes": "-",
+        "persons_pluses": "+",
+        "fraction": "-"
+    },
+    {
+        "name": "Сандроне",
+        "roles_and_ranks": {
+            "D": "S+"
+        },
+        "rarity": 5,
+        "element": "Крио",
+        "element_code": "K",
+        "weapon_type": "Двуручное",
         "constellations": 0,
         "special_codes": "-",
         "persons_pluses": "+",
@@ -902,7 +932,7 @@
         "name": "Фишль",
         "roles_and_ranks": {
             "S": "S",
-            "D": "+"
+            "D": "S+"
         },
         "rarity": 4,
         "element": "Электро",

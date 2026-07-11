@@ -1,139 +1,190 @@
 """
-Файл со всеми вспомогательными функциями для работы алгоритма, а также здесь вынесены большие цепочки из основной программы, которые дуплируются в разных частях кода
+Файл со всеми вспомогательными функциями для работы алгоритма,
+а также здесь вынесены большие цепочки из основной программы,
+которые дуплируются в разных частях кода.
 """
+
 import json
-
-from const_lists import *
+from const_lists import character_elements
 from class_patterns import Character
+import os
+
+current_dir = os.path.dirname(os.path.abspath(__file__))
+file_path = os.path.join(current_dir, "all_characters_data.json")
 
 
 
-def electro_and_gydor_subdd_or_support(Max_SD: int, subdamaggers_list: list, supports_list: list ) -> list:
+
+def electro_and_gydor_subdd_or_support(Max_SD: int, subdamaggers_list: list,
+                                       supports_list: list) -> list:
     """
 
     """
-    new_command_members = [] # Персонажи добавляются обязательно в порядке сначало гидро, потом электро
+
+    # Персонажи добавляются обязательно в порядке сначало гидро, потом электро
+    new_command_members = []
     elements_of_new_command_members = []
     SD, S = 0, 0
 
     if Max_SD == 2:
-        # Поиск подходящего гидро СабДД и электро СабДД, а после единственный слот саппорта заполнится лучшим из имеющихся саппортов
-        gydro_subdamagger = None; electro_subdamagger = None
+        # Поиск подходящего гидро СабДД и электро СабДД,
+        # а после единственный слот саппорта заполнится
+        # лучшим из имеющихся саппортов
+        gydro_subdamagger = None
+        electro_subdamagger = None
         for name in subdamaggers_list:
-            if name["element_code"] == "G" and gydro_subdamagger == None and name not in new_command_members:
-                gydro_subdamagger = name; SD += 1
-            elif name["element_code"] == "E" and electro_subdamagger == None and name not in new_command_members:
-                electro_subdamagger = name; SD += 1
-        
-        # Не нашлось ни гидро, ни электро СабДД, поэтому ищем саппортов этой стихии
-        if gydro_subdamagger == None and electro_subdamagger == None:
-            electro_suport = None; gydro_suport = None
-            for name in supports_list:
-                if name["element_code"] == "G" and gydro_suport == None and name not in new_command_members:
-                    gydro_suport = name; S += 1
-                elif name["element_code"] == "E" and electro_suport == None and name not in new_command_members:
-                    electro_suport = name; S += 1
+            if name["element_code"] == "G" and gydro_subdamagger is None \
+                    and name not in new_command_members:
+                gydro_subdamagger = name
+                SD += 1
+            elif name["element_code"] == "E" and electro_subdamagger is None \
+                    and name not in new_command_members:
+                electro_subdamagger = name
+                SD += 1
 
-        # Не нашлось гидро СабДД, поэтому ищем саппорта этой стихии
-        elif gydro_subdamagger == None:
+        # Не нашлось ни гидро, ни электро СабДД,
+        # поэтому ищем саппортов этой стихии
+        if gydro_subdamagger is None and electro_subdamagger is None:
+            electro_suport = None
             gydro_suport = None
             for name in supports_list:
-                if name["element_code"] == "G" and gydro_suport == None and name not in new_command_members:
-                    gydro_suport = name; S += 1
+                if name["element_code"] == "G" and gydro_suport is None \
+                        and name not in new_command_members:
+                    gydro_suport = name
+                    S += 1
+                elif name["element_code"] == "E" and electro_suport is None \
+                        and name not in new_command_members:
+                    electro_suport = name
+                    S += 1
+
+        # Не нашлось гидро СабДД, поэтому ищем саппорта этой стихии
+        elif gydro_subdamagger is None:
+            gydro_suport = None
+            for name in supports_list:
+                if name["element_code"] == "G" and gydro_suport is None \
+                        and name not in new_command_members:
+                    gydro_suport = name
+                    S += 1
 
         # Не нашлось электро СабДД, поэтому ищем саппорта этой стихии
-        elif electro_subdamagger == None:
+        elif electro_subdamagger is None:
             electro_suport = None
             for name in supports_list:
-                if name["element_code"] == "E" and electro_suport == None and name not in new_command_members:
-                    electro_suport = name; S += 1
+                if name["element_code"] == "E" and electro_suport is None \
+                        and name not in new_command_members:
+                    electro_suport = name
+                    S += 1
 
         # Финальная проверка и вывод результатов
         if gydro_subdamagger and electro_subdamagger:
             new_command_members = [gydro_subdamagger, electro_subdamagger]
             return SD, S, new_command_members, elements_of_new_command_members
-        elif gydro_subdamagger and (electro_subdamagger == None and electro_suport):
+        elif gydro_subdamagger and \
+                (electro_subdamagger is None and electro_suport):
             new_command_members = [gydro_subdamagger, electro_suport]
             return SD, S, new_command_members, elements_of_new_command_members
-        elif electro_subdamagger and (gydro_subdamagger == None and gydro_suport):
+        elif electro_subdamagger and \
+                (gydro_subdamagger is None and gydro_suport):
             new_command_members = [gydro_suport, electro_subdamagger]
             return SD, S, new_command_members, elements_of_new_command_members
-        elif (electro_subdamagger == None and electro_suport) and (gydro_subdamagger == None and gydro_suport):
+        elif (electro_subdamagger is None and electro_suport) and \
+                (gydro_subdamagger is None and gydro_suport):
             new_command_members = [gydro_suport, electro_suport]
             return SD, S, new_command_members, elements_of_new_command_members
-        elif (electro_subdamagger == None and electro_suport == None) and (gydro_subdamagger == None and gydro_suport):
+        elif (electro_subdamagger is None and electro_suport is None) and \
+                (gydro_subdamagger is None and gydro_suport):
             new_command_members = [gydro_suport]
             elements_of_new_command_members = ["E"]
             return SD, S, new_command_members, elements_of_new_command_members
-        elif (electro_subdamagger == None and electro_suport) and (gydro_subdamagger == None and gydro_suport == None):
+        elif (electro_subdamagger is None and electro_suport) \
+                and (gydro_subdamagger is None and gydro_suport is None):
             new_command_members = [electro_suport]
             elements_of_new_command_members = ["E"]
             return SD, S, new_command_members, elements_of_new_command_members
-        elif (electro_subdamagger == None and electro_suport == None) and (gydro_subdamagger == None and gydro_suport == None):
+        elif (electro_subdamagger is None and electro_suport is None) and \
+                (gydro_subdamagger is None and gydro_suport is None):
             return SD, S, new_command_members, elements_of_new_command_members
 
-    # Поиск подходящего гидро СабДД и электро саппорта, а после последний слот саппорта заполнится лучшим из имеющихся саппортов
+    # Поиск подходящего гидро СабДД и электро саппорта,
+    # а после последний слот саппорта заполнится лучшим из имеющихся саппортов
     elif Max_SD == 1:
-        gydro_subdamagger = None; electro_suport = None
+        gydro_subdamagger = None
+        electro_suport = None
         for name in subdamaggers_list:
-            if name["element_code"] == "G" and gydro_subdamagger == None:
-                gydro_subdamagger = name; SD += 1
+            if name["element_code"] == "G" and gydro_subdamagger is None:
+                gydro_subdamagger = name
+                SD += 1
         for name in supports_list:
-            if name["element_code"] == "E" and electro_suport == None:
-                electro_suport = name; S += 1
+            if name["element_code"] == "E" and electro_suport is None:
+                electro_suport = name
+                S += 1
 
-        # Не удалось найти ни гидро СабДД, ни электро саппорта, поэтому ищем электро СабДД и гидро саппорта
-        if gydro_subdamagger == None and electro_suport == None:
-            electro_subdamagger = None; gydro_suport = None
+        # Не удалось найти ни гидро СабДД, ни электро саппорта,
+        # поэтому ищем электро СабДД и гидро саппорта
+        if gydro_subdamagger is None and electro_suport is None:
+            electro_subdamagger = None
+            gydro_suport = None
             for name in subdamaggers_list:
-                if name["element_code"] == "E" and electro_subdamagger == None:
-                    electro_subdamagger = name; SD += 1
-                elif electro_subdamagger: break
+                if name["element_code"] == "E" and electro_subdamagger is None:
+                    electro_subdamagger = name
+                    SD += 1
+                elif electro_subdamagger:
+                    break
             for name in supports_list:
-                if name["element_code"] == "G" and gydro_suport == None:
-                    gydro_suport = name; S += 1
-                elif gydro_suport: break
-    
+                if name["element_code"] == "G" and gydro_suport is None:
+                    gydro_suport = name
+                    S += 1
+                elif gydro_suport:
+                    break
+
         # Не удалось найти гидро сабДД, поэтому ищем электро СабДД
-        elif gydro_subdamagger == None:
+        elif gydro_subdamagger is None:
             electro_subdamagger = None
             for name in subdamaggers_list:
-                if name["element_code"] == "E" and electro_subdamagger == None:
-                    electro_subdamagger = name; SD += 1
-                elif electro_subdamagger: break
+                if name["element_code"] == "E" and electro_subdamagger is None:
+                    electro_subdamagger = name
+                    SD += 1
+                elif electro_subdamagger:
+                    break
 
         # Не удалось найти электро саппорта, поэтому ищем гидро саппорта
-        elif electro_suport == None:
+        elif electro_suport is None:
             gydro_suport = None
             for name in supports_list:
-                if name["element_code"] == "G" and gydro_suport == None:
-                    gydro_suport = name; S += 1
-                elif gydro_suport: break
+                if name["element_code"] == "G" and gydro_suport is None:
+                    gydro_suport = name
+                    S += 1
+                elif gydro_suport:
+                    break
 
         if gydro_subdamagger and electro_suport:
             new_command_members = [gydro_subdamagger, electro_suport]
             elements_of_new_command_members = ["G", "E"]
             return SD, S, new_command_members, elements_of_new_command_members
-        elif gydro_subdamagger and (electro_suport == None and gydro_suport):
+        elif gydro_subdamagger and (electro_suport is None and gydro_suport):
             new_command_members = [gydro_subdamagger, gydro_suport]
             elements_of_new_command_members = ["G", "G"]
             return SD, S, new_command_members, elements_of_new_command_members
-        elif (gydro_subdamagger == None and electro_subdamagger) and electro_suport:
+        elif (gydro_subdamagger is None and electro_subdamagger) \
+                and electro_suport:
             new_command_members = [electro_subdamagger, electro_suport]
             elements_of_new_command_members = ["E", "E"]
             return SD, S, new_command_members, elements_of_new_command_members
-        
+
 
 def element_characters_counter(your_characters: list) -> dict:
-    """Это счётчик количество элементов у вас, то есть сколько персонажей каждого элемента есть у вас в наличии, не считая ГГ"""
+    """
+    Это счётчик количество элементов у вас, то есть сколько персонажей
+    каждого элемента есть у вас в наличии, не считая ГГ
+    """
     element_counts = {
-    "P": 0,
-    "K": 0,
-    "G": 0,
-    "A": 0,
-    "Ge": 0,
-    "E": 0,
-    "D": 0
+        "P": 0,
+        "K": 0,
+        "G": 0,
+        "A": 0,
+        "Ge": 0,
+        "E": 0,
+        "D": 0
     }
 
     for char in your_characters:
@@ -141,26 +192,47 @@ def element_characters_counter(your_characters: list) -> dict:
 
     return element_counts
 
-        
+
 def rarity_characters_counter(your_characters: list) -> dict:
-    """Это счётчик количество четырёх и пяти звёздочных персонажей у вас на аккаунте"""
+    """
+    Это счётчик количество четырёх и пяти звёздочных персонажей
+    у вас на аккаунте
+    """
+
     four_cnt = 0
     five_cnt = 0
 
     for char in your_characters:
         if char['rarity'] == 4:
             four_cnt += 1
-        else: five_cnt += 1
+        else:
+            five_cnt += 1
 
     return five_cnt, four_cnt
 
+
 def make_character_classes(name):
-    """ Из многочисленных consts_lists собирает под каждого персонажа цельный класс со всеми необходимыми данными """
-    with open("all_characters_data.json", 'r', encoding='utf-8') as file:
+    """
+    Из многочисленных consts_lists собирает под каждого персонажа
+    цельный класс со всеми необходимыми данными
+    """
+
+    with open(file_path, 'r', encoding='utf-8') as file:
         raw_data = json.load(file)
     for i in raw_data:
         if i["name"] == name:
-            return Character(i["name"], i["roles_and_ranks"], i["rarity"], i["element"], i["element_code"], i["weapon_type"], 0, i["special_codes"], i["persons_pluses"], i["fraction"])
+            return Character(
+                i["name"],
+                i["roles_and_ranks"],
+                i["rarity"],
+                i["element"],
+                i["element_code"],
+                i["weapon_type"],
+                0,
+                i["special_codes"],
+                i["persons_pluses"],
+                i["fraction"]
+            )
 
 
 def make_character_json(json_file_name: str, char_list: list):
@@ -169,7 +241,7 @@ def make_character_json(json_file_name: str, char_list: list):
 
     for char_name in char_list:
         character_obj = make_character_classes(char_name)
-        
+
         character_dict = {
             "name": character_obj.name,
             "roles_and_ranks": character_obj.roles_and_ranks,
@@ -182,16 +254,17 @@ def make_character_json(json_file_name: str, char_list: list):
             "persons_pluses": character_obj.persons_pluses,
             "fraction": character_obj.fraction
         }
-        
+
         character_data_list.append(character_dict)
-    
+
     with open(json_file_name, "w", encoding="utf-8") as file:
         json.dump(character_data_list, file, indent=4, ensure_ascii=False)
 
 
 def read_characters_from_json(json_name: str) -> list[list]:
-    """ 
-    Извлекает информацию из файла user_characters_data.json, где описаны данных всех персонажей, которые есть у пользователя. 
+    """
+    Извлекает информацию из файла user_characters_data.json,
+    где описаны данных всех персонажей, которые есть у пользователя.
     После сортирует всех персонажей в группы по их ролям
     """
     damaggers_list = []
@@ -202,22 +275,10 @@ def read_characters_from_json(json_name: str) -> list[list]:
         raw_data = json.load(file)
     for character_info in raw_data:
         for role in character_info["roles_and_ranks"].keys():
-            if role == "D": damaggers_list.append(character_info)
-            if role == "SD": subdamaggers_list.append(character_info)
-            if role == "S": supports_list.append(character_info)
+            if role == "D":
+                damaggers_list.append(character_info)
+            if role == "SD":
+                subdamaggers_list.append(character_info)
+            if role == "S":
+                supports_list.append(character_info)
     return damaggers_list, subdamaggers_list, supports_list
-
-
-# make_character_json("user_characters_data.json", your_character_list)
-# make_character_json("all_characters_data.json", all_characters_names)
-
-# raw_data = None
-# name = []
-# with open("user_characters_data.json", 'r', encoding='utf-8') as file:
-#     raw_data = json.load(file)
-
-# for i in raw_data:
-#     name.append(i["name"])
-
-
-# make_character_json("user_characters_data.json", name)

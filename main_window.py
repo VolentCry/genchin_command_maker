@@ -2,7 +2,7 @@ import customtkinter as ctk
 from helpful_funcs import read_characters_from_json, make_character_json, \
     element_characters_counter, rarity_characters_counter
 
-from start import make_command
+from main_algorithm import make_command
 from const_lists import element_codes, list_of_resonance
 from collections import Counter
 from PIL import Image
@@ -42,11 +42,15 @@ def resource_path(relative_path):
 
     return os.path.join(base_path, relative_path)
 
-def my_custom_generation_function(selected_characters, mode, target_element) -> tuple:
+
+def my_custom_generation_function(selected_characters,
+                                  mode,
+                                  target_element
+                                  ) -> tuple:
 
     # Формируем новый JSON-файл с персонажами пользователя
-    make_character_json(resource_path("user_characters_data.json"),
-                        selected_characters)
+    user_file = os.path.join(CURRENT_DIR, "user_characters_data.json")
+    make_character_json(user_file, selected_characters)
     logging.debug("Новый JSON-файл создан")
 
 
@@ -65,7 +69,8 @@ def my_custom_generation_function(selected_characters, mode, target_element) -> 
 
     if target_element != "Любой":
         desired_element = element_codes[target_element]
-        if element_characters_counter(selected_characters)[desired_element] < 4:
+        if element_characters_counter(selected_characters)[desired_element] \
+                < 4:
             logging.error("ValueError: У вас недостаточно персонажей данной стихии.")
             raise ValueError("У вас недостаточно персонажей данной стихии.")
 
@@ -91,8 +96,8 @@ class TeamBuilderApp(ctk.CTk):
         super().__init__()
 
         self.title("Сборщик команд")
-        self.geometry("900x850")  # Увеличил высоту для новых кнопок
-        
+        self.geometry("1115x850")
+
         ctk.set_appearance_mode("System")
         ctk.set_default_color_theme("green")
 
@@ -108,7 +113,12 @@ class TeamBuilderApp(ctk.CTk):
                                             (20, 20))
         self.magic_image = self.load_icon("images/icons/magic_icon.png",
                                           (24, 24))
+        icon_path = resource_path(r"images\icons\app_icon.ico")
+        self.iconbitmap(icon_path)
         self.saved_images = []
+
+        # Для выполнения сохранения при выходе из приложения
+        self.protocol("WM_DELETE_WINDOW", self.on_closing)
 
         self.setup_ui()
 
@@ -124,19 +134,19 @@ class TeamBuilderApp(ctk.CTk):
         info_window.title("Инструкция")
         info_window.geometry("400x300")
         info_window.attributes("-topmost", True)
-        
+
         label = ctk.CTkLabel(info_window, text="Как пользоваться программой",
                              font=ctk.CTkFont(size=18, weight="bold"))
         label.pack(pady=15)
 
         text_of_instruction = """
-        При первом запуске программы пожалуйста укажите всех, имеющихся у вас персонажей на данный момент на аккаунте. После этого данные сохранятся в файл на вашем ПК и по новой указывать не придётся.
+        При первом запуске программы пожалуйста укажите всех, имеющихся у вас персонажей на аккаунте. После этого данные сохранятся в файл на вашем ПК и по новой указывать не придётся.
         \n
-        Для того чтобы программа выдала вам желаемый результат нужно выбрать необходимые характеристики. На данный момент существует два параметра настройки: 
+        Для того чтобы программа выдала вам желаемый результат нужно выбрать необходимые характеристики. На данный момент существует два параметра настройки:
         \n1. Режим генерации
         \n2. Целевой элемент
         """
-        
+
         text_area = ctk.CTkTextbox(info_window, width=350, height=180)
         text_area.pack(padx=20, pady=10)
         text_area.insert("0.0", text_of_instruction)
@@ -148,14 +158,23 @@ class TeamBuilderApp(ctk.CTk):
         profile_window.title("Мой профиль")
         profile_window.geometry("550x750")
         profile_window.attributes("-topmost", True)
-        
+
         # 1. Никнейм
         ctk.CTkLabel(
-            profile_window, 
+            profile_window,
             text="Никнейм_Заглушка",
             font=ctk.CTkFont(size=26, weight="bold")
         ).pack(pady=(20, 0))
-        
+
+        # ctk.CTkButton(
+        #     profile_window,
+        #     text="Редак.",
+        #     width=140,
+        #     height=40,
+        #     command=self.open_profile,
+        #     font=ctk.CTkFont(size=10, weight="bold")
+        # ).pack(pady=(20, 0), padx=(300, 0))
+
         # 2. Код пользователя
         ctk.CTkLabel(
             profile_window,
@@ -163,23 +182,23 @@ class TeamBuilderApp(ctk.CTk):
             font=ctk.CTkFont(size=13),
             text_color="gray"
         ).pack(pady=(0, 20))
-        
+
         # 3. Количество имеющихся персонажей
         ctk.CTkLabel(
             profile_window,
             text=f"Имеющиеся персонажи: {len(self.owned_characters)}",
             font=ctk.CTkFont(size=16, weight="bold")
         ).pack(pady=(0, 10))
-        
+
         # 4. Мини-табличка со статистикой по стихиям
         element_counts = {}
         for char in self.user_data:
             el = char.get("element", "Неизвестно")
             element_counts[el] = element_counts.get(el, 0) + 1
-            
+
         stats_frame = ctk.CTkFrame(profile_window, fg_color="transparent")
         stats_frame.pack(fill="x", padx=40, pady=5)
-        
+
         row, col = 0, 0
         for el, count in element_counts.items():
             label_text = f"{el} - {count} шт."
@@ -190,7 +209,7 @@ class TeamBuilderApp(ctk.CTk):
             if col > 2:  # 3 колонки максимум
                 col = 0
                 row += 1
-        
+
         # Центруем столбцы в табличке
         stats_frame.grid_columnconfigure((0, 1, 2), weight=1)
 
@@ -201,7 +220,7 @@ class TeamBuilderApp(ctk.CTk):
         five_starts_characters = 0
 
         four_starts_characters, five_starts_characters = rarity_characters_counter(self.user_data)
-        
+
         ctk.CTkLabel(
             stars_frame, text=f"Персонажи 4⭐️ - {four_starts_characters} штук",
             font=ctk.CTkFont(size=14)
@@ -239,41 +258,56 @@ class TeamBuilderApp(ctk.CTk):
                 team_card = ctk.CTkFrame(teams_scroll, corner_radius=10,
                                          border_width=1, border_color="#D1D1D1")
                 team_card.pack(fill="x", padx=10, pady=8)
-                
+
                 # Заголовок карточки (Время, режим, элемент)
                 header = f"🗓 {team.get('timestamp', 'Неизвестно')} | Режим: {team.get('mode', '-')} | Элемент: {team.get('element', '-')}"
                 ctk.CTkLabel(
-                    team_card, text=header, font=ctk.CTkFont(size=13, weight="bold"), text_color="#555555"
+                    team_card,
+                    text=header,
+                    font=ctk.CTkFont(size=13, weight="bold"),
+                    text_color="#555555"
                 ).pack(anchor="w", padx=15, pady=(10, 5))
-                
+
                 # Текст команды
                 ctk.CTkLabel(
-                    team_card, text=team.get('team_raw', 'Пусто'), font=ctk.CTkFont(size=13), justify="left"
+                    team_card,
+                    text=team.get('team_raw', 'Пусто'),
+                    font=ctk.CTkFont(size=13), justify="left"
                 ).pack(anchor="w", padx=15, pady=(0, 10))
-
 
     def setup_ui(self):
         # Верхняя панель
         self.top_bar = ctk.CTkFrame(self, fg_color="transparent")
         self.top_bar.pack(fill="x", padx=30, pady=(20, 10))
-        
+
         # Инфо-кнопка (слева)
         self.info_btn = ctk.CTkButton(
-            self.top_bar, text="?", width=40, height=40, 
-            corner_radius=10, command=self.open_info, font=ctk.CTkFont(size=18, weight="bold")
+            self.top_bar,
+            text="?",
+            width=40,
+            height=40,
+            corner_radius=10,
+            command=self.open_info,
+            font=ctk.CTkFont(size=18, weight="bold")
         )
         self.info_btn.pack(side="left")
 
         self.title_label = ctk.CTkLabel(
-            self.top_bar, text="Сборщик команд", 
+            self.top_bar,
+            text="Сборщик команд",
             font=ctk.CTkFont(size=26, weight="bold")
         )
         self.title_label.pack(side="left", expand=True)
 
         # Кнопка профиля (справа)
         self.profile_btn = ctk.CTkButton(
-            self.top_bar, text="Мой профиль",
-            compound="left", width=140, height=40, command=self.open_profile, font=ctk.CTkFont(size=14, weight="bold")
+            self.top_bar,
+            text="Мой профиль",
+            compound="left",
+            width=140,
+            height=40,
+            command=self.open_profile,
+            font=ctk.CTkFont(size=14, weight="bold")
         )
         self.profile_btn.pack(side="right")
 
@@ -281,30 +315,38 @@ class TeamBuilderApp(ctk.CTk):
         self.subtitle_label.pack(anchor="w", padx=35, pady=(0, 10))
 
         # Блок персонажей
-        self.scroll_container = ctk.CTkScrollableFrame(self, height = 400)
+        self.scroll_container = ctk.CTkScrollableFrame(self, height=400)
         self.scroll_container.pack(fill="x", padx=30)
-        
-        # self.grid_frame = ctk.CTkFrame(self.scroll_container, fg_color="transparent")
-        # self.grid_frame.pack(expand=True)
 
-        columns = 9
+        columns = 7
         for index, char_name in enumerate(self.characters_list):
-            # Устанавливаем "on", если персонаж есть в файле user_characters_data
+            # Устанавливаем "on", если персонаж есть в
+            # файле user_characters_data
             initial_state = "on" if char_name in self.owned_characters else "off"
             var = ctk.StringVar(value=initial_state)
             self.checkbox_vars[char_name] = var
-            
-            # Создаем "блок" для персонажа (как на концепте)
-            # char_card = ctk.CTkFrame(self.grid_frame, corner_radius=8, border_width=1, border_color="#D1D1D1")
-            char_card = ctk.CTkFrame(self.scroll_container, corner_radius=8, border_width=1, border_color="#D1D1D1")
-            char_card.grid(row=index // columns, column=index % columns, padx=8, pady=8, sticky="nsew")
 
-            # --- БЛОК С КАРТИНКОЙ 256x256 ---
+            # Создаем "блок" для персонажа (как на концепте)
+            char_card = ctk.CTkFrame(
+                self.scroll_container,
+                corner_radius=8,
+                border_width=1,
+                border_color="#D1D1D1"
+            )
+            char_card.grid(
+                row=index // columns,
+                column=index % columns,
+                padx=8,
+                pady=8,
+                sticky="nsew"
+            )
+
+            # --- блок с картинкой 256x256 ---
             image_path = os.path.join(IMAGES_DIR, f"{char_name}.png")
             size_of_pic = 256 / 4
             if os.path.exists(image_path):
                 try:
-                    # Загружаем картинку через PIL \
+                    # Загружаем картинку через PIL
                     # и масштабируем её под 256x256
                     pil_image = Image.open(image_path)
                     ctk_image = ctk.CTkImage(
@@ -313,20 +355,40 @@ class TeamBuilderApp(ctk.CTk):
                         size=(size_of_pic, size_of_pic)
                     )
                     self.saved_images.append(ctk_image)
-                    img_label = ctk.CTkLabel(char_card, image=ctk_image, text="")
+                    img_label = ctk.CTkLabel(
+                        char_card,
+                        image=ctk_image,
+                        text=""
+                    )
+
                 except Exception as e:
                     logging.warning(f"Не удалось загрузить картинку {char_name}: {e}")
-                    img_label = ctk.CTkLabel(char_card, text="[Ошибка]", width=size_of_pic, height=size_of_pic, fg_color="#333333", corner_radius=8)
+                    img_label = ctk.CTkLabel(
+                        char_card,
+                        text="[Ошибка]",
+                        width=size_of_pic,
+                        height=size_of_pic,
+                        fg_color="#333333",
+                        corner_radius=8
+                    )
             else:
                 # Заглушка, если картинки нет
-                img_label = ctk.CTkLabel(char_card, text="[Нет фото]", width=size_of_pic, height=size_of_pic, fg_color="#333333", text_color="white", corner_radius=8)
-            
+                img_label = ctk.CTkLabel(
+                    char_card,
+                    text="[Нет фото]",
+                    width=size_of_pic,
+                    height=size_of_pic,
+                    fg_color="#333333",
+                    text_color="white",
+                    corner_radius=8
+                )
+
             # Размещаем картинку над чекбоксом
             img_label.pack(padx=10, pady=(10, 5))
             # --------------------------------
-            
+
             cb = ctk.CTkCheckBox(
-                char_card, text=char_name, variable=var, 
+                char_card, text=char_name, variable=var,
                 onvalue="on", offvalue="off", font=ctk.CTkFont(size=13)
             )
             cb.pack(padx=15, pady=10)
@@ -335,37 +397,60 @@ class TeamBuilderApp(ctk.CTk):
         self.settings_frame = ctk.CTkFrame(self, fg_color="transparent")
         self.settings_frame.pack(fill="x", padx=30, pady=20)
 
-        ctk.CTkLabel(self.settings_frame, text="Режим:").grid(row=0, column=0, padx=5)
-        self.mode_menu = ctk.CTkOptionMenu(self.settings_frame, values=["Случайный", "Лучший из лучших", "Профи", "Моноэлемент"])
+        ctk.CTkLabel(self.settings_frame, text="Режим:").grid(
+            row=0,
+            column=0,
+            padx=5
+        )
+        self.mode_menu = ctk.CTkOptionMenu(
+            self.settings_frame,
+            values=["Случайный", "Лучший из лучших", "Профи", "Моноэлемент"]
+        )
         self.mode_menu.grid(row=0, column=1, padx=(0, 20))
 
         ctk.CTkLabel(self.settings_frame, text="Элемент:").grid(row=0, column=2, padx=5)
-        self.element_menu = ctk.CTkOptionMenu(self.settings_frame, values=["Любой", "Пиро", "Крио", "Гидро", "Электро", "Дендро", "Гео", "Анемо"])
+        self.element_menu = ctk.CTkOptionMenu(
+            self.settings_frame,
+            values=["Любой", "Пиро", "Крио", "Гидро",
+                    "Электро", "Дендро", "Гео", "Анемо"]
+            )
         self.element_menu.grid(row=0, column=3)
 
         # Генерация
         self.generate_btn = ctk.CTkButton(
             self, text="Начать генерацию", compound="left",
-            font=ctk.CTkFont(size=16, weight="bold"), height=45, command=self.on_generate_click
+            font=ctk.CTkFont(size=16, weight="bold"),
+            height=45,
+            command=self.on_generate_click
         )
         self.generate_btn.pack(pady=0)
 
-        # --- СЕКЦИЯ РЕЗУЛЬТАТА ---
+        # Результат
         ctk.CTkLabel(self, text="Ваш отряд:", font=ctk.CTkFont(size=18, weight="bold")).pack(pady=(10, 5))
-        
+
         self.result_container = ctk.CTkFrame(self, fg_color="transparent")
         self.result_container.pack(fill="x", padx=30, pady=10)
 
         # Кнопка сохранения (внизу)
         self.save_btn = ctk.CTkButton(
-            self, text="Сохранить отряд", width=200, height=40, text_color="white",
-            command=self.on_save_team_click, font=ctk.CTkFont(size=16, weight="bold")
+            self,
+            text="Сохранить отряд",
+            width=200,
+            height=40,
+            text_color="white",
+            command=self.on_save_team_click,
+            font=ctk.CTkFont(size=16, weight="bold")
         )
         self.save_btn.pack(anchor="w", padx=30, pady=(0, 20))
 
     def create_character_card(self, parent, char_info):
         """Создает визуальную карточку для одного персонажа отряда."""
-        card = ctk.CTkFrame(parent, corner_radius=10, border_width=1, border_color="#555555")
+        card = ctk.CTkFrame(
+            parent,
+            corner_radius=10,
+            border_width=1,
+            border_color="#555555"
+        )
         card.pack(side="left", expand=True, padx=10, fill="both")
 
         # Получаем данные
@@ -382,21 +467,46 @@ class TeamBuilderApp(ctk.CTk):
         if os.path.exists(img_path):
             try:
                 pil_img = Image.open(img_path)
-                ctk_img = ctk.CTkImage(light_image=pil_img, dark_image=pil_img, size=(img_size, img_size))
+                ctk_img = ctk.CTkImage(
+                    light_image=pil_img,
+                    dark_image=pil_img,
+                    size=(img_size, img_size)
+                )
                 img_label = ctk.CTkLabel(card, image=ctk_img, text="")
-            except:
-                img_label = ctk.CTkLabel(card, text="[Ошибка]", width=img_size, height=img_size)
+            except Exception:
+                img_label = ctk.CTkLabel(
+                    card,
+                    text="[Ошибка]",
+                    width=img_size,
+                    height=img_size
+                )
         else:
-            img_label = ctk.CTkLabel(card, text="[Нет фото]", width=img_size, height=img_size, fg_color="#333333", corner_radius=5)
-        
+            img_label = ctk.CTkLabel(
+                card,
+                text="[Нет фото]",
+                width=img_size,
+                height=img_size,
+                fg_color="#333333",
+                corner_radius=5
+            )
+
         img_label.pack(pady=(10, 5), padx=10)
 
         # Имя
-        name_label = ctk.CTkLabel(card, text=name, font=ctk.CTkFont(size=14, weight="bold"))
+        name_label = ctk.CTkLabel(
+            card,
+            text=name,
+            font=ctk.CTkFont(size=14, weight="bold")
+        )
         name_label.pack()
 
         # Оружие
-        weapon_label = ctk.CTkLabel(card, text=weapon, font=ctk.CTkFont(size=11), text_color="gray")
+        weapon_label = ctk.CTkLabel(
+            card,
+            text=weapon,
+            font=ctk.CTkFont(size=11),
+            text_color="gray"
+        )
         weapon_label.pack(pady=(0, 10))
 
         return card
@@ -409,40 +519,56 @@ class TeamBuilderApp(ctk.CTk):
         selected_chars = [char for char, var in self.checkbox_vars.items() if var.get() == "on"]
         
         try:
-            res = my_custom_generation_function(selected_chars, self.mode_menu.get(), self.element_menu.get())
-            # make_command возвращает (команда, доп_инфо), берем только список персонажей
+            # 1. Сохраняем файл
+            file_path = resource_path("user_characters_data.json")
+            make_character_json(file_path, selected_chars)
+            logging.debug("Новый JSON-файл создан.")
+        except Exception:
+            # Записываем ошибку в лог, если что-то пошло не так
+            logging.error("Ошибка сохранения при закрытии: \n%s",
+                          traceback.format_exc())
+
+        try:
+            res = my_custom_generation_function(selected_chars,
+                                                self.mode_menu.get(),
+                                                self.element_menu.get())
+            # make_command возвращает (команда, доп_инфо),
+            # берем только список персонажей
             self.current_generated_team = res[0] if isinstance(res, tuple) else res
-            
+
             if not self.current_generated_team:
-                ctk.CTkLabel(self.result_container, text="Не удалось собрать подходящий отряд.", text_color="red").pack(pady=20)
+                ctk.CTkLabel(self.result_container,
+                             text="Не удалось собрать подходящий отряд.",
+                             text_color="red").pack(pady=20)
                 self.save_btn.configure(state="disabled")
                 return
 
             # Отрисовка карточек
             for char in self.current_generated_team:
                 self.create_character_card(self.result_container, char)
-            
+
             self.save_btn.configure(state="normal")
 
         except Exception as e:
-            ctk.CTkLabel(self.result_container, text=f"Ошибка: {str(e)}", text_color="red").pack(pady=20)
+            ctk.CTkLabel(self.result_container, text=f"Ошибка: {str(e)}",
+                         text_color="red").pack(pady=20)
             self.save_btn.configure(state="disabled")
-
 
     def on_save_team_click(self):
         if not self.current_generated_team:
             return
-        
+
         save_path = resource_path("user_app_data.json")
+
         # Собираем текстовое описание для истории
         team_names = [c.get('name') if isinstance(c, dict) else str(c) for c in self.current_generated_team]
         team_str = " | ".join(team_names)
-        
+
         new_entry = {
             "mode": self.mode_menu.get(),
             "element": self.element_menu.get(),
             "team_raw": team_str,
-            "team_data": self.current_generated_team 
+            "team_data": self.current_generated_team
         }
 
         data = []
@@ -450,33 +576,62 @@ class TeamBuilderApp(ctk.CTk):
             try:
                 with open(save_path, "r", encoding="utf-8") as f:
                     data = json.load(f)
-            except: pass
+            except Exception as e:
+                logging.error(e)
 
         data.append(new_entry)
         with open(save_path, "w", encoding="utf-8") as f:
             json.dump(data, f, ensure_ascii=False, indent=4)
-        
         logging.debug("Отряд сохранен")
 
+    def on_closing(self):
+        """
+        Функция, выполняемая при закрытии приложения
+        """
+        try:
+            selected_characters = [char for char, var in
+                                   self.checkbox_vars.items() if var.get() == "on"]
+
+            # 1. Сохраняем файл
+            file_path = resource_path("user_characters_data.json")
+            make_character_json(file_path, selected_characters)
+            logging.debug("Новый JSON-файл создан.")
+        except Exception:
+            # Записываем ошибку в лог, если что-то пошло не так
+            logging.error("Ошибка сохранения при закрытии: \n%s",
+                          traceback.format_exc())
+        finally:
+            # 2. Гарантированно закрываем программу в любом случае
+            self.destroy()
+
+
 if __name__ == "__main__":
+    user_file = os.path.join(CURRENT_DIR, "user_characters_data.json")
+
+    if not os.path.exists(user_file):
+        with open(user_file, "w", encoding="utf-8") as f:
+            json.dump([], f)
+
     name_list = []
     for x in read_characters_from_json(resource_path("all_characters_data.json")):
         for y in x:
             name_list.append(y["name"])
     name_list = list(set(name_list))
     name_list.sort()
-    
+
     owned_names = []
     user_data = []
     try:
         # Читаем полную информацию о персонажах для профиля
-        with open(resource_path("user_characters_data.json"), "r", encoding="utf-8") as f:
+        with open(user_file, "r", encoding="utf-8") as f:
             user_data = json.load(f)
             owned_names = [char["name"] for char in user_data]
     except Exception:
-        logging.error("Ошибка чтения данных пользователя: \n%s", traceback.format_exc())
-        
+        logging.error("Ошибка чтения данных пользователя: \n%s",
+                      traceback.format_exc())
 
     # Передаем user_data в приложение
-    app = TeamBuilderApp(characters_list=name_list, owned_characters=owned_names, user_data=user_data)
+    app = TeamBuilderApp(characters_list=name_list,
+                         owned_characters=owned_names, user_data=user_data)
+
     app.mainloop()
